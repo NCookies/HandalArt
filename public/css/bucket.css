@@ -1,0 +1,21 @@
+#nameOfTable{
+  font-size:20pt;
+  font-weight:bold;
+  margin-bottom:10px;
+  vertical-align:bottom;
+}
+
+.addButton{
+  margin-left:10px;
+  height:35px;
+  width:35px;
+  background-image:url(https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT5VENVUE12jwA24Tvfyx8m-Cfx7Jj8C51w6RLgMg8MIocg2bNYIA) no-repeat;
+  cursor:pointer;
+  vertical-align:bottom;
+}
+
+#tableOfBucketList{
+  margin:auto;
+  width:80%;
+  text-align: center;
+}

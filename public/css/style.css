@@ -1,0 +1,13 @@
+#logo{
+  padding-left: 20px;
+  padding-top: 20px;
+  width: 128px;
+  height: 128px;
+}
+
+.nav{
+  height: 128px;
+  width: 128px;
+  float: right;
+  margin: 20px 20px 0px 0px;
+}
