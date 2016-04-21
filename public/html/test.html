@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <script src="../js/vendor/jquery.zoomooz.js"></script>
+        <script src="../js/vendor/jquery.zoomooz.min.js"></script>
+        
+        <script>
+			$(document).ready(function() {
+				$(".zoomTarget1").click(function(evt) {
+					evt.stopPropagation();
+					$(this).zoomTo();
+				});
+				$(".zoomTarget2").click(function(evt) {
+					evt.stopPropagation();
+					$(".zoomTarget2").zoomTo();
+				});
+				$(".zoomTarget2").zoomTo();
+			});
+        </script>
+    </head>
+    
+    <body>
+        <div class="zoomViewport">
+            <div class="zoomContainer">
+                <div class="zoomTarget1">Target 1</div>
+                <div class="zoomTarget2">Target 2</div>
+                <div class="zoomTarget3">Target 3</div>
+                <div class="zoomTarget4">Target 4</div>
+                <div class="zoomTarget5">Target 5</div>
+                <div class="zoomTarget6">Target 6</div>
+            </div>
+        </div>
+    </body>
+</html>

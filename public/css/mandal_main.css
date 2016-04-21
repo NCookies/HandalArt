@@ -7,6 +7,7 @@
     max-height: 570px;
     overflow: hidden;
     position: relative;
+    background-color: cyan;
 }  
 
 .left {
@@ -23,7 +24,6 @@
 	height: 550px;
     padding: 10px;
     margin: 5px;
-    background-color: orangered;
 }
 
 .mandal-top {
@@ -65,4 +65,3 @@
     margin: 5px;
     float: left;
 }
-

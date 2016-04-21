@@ -4,11 +4,19 @@ $(document).ready(function() {
         console.log("Table was loaded!!");
     });
 });
-$(function() {
-    $("#mandal-container").draggable({ containment: ['.article'] });                                                                    
-});
 
 $(document).ready(function() {
+   $('.click').on('click', function() {
+       var $this = $(this);
+       console.log($this.attr('class')); 
+   }); 
+});
+
+/*$(function() {
+    $("#mandal-container").draggable({ containment: ['.article'] });                                                                    
+});*/
+
+/*$(document).ready(function() {
     $('#mandal-container').bind('mousewheel', function(e){
         // 마우스 휠 이벤트를 받았을 때 테이블을 확대 또는 축소를 함
         var delta;
@@ -35,4 +43,4 @@ $(document).ready(function() {
             $('#mandal-container').css("zoom", parseFloat(scale));
         }
     });
-});
+});*/
