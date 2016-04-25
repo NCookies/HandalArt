@@ -6,6 +6,7 @@ $(document).ready(function() {
     ('<input type="button" value="..." class="input-button">')
     
     $('.input-button').css('visibility', 'hidden');
+    
 });
 
 (function($) {
@@ -49,28 +50,32 @@ $(document).ready(function() {
             }
         }
         
-        $('.input-button').on('click', function(e) {
-            e.stopPropagation();
-            
+        $('.input-button').on('click', function(e) {            
             var $this = $(this);
             
             $(this).prev().attr("readonly", false); // 더블클릭 이벤트를 받았을 때 TextArea 편집 가능
             $(this).prev().focus();
             
             fc_chk_byte($this.prev(), 22);
+            
+            return false;
         });
         
-        $('.table-article').on('mouseover', function() {
+        $('.table-article').on('mouseover', function(e) {
             $(this).children('.input-button').css('visibility', 'visible');
+            
+            return false;
         });
         
-        $('.table-article').on('mouseleave', function() {            
+        $('.table-article').on('mouseleave', function(e) {  
             $(this).children('.input-button').css('visibility', 'hidden');
             $(this).children('#text-field').attr('readonly', true);
+            
+            return false;
         });
         
         settings = {
-            targetsize: 0.35,
+            targetsize: 0.3,
 
             scalemode: "both",
 
@@ -89,14 +94,18 @@ $(document).ready(function() {
             preservescroll: true
         }
         
-        $('.zoomTarget').on('dblclick', function(e) {
-           $(this).zoomTo(settings);
-           console.log(this);
-           e.stopPropagation(); 
+        $('.zoomTarget').on('click', function(e) {
+           $(this).zoomTarget(settings);
+           //var id = $(this).attr('id');
+           return false;
+        });
+        
+        $('#mandal1').on('click', function() {
+            $(this).zoomTarget(settings);
         });
         
         $(document).on('click', function(e) {
-            $('body').zoomTo(settings);
+            $('body').zoomTarget(settings);
            e.stopPropagation(); 
         });
     });

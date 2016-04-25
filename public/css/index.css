@@ -18,23 +18,19 @@ header{
 }
 
 #logo{
-  padding-left: 20px;
-  padding-top: 20px;
+  padding: 20px;
 }
 
 /****************************************/
 
 /*****************section*****************/
-section{
-  /*background-color: #ffffff;*/
-}
+
 #bucket, #calender,#mandalart{  /*main 화면 메뉴 이미지 크기*/
   width: 256px;
   height: 256px;
   margin-left: 10%;
   margin-top: 60px;
 }
-
 
 p{                              /*슬로건 크기와 위치*/
   font-size: 40pt;
