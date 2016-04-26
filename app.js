@@ -47,7 +47,12 @@ app.get('/mandal/main', function(req, res) {
 app.get('/mandal/table', function(req, res) {
 	res.sendFile(path.join(__dirname+'/public/html/mandal_table.html'));
 });
+
+app.get('/mandal/table/center', function(req, res) {
+	res.sendFile(path.join(__dirname+'/public/html/mandal_table_center.html'));
+});
 // /mandal/table URL, load table.html file from main.html
+
 
 app.get('/canvas', function(req, res) {
 	res.sendFile(path.join(__dirname+'/public/html/canvas_12clock.html'));
@@ -56,6 +61,7 @@ app.get('/canvas', function(req, res) {
 app.get('/d3', function(req, res) {
 	res.sendFile(path.join(__dirname+'/public/html/d3_mouseoverout.html'));
 });
+
 
 // images
 app.get('/imgs/logo', function(req, res) {

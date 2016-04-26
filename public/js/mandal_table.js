@@ -1,16 +1,15 @@
-$(document).ready(function() {
-    $(".table-article").append
-    ('<textarea id="text-field" style="border:0" cols="5" rows="5" readonly="true"></textarea>');
-
-    $(".table-article").append
-    ('<input type="button" value="..." class="input-button">')
-    
-    $('.input-button').css('visibility', 'hidden');
-    
-});
-
 (function($) {
     $(document).ready(function() {
+        
+        $(document).one('mouseover', function() {
+            $(".table-article")
+            .append
+            ('<textarea id="text-field" style="border:0" cols="5" rows="5" readonly="true"></textarea>')
+            .append
+            ('<input type="button" value="" class="input-button">');
+            
+            $('.input-button').css('visibility', 'hidden');
+        });
         
         var fc_chk_byte = function(aro_name, ari_max) {
             var ls_str = aro_name.val(); // 이벤트가 일어난 컨트롤의 value 값
@@ -94,15 +93,17 @@ $(document).ready(function() {
             preservescroll: true
         }
         
-        $('.zoomTarget').on('click', function(e) {
-           $(this).zoomTarget(settings);
+        $('.zoomTarget').on('dblclick', function(e) {
+           $('#mandal-zoom').zoomTo({
+                targetsize: 0.3   
+            });
            //var id = $(this).attr('id');
            return false;
         });
         
-        $('#mandal1').on('click', function() {
-            $(this).zoomTarget(settings);
-        });
+        /*$('#mandal-zoom1').on('click', function() {
+            $(this).zoomTo(settings);
+        });*/
         
         $(document).on('click', function(e) {
             $('body').zoomTarget(settings);
