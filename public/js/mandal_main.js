@@ -1,17 +1,7 @@
 (function($) {
     $(document).ready(function() {
-      
-        $(".mandal-top, .mandal-mid, .mandal-bot")
-        .load('/mandal/table', function() {
-            // mandal_table.html 을 불러와서 8개의 테이블 생성
-        });
         
-        $(".mandal-center")
-        .load('/mandal/table/center', function() {
-            
-        });
-        
-        /*var fc_chk_byte = function(aro_name, ari_max) {
+        var fc_chk_byte = function(aro_name, ari_max) {
             var ls_str = aro_name.val(); // 이벤트가 일어난 컨트롤의 value 값
             var li_str_len = ls_str.length; // 전체길이
 
@@ -47,42 +37,132 @@
                 ls_str2 = ls_str.substr(0, li_len);
                 aro_name.val(ls_str2);
             }
-        }*/
-        
-        /*$('.input-button').on('click', function(e) {            
-            var $this = $(this);
-            
-            $(this).prev().attr("readonly", false); // 더블클릭 이벤트를 받았을 때 TextArea 편집 가능
-            $(this).prev().focus();
-            
-            fc_chk_byte($this.prev(), 22);
-            
-            return false;
+        }
+      
+        $(".mandal-top, .mandal-mid, .mandal-bot")
+        .load('/mandal/table', function() {
+            // mandal_table.html 을 불러와서 8개의 테이블 생성
+            console.log('Loaded Table Successfully!')
         });
         
-        $('.input-button').on('click', function(e) {            
-            var $this = $(this);
-            
-            $(this).prev().attr("readonly", false); // 더블클릭 이벤트를 받았을 때 TextArea 편집 가능
-            $(this).prev().focus();
-            
-            fc_chk_byte($this.prev(), 22);
-            
-            return false;
+        $(".mandal-center")
+        .load('/mandal/table/center', function() {
+            console.log('Loaded Center Table Successfully!')
         });
         
-        $('.table-article').on('mouseover', function(e) {
-            $(this).children('.input-button').css('visibility', 'visible');
+        $(document).one('mouseover', function() {
+            $(".table-article")
+            .append
+            ('<textarea id="text-field" style="border:0" cols="5" rows="5" readonly="true"></textarea>')
+            .append
+            ('<input type="button" value="..." class="input-button">');
             
-            return false;
+            $('.input-button').css('visibility', 'hidden');
+            
+            // $('body').removeClass('zoomTarget');
+            
+            $('.input-button').on('click', function() {            
+                var $this = $(this);
+                
+                $(this).prev().attr("readonly", false); // 더블클릭 이벤트를 받았을 때 TextArea 편집 가능
+                $(this).prev().focus();
+                
+                fc_chk_byte($this.prev(), 22);
+                
+                return false;
+            });
+            
+            $('.table-article').on('mouseover', function(e) {
+                $(this).children('.input-button').css('visibility', 'visible');
+                
+                //return false;
+            });
+            
+            $('.table-article').on('mouseleave', function(e) {  
+                $(this).children('.input-button').css('visibility', 'hidden');
+                $(this).children('#text-field').attr('readonly', true);
+                
+                //return false;
+            });
+            
+            settings = {
+                targetsize: 0.3,
+
+                scalemode: "both",
+
+                duration: 450,
+
+                easing: "ease",
+
+                root: $(document.body),
+
+                debug: false,
+
+                animationendcallback: null,
+
+                closeclick: true,
+
+                preservescroll: true
+            }
+            
+            /*$('.table-article').on('mouseover', function() {
+                $('.zoomTarget').zoomTarget(settings);
+              
+                return false;                
+            });*/
+            
+            $('.zoomTarget').on('dblclick', function(e) {
+                var $this = $(this);
+                
+                switch ($(this).attr('id')) {
+                    case 'mandal-zoom1': 
+                        $('#mandal1').zoomTo();
+                        return false;
+
+                    case 'mandal-zoom2':
+                        $('#mandal2').zoomTo();
+                        return false;
+                     
+                    case 'mandal-zoom3':
+                        $('#mandal3').zoomTo();
+                        return false;
+                        
+                    case 'mandal-zoom4':
+                        $('#mandal4').zoomTo();
+                        return false;
+                            
+                    case 'mandal-zoom5':
+                        $('#mandal5').zoomTo();
+                        return false;
+                        
+                    case 'mandal-zoom6':
+                        $('#mandal6').zoomTo();
+                        return false;
+                    
+                    case 'mandal-zoom7':
+                        $('#mandal7').zoomTo();
+                        return false;
+                        
+                    case 'mandal-zoom8':
+                        $('#mandal8').zoomTo();
+                        return false;
+                            
+                    default:
+                        $(this).zoomTo(settings);
+                        e.stopPropagation();
+                }
+                
+            });
+            
+            $(window).on('click', function(e) {
+                $('body').zoomTo(settings);
+                
+                return false;
+            });
+            
+            $('body').zoomTo();
+        // after loaded all DOM    
         });
-        
-        $('.table-article').on('mouseleave', function(e) {  
-            $(this).children('.input-button').css('visibility', 'hidden');
-            $(this).children('#text-field').attr('readonly', true);
-            
-            return false;
-        });*/
     });
          
 })(jQuery);
