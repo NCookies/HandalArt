@@ -109,6 +109,8 @@
             });
             
             $('.table-article').on('mouseover', function(e) {
+                e.stopPropagation();
+                
                 $(this).children('.input-button').css('visibility', 'visible');
                 
                 //return false;
@@ -119,44 +121,81 @@
                 $(this).children('#text-field').attr('readonly', true);
                 
                 var article = $(this).children('#text-field').val();
+                var center_table_id = $(this).attr('id');
+                var table_id;
                 
-                switch ($(this).children('#text-field').attr('id')) {
-                    case 'mandal-zoom1': 
+                if ($(this).hasClass('center')) {
+                    table_id = $(this).parents('.mandal-top, .mandal-mid, .mandal-bot').attr('id');
+                }
+                                
+                switch (true) {
+                    case center_table_id == 'mandal-zoom1': 
                         $('#mandal1').find('.center').children('#text-field').val(article);
                         return false;
-
-                    case 'mandal-zoom2':
+                        
+                    case center_table_id == 'mandal-zoom2':
                         $('#mandal2').find('.center').children('#text-field').val(article);
                         return false;
-                     
-                    case 'mandal-zoom3':
+                        
+                    case center_table_id == 'mandal-zoom3':
                         $('#mandal3').find('.center').children('#text-field').val(article);
                         return false;
                         
-                    case 'mandal-zoom4':
+                    case center_table_id == 'mandal-zoom4':
                         $('#mandal4').find('.center').children('#text-field').val(article);
                         return false;
                             
-                    case 'mandal-zoom5':
+                    case center_table_id == 'mandal-zoom5':
                         $('#mandal5').find('.center').children('#text-field').val(article);
                         return false;
                         
-                    case 'mandal-zoom6':
+                    case center_table_id == 'mandal-zoom6':
                         $('#mandal6').find('.center').children('#text-field').val(article);
                         return false;
                     
-                    case 'mandal-zoom7':
+                    case center_table_id == 'mandal-zoom7':
                         $('#mandal7').find('.center').children('#text-field').val(article);
                         return false;
                         
-                    case 'mandal-zoom8':
+                    case center_table_id == 'mandal-zoom8':
                         $('#mandal8').find('.center').children('#text-field').val(article);
+                        return false;
+                        
+                    case table_id == 'mandal1': 
+                        $('#mandal-zoom1').children('#text-field').val(article);
+                        return false;
+                        
+                    case table_id == 'mandal2': 
+                        $('#mandal-zoom2').children('#text-field').val(article);
+                        return false;
+                        
+                    case table_id == 'mandal3': 
+                        $('#mandal-zoom3').children('#text-field').val(article);
+                        return false;
+                        
+                    case table_id == 'mandal4': 
+                        $('#mandal-zoom4').children('#text-field').val(article);
+                        return false;
+                        
+                    case table_id == 'mandal5': 
+                        $('#mandal-zoom5').children('#text-field').val(article);
+                        return false;
+                        
+                    case table_id == 'mandal6': 
+                        $('#mandal-zoom6').children('#text-field').val(article);
+                        return false;
+                        
+                    case table_id == 'mandal7': 
+                        $('#mandal-zoom7').children('#text-field').val(article);
+                        return false;
+                        
+                    case table_id == 'mandal8': 
+                        $('#mandal-zoom8').children('#text-field').val(article);
                         return false;
                             
                     default:
                         return false;
                 }
-                //return false;
             });
                         
             zoom_settings = {
@@ -234,12 +273,11 @@
                 }
             });
             
-            $(window).on('click', function(e) {
+            $(window).on('dblclick', function(e) {
                 e.stopPropagation();
                 $('body').zoomTo(settings);
-                console.log('sdf');
                 
-                //return false;
+                return false;
             });
             
             //$('body').zoomTo(settings);
