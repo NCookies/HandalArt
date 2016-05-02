@@ -98,8 +98,6 @@
             $('.input-button').css('visibility', 'hidden');
                         
             $('.input-button').on('click', function() {            
-                var $this = $(this);
-                
                 $(this).prev().attr("readonly", false); // 더블클릭 이벤트를 받았을 때 TextArea 편집 가능
                 $(this).prev().focus();
                 
@@ -121,7 +119,6 @@
                 $(this).children('#text-field').attr('readonly', true);
                 
                 var article = $(this).children('#text-field').val();
-                //console.log(article);
                 
                 switch ($(this).children('#text-field').attr('id')) {
                     case 'mandal-zoom1': 
@@ -186,12 +183,13 @@
                 preservescroll: true
             }
             
-            $('.zoomTarget').on('dblclick', function(e) {                
+            $('.zoomTarget').on('dblclick', function(e) {          
+                $(this).zoomTarget(zoom_settings); // .zoomTarget을 준비상태로...
                 switch ($(this).attr('id')) {
+                    // 최종목표 주위의 목표들을 클릭하면 해당 테이블로
                     case 'mandal-zoom1': 
                         //e.stopPropagation();
                         $('#mandal1').find('.center').zoomTo(zoom_settings);
-                        console.log($('#mandal1').find('.center'))
                         return false;
 
                     case 'mandal-zoom2':
@@ -238,13 +236,13 @@
             
             $(window).on('click', function(e) {
                 e.stopPropagation();
-                $('body').zoomTo();
+                $('body').zoomTo(settings);
                 console.log('sdf');
                 
                 //return false;
             });
             
-            $('body').zoomTo();
+            //$('body').zoomTo(settings);
             
         });
     });
