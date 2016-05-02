@@ -186,52 +186,53 @@
                 preservescroll: true
             }
             
-            $(document).on('click', function(e) {                
+            $('.zoomTarget').on('dblclick', function(e) {                
                 switch ($(this).attr('id')) {
                     case 'mandal-zoom1': 
-                        e.stopPropagation();
+                        //e.stopPropagation();
                         $('#mandal1').find('.center').zoomTo(zoom_settings);
-                        //return false;
+                        console.log($('#mandal1').find('.center'))
+                        return false;
 
                     case 'mandal-zoom2':
-                        e.stopPropagation();
+                        //e.stopPropagation();
                         $('#mandal2').find('.center').zoomTo(zoom_settings);
-                        //return false;
+                        return false;
                      
                     case 'mandal-zoom3':
-                        e.stopPropagation();
+                        //e.stopPropagation();
                         $('#mandal3').find('.center').zoomTo(zoom_settings);
-                        //return false;
+                        return false;
                         
                     case 'mandal-zoom4':
-                        e.stopPropagation();
+                        //e.stopPropagation();
                         $('#mandal4').find('.center').zoomTo(zoom_settings);
-                        //return false;
+                        return false;
                             
                     case 'mandal-zoom5':
-                        e.stopPropagation();
+                        //e.stopPropagation();
                         $('#mandal5').find('.center').zoomTo(zoom_settings);
-                        //return false;
+                        return false;
                         
                     case 'mandal-zoom6':
-                        e.stopPropagation();
+                        //e.stopPropagation();
                         $('#mandal6').find('.center').zoomTo(zoom_settings);
-                        //return false;
+                        return false;
                     
                     case 'mandal-zoom7':
-                        e.stopPropagation();
+                        //e.stopPropagation();
                         $('#mandal7').find('.center').zoomTo(zoom_settings);
-                        //return false;
+                        return false;
                         
                     case 'mandal-zoom8':
-                        e.stopPropagation();
+                        //e.stopPropagation();
                         $('#mandal8').find('.center').zoomTo(zoom_settings);
-                        //return false;
+                        return false;
                             
                     default:
-                        e.stopPropagation();
+                        //e.stopPropagation();
                         $(this).zoomTo(zoom_settings);
-                        //return false;
+                        return false;
                 }
             });
             
