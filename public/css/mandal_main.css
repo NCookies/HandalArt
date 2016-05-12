@@ -38,7 +38,7 @@
     position: relative;
 }
 
-#text-field {
+.text-field {
     height: 53px;
     width: 55px;
     font-weight:normal;

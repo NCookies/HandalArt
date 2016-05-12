@@ -10,6 +10,8 @@ app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
 http.createServer(app, function(req, res) {
 	console.log("Connected!");
 }).listen(3000);
