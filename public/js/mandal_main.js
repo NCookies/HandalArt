@@ -13,7 +13,6 @@
             var ls_one_char = ""; // 한글자씩 검사한다
             var ls_str2 = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다.
 
-
             if (li_byte > li_max - 3 &&keyCode == 8) {
                 console.log('backspace');
                 return li_byte - 1;
@@ -68,7 +67,7 @@
         $('.text-field').on('keydown', function(event) {
             var keyCode = event.keyCode ? event.keyCode : event.which;
             
-            fc_chk_byte($(this), 5, keyCode);
+            fc_chk_byte($(this), 20, keyCode);
         });
         
         $('.table-article').on('mouseover', function(e) {
@@ -248,5 +247,4 @@
         });*/
         //$('body').zoomTo(settings);
     });
-         
 })(jQuery);
