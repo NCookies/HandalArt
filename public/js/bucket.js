@@ -1,4 +1,4 @@
- var numOfLine =2;
+var numOfLine =2;
 function addRow(){
   //UFG stands for UnFinishedGoals
 
