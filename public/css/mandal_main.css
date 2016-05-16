@@ -1,0 +1,68 @@
+.article {
+    border: 3px solid blue;
+    float : left;
+    margin: 10px;
+    padding: 10px;
+    max-width: 570px;
+    max-height: 570px;
+    overflow: hidden;
+    position: relative;
+}  
+
+.left {
+    float: left;
+    border: 1px solid gold;
+    height: 50%;
+    width: 20%;
+    margin: 20px auto;
+    padding: 5px;
+}
+
+#mandal-container {
+	width: 550px;
+	height: 550px;
+    padding: 10px;
+    margin: 5px;
+    background-color: orangered;
+}
+
+.mandal-top {
+    width: 170px;
+    height: 170px;
+    margin: 5px;
+    float: left;
+}
+
+.mandal-mid {
+	width: 170px;
+    height: 170px;
+    margin: 5px;
+    float: left;
+}
+
+.mandal-bot {
+	width: 170px;
+    height: 170px;
+    margin: 5px;
+    float: left;
+}
+
+#mandal-center {
+    width: 170px;
+    height: 170px;
+    margin: 5px;
+    float: left;
+}
+    
+#mandal-center .mandal-table td {
+    border: 1px solid blue !important;
+    border-style:solid !important;
+}
+
+#mandal-center {
+	width: 170px;
+    height: 170px;
+    margin: 5px;
+    float: left;
+}
+

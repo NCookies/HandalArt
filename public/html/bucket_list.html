@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../css/bucket.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <title>BucketList</title>
+  </head>
+  
+  <body>
+    
+    <header>
+      <a href="/"><img src="/imgs/logo" id="logo"/></a>
+      <a href="/login"><img src="/imgs/login" class="nav"/></a>
+      <a href="/calendar"><img src="/imgs/calendar" class="nav"/></a>
+      <a href="/mandal"><img src="/imgs/mandal" class="nav"/></a>      
+    </header>
+    
+    <section>
+        <table id="tableOfBucketList" border="3px">
+            <caption id=nameOfTable>버킷리스트<button class="addButton" type="Button" onClick="addRow()"></button></caption>
+            <thead>
+                <tr>
+                    <th scope="row" width="10%">순번</th>
+                    <th scope="row" width="80%">목표</th>
+                    <th scope="row" width="10%">목표기한</th>
+                </tr>
+            </thead>
+            <tbody id="unfinishedGoals">
+                <tr><td>1</td><td>프로젝트 100개 진행하기</td><td>2020년</td></tr>
+            </tbody>
+            <thead>
+                <tr>
+                    <th scope="row">순번</th>
+                    <th scope="row">목표</th>
+                    <th scope="row">성공날짜</th>
+                </tr>
+            </thead>
+            <tbody id="finishedGoals">
+                <tr>
+                    <td>1</td>
+                    <td>프로젝트 100개 진행하기</td>
+                    <td>2018년</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <script type="text/javascript" src="../js/addTable.js" defer="defer"></script>
+  </body>
+</html>

@@ -1,0 +1,59 @@
+body{
+  margin: 0px;
+}
+
+header{
+  background-color: #B2EBF4;
+}
+/*****************header*****************/
+
+#logo, #login { /*로그인과 로고의 크기 지정*/
+  width: 128px;
+  height: 128px;
+}
+
+#login{ /*로그인 위치 지정*/
+  float: right;
+  padding-right: 40px;
+}
+
+#logo{
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
+/****************************************/
+
+/*****************section*****************/
+section{
+  /*background-color: #ffffff;*/
+}
+#bucket, #calender,#mandalart{  /*main 화면 메뉴 이미지 크기*/
+  width: 256px;
+  height: 256px;
+  margin-left: 10%;
+  margin-top: 60px;
+}
+
+
+p{                              /*슬로건 크기와 위치*/
+  font-size: 40pt;
+  padding-top: 20px;
+  padding-bottom: 40px;
+  text-align: center;
+  margin: 0px;
+}
+/*****************************************/
+
+/*****************footer*****************/
+footer{                         /*footer에 있는 txt 오른쪽으로 정렬*/
+  text-align: right;
+  height: 100px;
+  vertical-align: bottom;
+  /*background-color: #B2EBF4;*/
+}
+
+small{                          /*small 위치 정렬*/
+  padding-right: 20px;
+}
+/****************************************/

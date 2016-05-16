@@ -1,0 +1,48 @@
+#calender,#bucket,#login{
+  height: 128px;
+  width: 128px;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+#calender,#bucket,#login{
+  float: right;
+  padding-right: 5%;
+}
+
+body{
+  margin: 0px;
+}
+
+p{
+  float: left;
+  width: 250px;
+  font-size: 50px;
+  font-weight: bold;
+}
+
+#addbtn{
+  cursor: pointer;
+  margin:50px;
+  float: left;
+  height: 64px;
+  width: 64px;
+}
+
+ul{
+  margin: 0px;
+  padding: 0px;
+  height: 200px;
+  display: inline-block;
+}
+li{
+  height: 64px;
+  list-style: none;
+}
+.selector{
+  height: 64px;
+  width: 64px;
+  margin: 0px;
+  padding: 0px;
+  float: left;
+}
