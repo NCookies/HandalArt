@@ -1,6 +1,5 @@
 (function($) {
-    $(document).ready(function() {
-        
+    $(document).ready(function() {        
         var fc_chk_byte = function(aro_name, ari_max, keyCode) {
             
             var ls_str = aro_name.val(); // 이벤트가 일어난 컨트롤의 value 값
@@ -47,28 +46,36 @@
             return li_byte;
         }
         
-        $(".table-article")
-            .append
-            ('<textarea class="text-field" style="border:0" cols="5" rows="5" readonly="true"></textarea>')
-            .append
+        
+        // html 이 페이지에 로딩되었을 때 기본 동작        
+        
+        $(".table-article").append
             ('<input type="button" value="..." class="input-button">');
             
+            /*.append
+            ('<textarea class="text-field" style="border:0" cols="5" rows="5"></textarea>')*/
+            
         $('.input-button').css('visibility', 'hidden');
-        // html 이 페이지에 로딩되었을 때 기본 동작
                     
-        $('.input-button').on('click', function() {            
-            $(this).prev().attr("readonly", false);
+        $('.input-button').on('click', function() {    
+            var text = prompt("내용을 입력해주세요", $(this).parent().text());
+            if (text == null) text = '';
+            
+            $(this).parent().text(text);
+            // $(this).prev().attr("readonly", false);
             $(this).prev().focus();
             
             return false;
         });
         // 버튼 클릭 시 텍스트 필드에 입력 가능 및 커서
+        
             
         $('.text-field').on('keydown', function(event) {
             var keyCode = event.keyCode ? event.keyCode : event.which;
             
             fc_chk_byte($(this), 20, keyCode);
         });
+        // text-field 글자 수 제한
         
         $('.table-article').on('mouseover', function(e) {
             e.stopPropagation();
@@ -82,7 +89,8 @@
             $(this).children('.input-button').css('visibility', 'hidden');
             $(this).children('.text-field').attr('readonly', true);
             
-            var article = $(this).children('.text-field').val();
+            //var article = $(this).children('.text-field').val();
+            var article = $(this).text();
             var center_table_id = $(this).attr('id');
             var table_id;
             
@@ -92,67 +100,67 @@
                             
             switch (true) {
                 case center_table_id == 'mandal-zoom1': 
-                    $('#mandal1').find('.center').children('.text-field').val(article);
+                    $('#mandal1').find('.center').text(article);
                     return false;
                     
                 case center_table_id == 'mandal-zoom2':
-                    $('#mandal2').find('.center').children('.text-field').val(article);
+                    $('#mandal2').find('.center').text(article);
                     return false;
                     
                 case center_table_id == 'mandal-zoom3':
-                    $('#mandal3').find('.center').children('.text-field').val(article);
+                    $('#mandal3').find('.center').text(article);
                     return false;
                     
                 case center_table_id == 'mandal-zoom4':
-                    $('#mandal4').find('.center').children('.text-field').val(article);
+                    $('#mandal4').find('.center').text(article);
                     return false;
                         
                 case center_table_id == 'mandal-zoom5':
-                    $('#mandal5').find('.center').children('.text-field').val(article);
+                    $('#mandal5').find('.center').text(article);
                     return false;
                     
                 case center_table_id == 'mandal-zoom6':
-                    $('#mandal6').find('.center').children('.text-field').val(article);
+                    $('#mandal6').find('.center').text(article);
                     return false;
                 
                 case center_table_id == 'mandal-zoom7':
-                    $('#mandal7').find('.center').children('.text-field').val(article);
+                    $('#mandal7').find('.center').text(article);
                     return false;
                     
                 case center_table_id == 'mandal-zoom8':
-                    $('#mandal8').find('.center').children('.text-field').val(article);
+                    $('#mandal8').find('.center').text(article);
                     return false;
                     
                 case table_id == 'mandal1': 
-                    $('#mandal-zoom1').children('.text-field').val(article);
+                    $('#mandal-zoom1').text(article);
                     return false;
                     
                 case table_id == 'mandal2': 
-                    $('#mandal-zoom2').children('.text-field').val(article);
+                    $('#mandal-zoom2').text(article);
                     return false;
                     
                 case table_id == 'mandal3': 
-                    $('#mandal-zoom3').children('.text-field').val(article);
+                    $('#mandal-zoom3').text(article);
                     return false;
                     
                 case table_id == 'mandal4': 
-                    $('#mandal-zoom4').children('.text-field').val(article);
+                    $('#mandal-zoom4').text(article);
                     return false;
                     
                 case table_id == 'mandal5': 
-                    $('#mandal-zoom5').children('.text-field').val(article);
+                    $('#mandal-zoom5').text(article);
                     return false;
                     
                 case table_id == 'mandal6': 
-                    $('#mandal-zoom6').children('.text-field').val(article);
+                    $('#mandal-zoom6').text(article);
                     return false;
                     
                 case table_id == 'mandal7': 
-                    $('#mandal-zoom7').children('.text-field').val(article);
+                    $('#mandal-zoom7').text(article);
                     return false;
                     
                 case table_id == 'mandal8': 
-                    $('#mandal-zoom8').children('.text-field').val(article);
+                    $('#mandal-zoom8').text(article);
                     return false;
                         
                 default:

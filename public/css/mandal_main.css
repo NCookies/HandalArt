@@ -38,6 +38,26 @@
     position: relative;
 }
 
+.table-article {
+    height: 53px;
+    width: 55px;
+    
+    background-color: white;
+    
+    font-family:Arial, sans-serif;
+    font-size:80%;
+    font-weight:normal;
+    border-style:solid;
+    border-width:1px;
+    max-width: 54px;
+    max-height: 54px;
+    overflow:hidden; 
+    white-space: nowrap;
+    text-overflow:ellipsis;
+    table-layout:fixed;
+    word-break:break-all;	
+}
+
 .text-field {
     height: 53px;
     width: 55px;
@@ -70,38 +90,38 @@
     display: table-cell;
 }
 
-#mandal1 .center .text-field, #mandal-zoom1 .text-field{
+#mandal1 .center, #mandal-zoom1 {
     background-color: #E5CF6C;
 }
 
-#mandal2 .center .text-field, #mandal-zoom2 .text-field{
+#mandal2 .center , #mandal-zoom2 {
     background-color: #9DBE59;
 }
 
-#mandal3 .center .text-field, #mandal-zoom3 .text-field{
+#mandal3 .center , #mandal-zoom3 {
     background-color: #5BBE94;
 }
 
-#mandal4 .center .text-field, #mandal-zoom4 .text-field{
+#mandal4 .center , #mandal-zoom4 {
     background-color: #5884B3;
 }
 
-#mandal5 .center .text-field, #mandal-zoom5 .text-field{
+#mandal5 .center , #mandal-zoom5 {
     background-color: #CC6686;
 }
 
-#mandal6 .center .text-field, #mandal-zoom6 .text-field{
+#mandal6 .center , #mandal-zoom6 {
     background-color: #E68570;
 }
 
-#mandal7 .center .text-field, #mandal-zoom7 .text-field{
+#mandal7 .center , #mandal-zoom7 {
     background-color: #F9EBAA;
 }
 
-#mandal8 .center .text-field, #mandal-zoom8 .text-field{
+#mandal8 .center , #mandal-zoom8 {
     background-color: #D4E5B5;
 }
 
-#zoom-center .text-field{
+#zoom-center {
     background-color: #B6E4D1;
 }
