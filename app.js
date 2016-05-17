@@ -18,6 +18,7 @@ app.set('port', process.env.PORT || 3000);
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
+app.use('/vendor', express.static(path.join(__dirname, 'public/js/vendor')));
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -87,7 +88,7 @@ app.get('/bucket', function(req, res) {
 
 // calendar
 app.get('/calendar', function(req, res) {
-	res.render('calendar');
+	res.render('fullcalendar');
 });
 
 // mandal_art
