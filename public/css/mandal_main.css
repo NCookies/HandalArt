@@ -1,4 +1,4 @@
-.article {
+.zoomViewport{
     border: 3px solid blue;
     float : left;
     margin: 10px;
@@ -7,62 +7,121 @@
     max-height: 570px;
     overflow: hidden;
     position: relative;
+    background-color: cyan;
 }  
-
-.left {
-    float: left;
-    border: 1px solid gold;
-    height: 50%;
-    width: 20%;
-    margin: 20px auto;
-    padding: 5px;
-}
 
 #mandal-container {
 	width: 550px;
 	height: 550px;
     padding: 10px;
     margin: 5px;
-    background-color: orangered;
 }
 
-.mandal-top {
+.mandal-top, .mandal-center, .mandal-mid, .mandal-bot{
     width: 170px;
     height: 170px;
     margin: 5px;
     float: left;
 }
 
-.mandal-mid {
-	width: 170px;
-    height: 170px;
-    margin: 5px;
-    float: left;
+.mandal-table {
+    border-collapse:collapse;
+    border-spacing:0;
 }
 
-.mandal-bot {
-	width: 170px;
-    height: 170px;
-    margin: 5px;
-    float: left;
-}
-
-#mandal-center {
-    width: 170px;
-    height: 170px;
-    margin: 5px;
-    float: left;
-}
+.mandal-table td {
+    border-style:solid;
+    border-width:1px;
+    max-width: 54px;
+    max-height: 54px;
     
-#mandal-center .mandal-table td {
-    border: 1px solid blue !important;
-    border-style:solid !important;
+    position: relative;
 }
 
-#mandal-center {
-	width: 170px;
-    height: 170px;
-    margin: 5px;
-    float: left;
+.table-article {
+    height: 53px;
+    width: 55px;
+    
+    background-color: white;
+    
+    font-family:Arial, sans-serif;
+    font-size:80%;
+    font-weight:normal;
+    border-style:solid;
+    border-width:1px;
+    max-width: 54px;
+    max-height: 54px;
+    overflow:hidden; 
+    white-space: nowrap;
+    text-overflow:ellipsis;
+    table-layout:fixed;
+    word-break:break-all;	
 }
 
+.text-field {
+    height: 53px;
+    width: 55px;
+    font-weight:normal;
+    font-family:Arial, sans-serif;
+    font-size: 80%;
+    
+    text-align:center;
+    vertical-align: middle;
+        
+    overflow:hidden; 
+    text-overflow:ellipsis; 
+                
+    table-layout:fixed;
+    word-break:break-all;
+    resize: none;
+    
+    display: table-cell;
+
+}
+
+.input-button {
+    position: absolute;
+    bottom: 1px;
+    
+    float: right;
+    
+    height: 20%;
+    width: 3%;
+    display: table-cell;
+}
+
+#mandal1 .center, #mandal-zoom1 {
+    background-color: #E5CF6C;
+}
+
+#mandal2 .center , #mandal-zoom2 {
+    background-color: #9DBE59;
+}
+
+#mandal3 .center , #mandal-zoom3 {
+    background-color: #5BBE94;
+}
+
+#mandal4 .center , #mandal-zoom4 {
+    background-color: #5884B3;
+}
+
+#mandal5 .center , #mandal-zoom5 {
+    background-color: #CC6686;
+}
+
+#mandal6 .center , #mandal-zoom6 {
+    background-color: #E68570;
+}
+
+#mandal7 .center , #mandal-zoom7 {
+    background-color: #F9EBAA;
+}
+
+#mandal8 .center , #mandal-zoom8 {
+    background-color: #D4E5B5;
+}
+
+#zoom-center {
+    background-color: #B6E4D1;
+}
