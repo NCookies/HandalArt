@@ -1,4 +1,4 @@
-var width = 960,
+ var width = 960,
     height = 500,
     radius = Math.min(width, height) / 2;
 
@@ -20,6 +20,9 @@ var labelArc = d3.svg.arc()
 var pie = d3.layout.pie()
     .sort(null)
     .value(function(d) { return d.hour; });
+    
+var isMouseDown = false, isfilled;
+var arr = 0;
 
 /*
 http://zeroviscosity.com/d3-js-step-by-step/step-1-a-basic-pie-chart
@@ -31,70 +34,68 @@ var svg = d3.select("body").append("svg")
   .append("g")
   .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-//데이터 로딩
-d3.csv("add.csv", type, function(error, data) {
-  if (error) throw error;
+$(document).ready(function() {
 
-//데이터를 파이로, class를 arc로 만듬
-  var g = svg.selectAll(".arc")
-      .data(pie(data))
-    .enter().append("g")
-      .attr("class", "arc");
-
-  g.append("path")
-      .attr("d", arc)
-      .style("fill", function(d) { return color(d.data.name); }) 
-    .each(function(d, i) { //각 파이의 인덱스 지정
-        d3.select(this)
-        .attr("index", i)
+    //데이터 로딩
+    d3.csv("add.csv", type, function(error, data) {
+        if (error) throw error;
+  
+       //데이터를 파이로, class를 arc로 만듬
+       var g = svg.selectAll(".arc")
+       .data(pie(data))
+       .enter().append("g")
+       .attr("class", "arc")    
+       
+        g.append("path")
+        .attr("d", arc)
+        .style("fill", function(d) { return color(d.data.name); }) 
+        .each(function(d, i) { //각 파이의 인덱스 지정
+            d3.select(this)
+            .attr("index", i)
+        })
+        .style("fill", function(d) { return color(d.data.name); })
+            
+        .on("mousedown", function () { 
+            isMouseDown = true;
+            $(this).toggleClass("filling");
+            isfilled = $(this).hasClass("filling");
+            return false; // prevent text selection
+        })
+        .on("mouseover", function() {
+            if (isMouseDown) {
+                $(this).toggleClass("filling", isfilled);
+                //collect index
+                arr = $(this).index;
+                console.log(arr);
+            }
+            
+            var percentage = (100 * d.hour / totalSize).toPrecision(3);
+            var percentageString = percentage + "%";
+            if (percentage < 0.1) {
+                percentageString = "< 0.1%";
+            }
+            d3.select("#percentage")
+            .text(percentageString);
+            
+        })
+        .on("mouseup", function() { //중복선택되도 일정 따로 생성하기
+            if(isfilled) { //중복선택시 isMousedown으로 
+                var eventName = window.prompt('event name', '');
+                //select only save index
+                
+                $(this).next().text( eventName );
+            }
+            isMouseDown = false;
+        });
+  
+        //text 태그
+        g.append("text")
+        .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+        .attr("dy", ".35em");  
+      
     })
-    .style("fill", function(d) { return color(d.data.name); })
-/*
-    .on("dragstart", dragstart)
-    .on("drag", drag)
-    .on("dragend", function (d) {
-        console.log("end");
-    })
-*/
-    
-    .on("mouseup", mousedown)
-    .on("click", mouseup)
-    .on("mousemove", mousemove);
-
-//text 태그 속성 값 지정
-  g.append("text")
-      .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
-      .attr("dy", ".35em")
-      .text(function(d) { return d.data.name; });
-});
-
-var userDrag = false;
-var onMousedown;
-
-function mousedown() {
-    userdrag = true;
-    d3.select(this)
-//   .style("fill", "#80aaff");
-//    onMousedown = d3.select(this).style("fill", "#80aaff"); //hasclass
-    .classed("filling", true);
-    console.log("onMousedown");
-    return false;
-}
-
-function mouseover() {
-    console.log("over");
-}
-
-function mouseup() {
-//    d3.select(this)
-//    .style("fill", "none"); 
-    onMousedown = false;
-    console.log("up");
-}
-
-function type(d) {
-  d.hour = +d.hour;
-  return d;
-}
-
-
+})
+    function type(d) {
+        d.hour = +d.hour;
+        return d;
+    }
