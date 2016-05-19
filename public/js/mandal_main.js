@@ -46,11 +46,9 @@
             return li_byte;
         }
         
-        
         // html 이 페이지에 로딩되었을 때 기본 동작        
         
-        $(".table-article").append
-            ('<input type="button" value="..." class="input-button">');
+        $("td").append('<input type="button" value="" class="input-button">');
             
             /*.append
             ('<textarea class="text-field" style="border:0" cols="5" rows="5"></textarea>')*/
@@ -61,35 +59,28 @@
             var text = prompt("내용을 입력해주세요", $(this).parent().text());
             if (text == null) text = '';
             
-            $(this).parent().text(text);
-            // $(this).prev().attr("readonly", false);
-            $(this).prev().focus();
+            if ($(this).next().hasClass('text-field'))  $(this).next().text(text);
+            // table-article 안에 text-field라는 클래스의 엘리먼트가 있으면 편집
             
+            else    $(this).parent().append('<p class="text-field">' + text + '</p>')
+            // 없으면 생성
+            
+                        
             return false;
         });
         // 버튼 클릭 시 텍스트 필드에 입력 가능 및 커서
-        
-            
-        $('.text-field').on('keydown', function(event) {
-            var keyCode = event.keyCode ? event.keyCode : event.which;
-            
-            fc_chk_byte($(this), 20, keyCode);
-        });
-        // text-field 글자 수 제한
         
         $('.table-article').on('mouseover', function(e) {
             e.stopPropagation();
             
             $(this).children('.input-button').css('visibility', 'visible');
             
-            //return false;
+            return false;
         });
             
         $('.table-article').on('mouseleave', function(e) { // 마우스가 영역 떠났을 때
             $(this).children('.input-button').css('visibility', 'hidden');
-            $(this).children('.text-field').attr('readonly', true);
             
-            //var article = $(this).children('.text-field').val();
             var article = $(this).text();
             var center_table_id = $(this).attr('id');
             var table_id;
@@ -100,7 +91,7 @@
                             
             switch (true) {
                 case center_table_id == 'mandal-zoom1': 
-                    $('#mandal1').find('.center').text(article);
+                    $('#mandal1').find('.center').children('.text-field').text(article);
                     return false;
                     
                 case center_table_id == 'mandal-zoom2':

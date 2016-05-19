@@ -14,6 +14,22 @@
     <link rel="stylesheet" type="text/css" href="../css/mandal_main.css">
 	<link rel="stylesheet" type="text/css" href="../css/style.css">
     
+	<script type='text/javascript'>
+		$(document).ready(function() {
+			$('#sendData').on('click', function() {
+				var jsonObj = <%- JSON.stringify(obj) %>;
+                
+                var string  = 'Sub1_act1';
+                
+                alert(jsonObj[string]);
+                
+                $.each(jsonObj, function(index, value) {
+                    console.log(jsonObj[index] + index);
+                }); 
+                
+			}); 
+		});
+	</script>
 </head>
 
 <body>
@@ -25,209 +41,6 @@
 	</header>
 	
 	<section>
-		<div class='zoomViewport'>
-			<div class='zoomContainer' id='mandal-container'>
-					<div class='mandal-top' id='mandal1'>
-						<table class="mandal-table">
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							</tr>
-
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article zoomTarget center"></td>
-							<td class="table-article"></td>
-							</tr>
-
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							</tr>
-						</table>
-					</div>
-					
-					<div class='mandal-top' id='mandal2'>
-						<table class="mandal-table">
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							</tr>
-
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article zoomTarget center"></td>
-							<td class="table-article"></td>
-							</tr>
-
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							</tr>
-						</table>
-					</div>
-					
-					<div class='mandal-top' id='mandal3'>
-						<table class="mandal-table">
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							</tr>
-
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article zoomTarget center"></td>
-							<td class="table-article"></td>
-							</tr>
-
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							</tr>
-						</table>
-					</div>
-					
-					
-					<div class='mandal-mid' id='mandal4'>
-						<table class="mandal-table">
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							</tr>
-
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article zoomTarget center"></td>
-							<td class="table-article"></td>
-							</tr>
-
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							</tr>
-						</table>
-					</div>
-					
-					<div class='mandal-center'>
-						<table class="mandal-table">
-							<tr>
-							<td class="table-article zoomTarget" id="mandal-zoom1"></td>
-							<td class="table-article zoomTarget" id="mandal-zoom2"></td>
-							<td class="table-article zoomTarget" id="mandal-zoom3"></td>
-							</tr>
-
-							<tr>
-							<td class="table-article zoomTarget" id="mandal-zoom4"></td>
-							<td class="table-article zoomTarget" id="zoom-center"></td>
-							<td class="table-article zoomTarget" id="mandal-zoom5"></td>
-							</tr>
-
-							<tr>
-							<td class="table-article zoomTarget" id="mandal-zoom6"></td>
-							<td class="table-article zoomTarget" id="mandal-zoom7"></td>
-							<td class="table-article zoomTarget" id="mandal-zoom8"></td>
-							</tr>
-						</table>
-					</div>
-					
-					<div class='mandal-mid' id='mandal5'>
-						<table class="mandal-table">
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							</tr>
-
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article zoomTarget center"></td>
-							<td class="table-article"></td>
-							</tr>
-
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							</tr>
-						</table>
-					</div>
-					
-
-					<div class='mandal-bot' id='mandal6'>
-						<table class="mandal-table">
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							</tr>
-
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article zoomTarget center"></td>
-							<td class="table-article"></td>
-							</tr>
-
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							</tr>
-						</table>
-					</div>
-					
-					<div class='mandal-bot' id='mandal7'>
-						<table class="mandal-table">
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							</tr>
-
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article zoomTarget center"></td>
-							<td class="table-article"></td>
-							</tr>
-
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							</tr>
-						</table>
-					</div>
-					
-					<div class='mandal-bot' id='mandal8'>
-						<table class="mandal-table">
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							</tr>
-
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article zoomTarget center"></td>
-							<td class="table-article"></td>
-							</tr>
-
-							<tr>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							<td class="table-article"></td>
-							</tr>
-						</table>
-					</div>
-			</div>
-		</div>
 		
 		<input type="button" value='확인' id='sendData'>		
 		

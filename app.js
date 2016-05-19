@@ -16,7 +16,6 @@ app.set('port', process.env.PORT || 3000);
 
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 app.use('/vendor', express.static(path.join(__dirname, 'public/js/vendor')));
 
@@ -97,25 +96,37 @@ app.get('/mandal', function(req, res) {
 });
 
 app.get('/mandal/main', function(req, res) {
-	res.render('mandal_main');
+	/*var roominfo = function(roomname){
+		this.roomname=roomname;
+	};
+
+	room_info_array= new Array(1);
+	room_info_array[0]=new roominfo("room");*/
+	
+	var ejsObj = {
+		FinalTarget : '최종목표',
+			SubTarget1 : '세부목표1',
+				Sub1_act1 : '실천사항1',
+				Sub1_act2 : '실천사항2',
+				Sub1_act3 : '실천사항3',
+				Sub1_act4 : '실천사항4',
+				Sub1_act5 : '실천사항5',
+				Sub1_act6 : '실천사항6',
+				Sub1_act7 : '실천사항7',
+				Sub1_act8 : '실천사항8',
+			SubTarget2 : '세부목표2',
+			SubTarget3 : '세부목표3',
+			SubTarget4 : '세부목표4',
+			SubTarget5 : '세부목표5',
+			SubTarget6 : '세부목표6',
+			SubTarget7 : '세부목표7',
+			SubTarget8 : '세부목표8',
+	}
+	res.render('mandal_main', {obj : ejsObj});
 });
-
-// /mandal/table URL, load table.html file from main.html
-
 
 app.get('/canvas', function(req, res) {
 	res.sendFile(path.join(__dirname+'/public/html/canvas_12clock.html'));
-});
-
-app.get('/d3', function(req, res) {
-	res.sendFile(path.join(__dirname+'/public/html/d3_mouseoverout.html'));
-});
-
-// get json data
-app.post('/mandal/data', function(req, res) {
-	res.render({
-		
-	});
 });
 
 
