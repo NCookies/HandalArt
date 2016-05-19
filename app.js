@@ -103,26 +103,114 @@ app.get('/mandal/main', function(req, res) {
 	room_info_array= new Array(1);
 	room_info_array[0]=new roominfo("room");*/
 	
-	var ejsObj = {
-		FinalTarget : '최종목표',
-			SubTarget1 : '세부목표1',
-				Sub1_act1 : '실천사항1',
-				Sub1_act2 : '실천사항2',
-				Sub1_act3 : '실천사항3',
-				Sub1_act4 : '실천사항4',
-				Sub1_act5 : '실천사항5',
-				Sub1_act6 : '실천사항6',
-				Sub1_act7 : '실천사항7',
-				Sub1_act8 : '실천사항8',
-			SubTarget2 : '세부목표2',
-			SubTarget3 : '세부목표3',
-			SubTarget4 : '세부목표4',
-			SubTarget5 : '세부목표5',
-			SubTarget6 : '세부목표6',
-			SubTarget7 : '세부목표7',
-			SubTarget8 : '세부목표8',
+	var subTargets = 
+		[{
+			"id" : "act1_1",
+			"article" : "세부목표1"
+		}, 
+		{
+			"id" : "act1_2",
+			"article" : "세부목표2"
+		},
+		{
+			"id" : "act1_3",
+			"article" : "세부목표3"
+		},
+		{
+			"id" : "act1_4",
+			"article" : "세부목표4"
+		},
+		{
+			"id" : "act1_5",
+			"article" : "세부목표5"
+		},
+		{
+			"id" : "act1_6",
+			"article" : "세부목표6"
+		},
+		{
+			"id" : "act1_7",
+			"article" : "세부목표7"
+		},
+		{
+			"id" : "act1_8",
+			"article" : "세부목표8"
+		}]
+	
+
+	var actions = 
+		[{
+			"id" : "act1_1",
+			"article" : "실천사항1"
+		}, 
+		{
+			"id" : "act1_2",
+			"article" : "실천사항2"
+		},
+		{
+			"id" : "act1_3",
+			"article" : "실천사항3"
+		},
+		{
+			"id" : "act1_4",
+			"article" : "실천사항4"
+		},
+		{
+			"id" : "act1_5",
+			"article" : "실천사항5"
+		},
+		{
+			"id" : "act1_6",
+			"article" : "실천사항6"
+		},
+		{
+			"id" : "act1_7",
+			"article" : "실천사항7"
+		},
+		{
+			"id" : "act1_8",
+			"article" : "실천사항8"
+		},
+		{
+			"id" : "act2_1",
+			"article" : "실천사항1"
+		}, 
+		{
+			"id" : "act2_2",
+			"article" : "실천사항2"
+		},
+		{
+			"id" : "act2_3",
+			"article" : "실천사항3"
+		},
+		{
+			"id" : "act2_4",
+			"article" : "실천사항4"
+		},
+		{
+			"id" : "act2_5",
+			"article" : "실천사항5"
+		},
+		{
+			"id" : "act2_6",
+			"article" : "실천사항6"
+		},
+		{
+			"id" : "act2_7",
+			"article" : "실천사항7"
+		},
+		{
+			"id" : "act2_8",
+			"article" : "실천사항8"
+		}]
+		
+	var jsonObj = {
+		FinalTarget : "최종목표",
+		subTargets : subTargets,
+		actions : actions
 	}
-	res.render('mandal_main', {obj : ejsObj});
+ 	
+	res.render('mandal_main', {jsonObj : jsonObj});
 });
 
 app.get('/canvas', function(req, res) {

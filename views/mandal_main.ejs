@@ -17,16 +17,17 @@
 	<script type='text/javascript'>
 		$(document).ready(function() {
 			$('#sendData').on('click', function() {
-				var jsonObj = <%- JSON.stringify(obj) %>;
+				var finalTar = jQuery.parseJSON('<%- JSON.stringify(jsonObj.FinalTarget) %>');
+				var subTar = jQuery.parseJSON('<%- JSON.stringify(jsonObj.subTargets) %>');
+				var actions = jQuery.parseJSON('<%- JSON.stringify(jsonObj.actions) %>');
                 
-                var string  = 'Sub1_act1';
-                
-                alert(jsonObj[string]);
-                
-                $.each(jsonObj, function(index, value) {
-                    console.log(jsonObj[index] + index);
-                }); 
-                
+				$.each(subTar, function(index, value) {
+                    console.log(subTar[index].article);
+                });
+				
+				$.each(actions, function(index, value) {
+                    console.log(actions[index].article);
+                });
 			}); 
 		});
 	</script>
