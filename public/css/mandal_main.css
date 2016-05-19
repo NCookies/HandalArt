@@ -59,6 +59,14 @@
 }
 
 .text-field {
+    overflow:hidden; 
+    white-space: nowrap;
+    text-overflow:ellipsis;
+    table-layout:fixed;
+    word-break:break-all;
+}
+
+.text-field {
     height: 53px;
     width: 55px;
     font-weight:normal;
