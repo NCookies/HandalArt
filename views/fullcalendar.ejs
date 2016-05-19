@@ -16,6 +16,7 @@
 	
 	<!--FullCalendar-->
 	<script src='vendor/fullcalendar.min.js'></script>
+	<!--<script src='vendor/fullcalendar.js'></script>-->
 	<script type="text/javascript">
 		
 		/*
@@ -30,10 +31,10 @@
 				m store current month.
 				y store current year.
 			*/
-			var date = new Date();
-			var d = date.getDate();
-			var m = date.getMonth();
-			var y = date.getFullYear();
+			var date = new Date();		// 오늘날짜
+			var d = date.getDate();		// 오늘 날짜
+			var m = date.getMonth();		// 현재 달
+			var y = date.getFullYear();		// 현재 년
 			
 			/*
 				Initialize fullCalendar and store into variable.
@@ -107,8 +108,8 @@
 				*/
 				events: [
 					{
-						title: 'All Day Event',
-						start: new Date(y, m, 1)
+						"title": "All Day Event",
+						"start": new Date(y, m, 1)
 					},
 					{
 						title: 'Long Event',
