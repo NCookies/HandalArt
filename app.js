@@ -212,7 +212,7 @@ app.get('/mandal/main', function(req, res) {
  	
 	res.render('mandal_main', {jsonObj : jsonObj});
 });
-
+	 
 app.get('/canvas', function(req, res) {
 	res.sendFile(path.join(__dirname+'/public/html/canvas_12clock.html'));
 });
