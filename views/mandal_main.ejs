@@ -1,0 +1,54 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Hello</title>
+    
+	<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	
+	<script src="/js/mandal_main.js"></script>
+	
+	<script src="/js/vendor/jquery.zoomooz.min.js"></script>
+    
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="../css/mandal_main.css">
+	<link rel="stylesheet" type="text/css" href="../css/style.css">
+    
+	<script type='text/javascript'>
+		$(document).ready(function() {
+			$('#sendData').on('click', function() {
+				var finalTar = jQuery.parseJSON('<%- JSON.stringify(jsonObj.FinalTarget) %>');
+				var subTar = jQuery.parseJSON('<%- JSON.stringify(jsonObj.subTargets) %>');
+				var actions = jQuery.parseJSON('<%- JSON.stringify(jsonObj.actions) %>');
+                
+				$.each(subTar, function(index, value) {
+                    console.log(subTar[index].article);
+                });
+				
+				$.each(actions, function(index, value) {
+                    console.log(actions[index].article);
+                });
+			}); 
+		});
+	</script>
+</head>
+
+<body>
+	<header>
+		<a href="/"><img src="/imgs/logo" id="logo"/></a>
+		<a href="/bucket"><img src="/imgs/bucket" class="nav"/></a>
+		<a href="/calendar"><img src="/imgs/calendar" class="nav"/></a>
+		<a href="/mandal"><img src="/imgs/mandal" class="nav"/></a>
+	</header>
+	
+	<section>
+		
+		<input type="button" value='확인' id='sendData'>		
+		
+	</section>
+	
+	<footer>
+		
+	</footer>
+</body>
+</html>
