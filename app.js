@@ -96,127 +96,23 @@ app.get('/mandal', function(req, res) {
 });
 
 app.get('/mandal/main', function(req, res) {
-	/*var roominfo = function(roomname){
-		this.roomname=roomname;
-	};
-
-	room_info_array= new Array(1);
-	room_info_array[0]=new roominfo("room");*/
-	
-	var subTargets = 
-		[{
-			"id" : "act1_1",
-			"article" : "세부목표1"
-		}, 
-		{
-			"id" : "act1_2",
-			"article" : "세부목표2"
-		},
-		{
-			"id" : "act1_3",
-			"article" : "세부목표3"
-		},
-		{
-			"id" : "act1_4",
-			"article" : "세부목표4"
-		},
-		{
-			"id" : "act1_5",
-			"article" : "세부목표5"
-		},
-		{
-			"id" : "act1_6",
-			"article" : "세부목표6"
-		},
-		{
-			"id" : "act1_7",
-			"article" : "세부목표7"
-		},
-		{
-			"id" : "act1_8",
-			"article" : "세부목표8"
-		}]
-	
-
-	var actions = 
-		[{
-			"id" : "act1_1",
-			"article" : "실천사항1"
-		}, 
-		{
-			"id" : "act1_2",
-			"article" : "실천사항2"
-		},
-		{
-			"id" : "act1_3",
-			"article" : "실천사항3"
-		},
-		{
-			"id" : "act1_4",
-			"article" : "실천사항4"
-		},
-		{
-			"id" : "act1_5",
-			"article" : "실천사항5"
-		},
-		{
-			"id" : "act1_6",
-			"article" : "실천사항6"
-		},
-		{
-			"id" : "act1_7",
-			"article" : "실천사항7"
-		},
-		{
-			"id" : "act1_8",
-			"article" : "실천사항8"
-		},
-		{
-			"id" : "act2_1",
-			"article" : "실천사항1"
-		}, 
-		{
-			"id" : "act2_2",
-			"article" : "실천사항2"
-		},
-		{
-			"id" : "act2_3",
-			"article" : "실천사항3"
-		},
-		{
-			"id" : "act2_4",
-			"article" : "실천사항4"
-		},
-		{
-			"id" : "act2_5",
-			"article" : "실천사항5"
-		},
-		{
-			"id" : "act2_6",
-			"article" : "실천사항6"
-		},
-		{
-			"id" : "act2_7",
-			"article" : "실천사항7"
-		},
-		{
-			"id" : "act2_8",
-			"article" : "실천사항8"
-		}]
-		
-	var jsonObj = {
-		FinalTarget : "최종목표",
-		subTargets : subTargets,
-		actions : actions
+	var arr = new Array();
+	for (var i = 0; i <= 81; i++) {
+		arr.push('test' + i);
 	}
  	
-	res.render('mandal_main', {jsonObj : jsonObj});
+	res.render('mandal_main', {jsonObj : arr});
 });
 	 
 app.get('/canvas', function(req, res) {
 	res.sendFile(path.join(__dirname+'/public/html/canvas_12clock.html'));
 });
+// GET
 
+app.post('/mandal/main', function(req, res) {
+	res.send('article : ' + req.body.mandalArticle);
+});
+// POST
 
 // images
 app.get('/imgs/logo', function(req, res) {
