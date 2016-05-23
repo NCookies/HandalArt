@@ -199,22 +199,19 @@
             preservescroll: true
         }
         
-        /*$('.zoomTarget').on('mouseover', function() {
-            console.log('clicked');
-            $('.zoomTarget').off('click')
-        });*/
-        
         $('.zoomTarget')
-        .on('click', function() {
-            $(this).zoomTarget(zoom_settings); // .zoomTarget을 준비상태로...            
-        }).on('dblclick', function(e) {          
+        .on('mouseover', function() {
+            $(this).zoomTarget(zoom_settings); // .zoomTarget을 준비상태로...
+        })
+        .on('dblclick', function(e) {  
+            //$(this).zoomTarget(zoom_settings); // .zoomTarget을 준비상태로...            
             switch ($(this).attr('id')) {
                 // 최종목표 주위의 목표들을 클릭하면 해당 테이블로
                 case 'mandal-zoom1': 
                     //e.stopPropagation();
                     $('#mandal1').find('.center').zoomTo(zoom_settings);
                     return false;
-
+                    
                 case 'mandal-zoom2':
                     //e.stopPropagation();
                     $('#mandal2').find('.center').zoomTo(zoom_settings);
@@ -255,13 +252,15 @@
                     $(this).zoomTo(zoom_settings);
                     return false;
             }
+           
         });
             
-        /*$(window).on('dblclick', function(e) {
-            $('body').zoomTo(settings);
+        $(window).on('click', function(e) {
+            $('body').zoomTo(zoom_settings);
+            console.log($(this));
             
             return false;
-        });*/
-        //$('body').zoomTo(settings);
+        });
+        //$('body').zoomTo();
     });
 })(jQuery);
