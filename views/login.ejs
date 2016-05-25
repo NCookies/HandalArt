@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <title>만다라트</title>
 
-    <script src="./js/vendor/jquery-1.10.2.min.js"></script>
-    <script src="./js/vendor/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="/vendor/jquery-1.10.2.min.js"></script>
+    <script src="/vendor/jquery-ui-1.10.2.custom.min.js"></script>
 
     <link rel="stylesheet" href="css/login.css"/>
     <link rel="stylesheet" href="css/style.css">
@@ -16,15 +16,19 @@
       <a href="/bucket"><img src="/imgs/bucket" class="nav"/></a>
       <a href="/mandal"><img src="/imgs/mandal" class="nav"/></a>
       <a href="/calendar"><img src="/imgs/calendar" class="nav"/></a>
+      <p><%= user %></p>
     </header>
-
+    
     <section>
-      <form class="login_form" role="form">
-        <input type="email" placeholder="E-mail" id="email">
-        <input type="password" placeholder="Password" id="password">
-        <p>forgot your <a href="#">password</a>?</p>
-        <input type="submit" value="Log in" id="login">
-      </form>
+      <div>
+        <form class="login_form" action="/login" method="POST">
+					<input type="text" placeholder="E-mail" id="email" name="email">
+					<input type="text" placeholder="Password" id="password" name="password">
+					
+					<p><a href="/forgot-passwd">forgot your password?</a></p>
+					<input type="submit" value="Log in" id="login">
+				</form>
+      </div>
     </section>
 
     <footer>

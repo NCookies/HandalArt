@@ -1,6 +1,6 @@
 (function($) {
     $(document).ready(function() {        
-        var fc_chk_byte = function(aro_name, ari_max, keyCode) {
+        /*var fc_chk_byte = function(aro_name, ari_max, keyCode) {
             
             var ls_str = aro_name.val(); // 이벤트가 일어난 컨트롤의 value 값
             var li_str_len = ls_str.length; // 전체길이
@@ -44,7 +44,7 @@
             }
             
             return li_byte;
-        }
+        }*/
                 
         // html 이 페이지에 로딩되었을 때 기본 동작        
         
@@ -76,6 +76,29 @@
             $(this).children('.input-button').css('visibility', 'visible');
             
             return false;
+        });
+        
+        $('.mandalForm').on('submit', function(evt) {
+            evt.preventDefault();
+            var action = $(this).attr('action');
+            var $container = $(this).closest('.formConatiner');
+            console.log($(this).serialize());
+            
+            $.ajax({
+               url: action,
+               type: 'POST',
+               data: $(this).serialize(),
+               success: function(data) {
+                    if (data.success) {
+                        $container.html('<h2>Thank you!</h2>');
+                    } else {
+                        $container.html('There was a problem');
+                    }
+               },
+               error: function() {
+                   $container.html('There was a problem');
+               }
+            });
         });
             
         $('.table-article').on('mouseleave', function(e) { // 마우스가 영역 떠났을 때
@@ -255,12 +278,12 @@
            
         });
             
-        $(window).on('click', function(e) {
+        /*$(window).on('click', function(e) {
             $('body').zoomTo(zoom_settings);
             console.log($(this));
             
             return false;
-        });
+        });*/
         //$('body').zoomTo();
     });
 })(jQuery);
