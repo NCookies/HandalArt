@@ -134,15 +134,21 @@ app.get('/', function(req, res) {
 // root URL
 
 app.get('/login', function(req, res) {
-	console.log(req.user);
-	res.render('login', { user : req.user });
+	var uemail = JSON.stringify(req.user);	
+	if (typeof uemail == "undefined") 
+		res.render('login', { user : false})
+	else
+		res.render('login', { user : req.user });			
+});
+
+app.get('/logout', function(req, res) {
+	req.logout();
+	res.redirect('/');
 });
 
 // bucketlist
 app.get('/bucket', function(req, res) {
-	res.render('bucket_list', {
-		
-	});
+	res.render('bucket_list');
 });
 
 // calendar
@@ -167,12 +173,8 @@ app.get('/mandal/main', function(req, res) {
 app.get('/canvas', function(req, res) {
 	res.sendFile(path.join(__dirname+'/public/html/canvas_12clock.html'));
 });
-
-app.get('/login_success', ensureAuthenticated, function(req, res){
-    res.send(req.user);
-   // res.render('users', { user: req.user });
-});
 // GET
+
 
 app.post('/mandal/main', function(req, res) {
 	//res.send('article : ' + req.body.mandalArticle);
@@ -187,25 +189,10 @@ app.post('/mandal/main', function(req, res) {
 	}
 });
 
-/*app.post('/login', function(req, res) {
-	var email = req.body.email;
-	var passwd = req.body.password;
-		
-	if (email == 'jungjung@gmail.com' && passwd == 'qkqh') {
-		//req.session.email = email;		
-		res.send('login success');
-	} else {
-		//res.json({result : false});
-		res.send('login failed');
-	}
-	
-	res.send('dsf');	
-});*/
-
 app.post('/login',
 		passport.authenticate('local', 
 		{ failureRedirect: '/login', 
-		failureFlash: true }), 
+failureFlash: true }), 
 		function(req, res) {
 			//'아이디나 비밀번호가 바르지 않습니다.' 
 	res.redirect('/');

@@ -31,7 +31,7 @@ a:active {
   color: #D5D5D5;
 }
 
-#login{
+#login, #logout{
   border-color: #D5D5D5;
   background-color: #fff;
   color: #000;
@@ -41,6 +41,7 @@ a:active {
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 }
+
 p{
   background-color: #fff;
   color: #000;
