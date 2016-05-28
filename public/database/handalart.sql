@@ -43,7 +43,7 @@ CREATE TABLE member
     INDEX(member_group_Id)
 )ENGINE=InnoDB CHARSET=utf8;
 
-CREATE TABLE calendar # NOT ENOUGH : 30분 단위
+CREATE TABLE calendar
 (
 	member_Id			VARCHAR(20) NOT NULL,
     FOREIGN KEY(member_Id) REFERENCES member(member_Id)
@@ -106,6 +106,9 @@ CREATE TABLE mandal_sub
 )ENGINE=InnoDB CHARSET=utf8;
 
 CREATE TABLE mandal_detail
+# problem : First of all, this issue can be ignore. bucketlist and mandal_detail are related. However its relation's cardinality is 1:N. According to
+#			handalart's ERD, bucketlist and mandalart should be 1:1. So I'm considering to relate bucketlist
+#			and mandal not mandal_detail. But it can be going to make data redundancy. ..
 (
 	member_Id				VARCHAR(20) NOT NULL,
     FOREIGN KEY(member_Id) REFERENCES mandal_sub(member_Id)
