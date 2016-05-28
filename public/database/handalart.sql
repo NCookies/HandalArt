@@ -67,6 +67,7 @@ CREATE TABLE calendar # NOT ENOUGH 2 / canlendar_Start_time, calendar_End_time
 CREATE TABLE bucketlist # COMPLETE
 (
     bucketlist_Id				SMALLINT UNSIGNED NOT NULL,
+    INDEX(bucketlist_Id),
     bucketlist_Is_achieved		TINYINT(1) NOT NULL,
     INDEX(bucketlist_Is_achieved),
     bucketlist_Ultimate_goal	VARCHAR(300) NOT NULL,
@@ -95,10 +96,14 @@ CREATE TABLE mandal_sub # COMPLETE
     PRIMARY KEY(mandal_sub_Id, mandal_Id)
 )ENGINE=InnoDB CHARSET=utf8;
 
-CREATE TABLE mandal_detail # ERROR 1215 : from FOREIGN KEY bucketlist_Id
+CREATE TABLE mandal_detail # COMPLETE
 (
 	bucketlist_Id			SMALLINT UNSIGNED NOT NULL,
     FOREIGN KEY(bucketlist_Id) REFERENCES bucketlist(bucketlist_Id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    bucketlist_Is_achieved		TINYINT(1) NOT NULL,
+    FOREIGN KEY(bucketlist_Is_achieved) REFERENCES bucketlist(bucketlist_Is_achieved)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
 	mandal_detail_Id		TINYINT UNSIGNED NOT NULL,
