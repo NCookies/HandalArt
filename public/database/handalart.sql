@@ -95,7 +95,7 @@ CREATE TABLE mandal_sub # COMPLETE
     PRIMARY KEY(mandal_sub_Id, mandal_Id)
 )ENGINE=InnoDB CHARSET=utf8;
 
-CREATE TABLE mandal_detail # COMPLETE
+CREATE TABLE mandal_detail # ERROR 1215 : from FOREIGN KEY bucketlist_Id
 (
 	bucketlist_Id			SMALLINT UNSIGNED NOT NULL,
     FOREIGN KEY(bucketlist_Id) REFERENCES bucketlist(bucketlist_Id)
