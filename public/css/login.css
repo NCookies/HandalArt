@@ -31,7 +31,7 @@ a:active {
   color: #D5D5D5;
 }
 
-#login, #logout{
+#login, #logout, #facebook-login{
   border-color: #D5D5D5;
   background-color: #fff;
   color: #000;

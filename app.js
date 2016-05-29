@@ -10,6 +10,7 @@ var session = require('express-session');
 
 var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 var flash = require('connect-flash');
 
 var http = require('http');
@@ -76,6 +77,17 @@ passport.deserializeUser(function(user, done) {
 // 저장할 데이터가 너무 크지 않은 이상 사용자 로그인 데이타를 모두 serialize시에 session에 넣는 것을 권장
 // 데이터가 너무 많으면 redis와 같은 외부 메모리 DB를 이용해서 저장
 
+passport.use(new FacebookStrategy({
+        clientID: '594228160736253',
+        clientSecret: '1cd92a04f2aa948c175013002f00341e',
+        callbackURL: "http://localhost:3000/auth/facebook/callback"
+    },
+    function(accessToken, refreshToken, profile, done) {
+        console.log(profile);
+        done(null,profile);
+    }
+));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -86,39 +98,6 @@ function ensureAuthenticated(req, res, next) {
     res.redirect('/login');
 }
 
-// catch 404 and forward to error handler
-/*app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// error handlers
-
-// development error handler
-// will print stacktrace
-
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-
-// production error handler
-// no stacktraces leaked to user
-
-
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
-});*/
 
 http.createServer(app, function (req, res) {
 	console.log(req.ip + 'was connected!');
@@ -127,7 +106,6 @@ http.createServer(app, function (req, res) {
 });
 
 
-// GET
 app.get('/', function(req, res) {
 	res.render('index');
 });
@@ -145,6 +123,12 @@ app.get('/logout', function(req, res) {
 	req.logout();
 	res.redirect('/');
 });
+
+app.get('/auth/facebook', passport.authenticate('facebook'));
+
+app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', { successRedirect: '/',
+        failureRedirect: '/login' }));
 
 // bucketlist
 app.get('/bucket', function(req, res) {
