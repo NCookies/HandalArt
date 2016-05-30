@@ -8,14 +8,22 @@
     <script src="/vendor/jquery-ui-1.10.2.custom.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function() {
-        var userEmail = jQuery.parseJSON('<%- JSON.stringify(user) %>');
-              
-        if (userEmail) {
+        var userEmail = ('<%- JSON.stringify(user) %>');
+        console.log(userEmail);
+        
+        if (userEmail.hasOwnProperty("email"))
+          console.log('dsfs');
+        
+        if (userEmail.id) {
           $('#log_form').html('<%- include logoutform.ejs %>')
-          .children('.user-email').text('Welcome ' + userEmail.email + '!!');
+          console.log('Welcome ' + userEmail.displayName + '!!');
+          
+          //console.log(userEmail.email);
         } else {
           $('#log_form').html('<%- include loginform.ejs %>');
         }
+        //$('#log_form').html('<%- include loginform.ejs %>');
+        $('.user-email').text('Welcome ' + userEmail.displayName + '!!');
       });
     </script>
    
@@ -25,10 +33,10 @@
   
   <body>
     <header>
-      <a href="/"><img src="/imgs/logo" id="logo"/></a>
-      <a href="/bucket"><img src="/imgs/bucket" class="nav"/></a>
-      <a href="/mandal"><img src="/imgs/mandal" class="nav"/></a>
-      <a href="/calendar"><img src="/imgs/calendar" class="nav"/></a>
+      <a href="/"><img src="/imgs/logo.png" id="logo"/></a>
+      <a href="/bucket"><img src="/imgs/bucket_icon.png" class="nav"/></a>
+      <a href="/mandal"><img src="/imgs/mandal_icon.png" class="nav"/></a>
+      <a href="/calendar"><img src="/imgs/calendar_icon.png" class="nav"/></a>
       <p class="user-email"></p>
     </header>
     
