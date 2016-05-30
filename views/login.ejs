@@ -6,18 +6,6 @@
 
     <script src="/vendor/jquery-1.10.2.min.js"></script>
     <script src="/vendor/jquery-ui-1.10.2.custom.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function() {
-        var userEmail = jQuery.parseJSON('<%- JSON.stringify(user) %>');
-               
-        if (userEmail) {
-          $('#log_form').html('<%- include logoutform.ejs %>')
-          .children('.user-email').text('Welcome ' + userEmail.email + '!!');
-        } else {
-          $('#log_form').html('<%- include loginform.ejs %>');
-        }
-      });
-    </script>
    
     <link rel="stylesheet" href="css/login.css"/>
     <link rel="stylesheet" href="css/style.css">
@@ -25,10 +13,10 @@
   
   <body>
     <header>
-      <a href="/"><img src="/imgs/logo" id="logo"/></a>
-      <a href="/bucket"><img src="/imgs/bucket" class="nav"/></a>
-      <a href="/mandal"><img src="/imgs/mandal" class="nav"/></a>
-      <a href="/calendar"><img src="/imgs/calendar" class="nav"/></a>
+      <a href="/"><img src="/imgs/logo.png" id="logo"/></a>
+      <a href="/bucket"><img src="/imgs/bucket_icon.png" class="nav"/></a>
+      <a href="/mandal"><img src="/imgs/mandal_icon.png" class="nav"/></a>
+      <a href="/calendar"><img src="/imgs/calendar_icon.png" class="nav"/></a>
       <p class="user-email"></p>
     </header>
     
@@ -36,12 +24,16 @@
       
       <div class="logged" id="log_form">
         <form class="login_form" action="/login" method="POST">
-					<input type="email" placeholder="E-mail" id="email" name="email">
-					<input type="password" placeholder="Password" id="password" name="password">
-					
-					<p><a href="/forgot-passwd">forgot your password?</a></p>
-					<input type="submit" value="Log in" id="login">
-				</form>
+          <input type="email" placeholder="E-mail" id="email" name="email">
+          <input type="password" placeholder="Password" id="password" name="password">
+          <p>
+            <a href="/forgot-passwd">forgot your password?</a>
+          </p>
+          <input type="submit" value="Log in" id="login">
+          <p><a href="/auth/facebook">Login with Facebook</a></p>
+          <p><a href="/auth/twitter">Sign in with Twitter</a></p>
+          <p><a href="/auth/google">Sign In with Google</a></p>
+        </form>
       </div>
     </section>
 
