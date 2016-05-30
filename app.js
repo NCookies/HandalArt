@@ -48,9 +48,9 @@ passport.use(new LocalStrategy({
         passwordField : 'password', // user password
         passReqToCallback : true
 		// 인증을 수행하는 인증 함수, HTTP request를 그대로  전달할지 여부
-    }
-    , function(req ,userid, password, done) { // 후에 DB로 대체
-        if(userid=='jungjung@gmail.com' && password=='qkqh'){
+    }, 
+	function(req ,userid, password, done) { // 후에 DB로 대체
+        if (userid=='jungjung@gmail.com' && password=='qkqh'){
             var user = { 'email':'jungjung@gmail.com' };
             return done(null, user);
         } else{
@@ -70,11 +70,11 @@ passport.use(new LocalStrategy({
       done(null, user);
     });
   }
-));
+));*/
 
 passport.use(new GoogleStrategy({
-    clientID: GOOGLE_CLIENT_ID,
-    clientSecret: GOOGLE_CLIENT_SECRET,
+    clientID: '947227472989-n9mvvv2rg841nib0pb11o2s81a2kucpb.apps.googleusercontent.com',
+    clientSecret: 'jFkoj6VjreSj0vFpqgyI59ze',
     callbackURL: "http://www.example.com/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
@@ -82,7 +82,7 @@ passport.use(new GoogleStrategy({
          return done(err, user);
        });
   }
-));*/
+));
 
 passport.use(new FacebookStrategy({
         clientID: '594228160736253',
@@ -144,21 +144,19 @@ app.get('/', function(req, res) {
 // root URL
 
 app.get('/login', function(req, res) {
-	var user = JSON.stringify(req.user);
-	var account = user;
+	//var user = req.user
+	var account = req.user;
 		
 	/*if (typeof user == "undefined") 
 		account = user;
 	else
 		account = JSON.parse(user);*/
 		
-	if (typeof account == "undefined" || typeof account == false) {
+	if (typeof account == "undefined") {
 		res.render('login', { user : false});
-		console.log('account1 : ' + account);
 	} // 로그인 되어 있지 않을 때
 	else {
-		res.render('login', { user : account });
-		console.log('account2 : ' + account);
+		res.render('logout', { user : account });
 	} // 로그인 세션이 있을 때	
 });
 

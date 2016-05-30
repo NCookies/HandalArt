@@ -6,6 +6,16 @@
 
     <script src="/vendor/jquery-1.10.2.min.js"></script>
     <script src="/vendor/jquery-ui-1.10.2.custom.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        var userEmail = ('<%- JSON.stringify(user) %>');
+        
+        console.log(userEmail);  
+        console.log(typeof userEmail);
+        
+        $('.user-email').text('Welcome ' + userEmail.email + '!!');
+      });
+    </script>
    
     <link rel="stylesheet" href="css/login.css"/>
     <link rel="stylesheet" href="css/style.css">
@@ -23,17 +33,9 @@
     <section>
       
       <div class="logged" id="log_form">
-        <form class="login_form" action="/login" method="POST">
-          <input type="email" placeholder="E-mail" id="email" name="email">
-          <input type="password" placeholder="Password" id="password" name="password">
-          <p>
-            <a href="/forgot-passwd">forgot your password?</a>
-          </p>
-          <input type="submit" value="Log in" id="login">
-          <p><a href="/auth/facebook">Login with Facebook</a></p>
-          <p><a href="/auth/twitter">Sign in with Twitter</a></p>
-          <p><a href="/auth/google">Sign In with Google</a></p>
-        </form>
+        <a href="/logout">
+            <button id="logout">Log Out</button>
+        </a>
       </div>
     </section>
 
