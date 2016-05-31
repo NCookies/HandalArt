@@ -4,14 +4,60 @@
         <meta charset = utf-8>
         <title>sample</title>
         <script src="//d3js.org/d3.v3.min.js"></script>
-        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-        <link rel="stylesheet" type="text/css"
-            href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">
+        
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+        
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> 
+        
+        
         <link rel="stylesheet" type="text/css" href="day_calendar.css"/>
     </head>
     
-    <body>
-        <svg id="graph"></svg>
+    <body>        
+      <svg id="graph">
+          <foreignobject id="percentage" x="150" y="150" width="100" height="100">
+              <div style="border:1px green solid">HANDART</div>
+          </foreignobject>
+      </svg>
+      
+      <!-- 후에는 편집 페이지를 따로 만들고 save, detail 버튼 추가 // 처음 일정 추가 시에는 create 버튼 -->
+        <!-- Create & Save Modal -->
+        <div class="modal fade" id="createModal" role="dialog">
+            <div class="modal-dialog">
+        
+                <!-- Modal content -->
+                <div id="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                </div>
+                
+                <div>
+                <form class="contact">
+                <fieldset>
+                    <div class="modal-body">
+                    <ul class="nav nav-list">
+                <li class="nav-header">Title</li>
+                <li><input class="input-xlarge" type="text" id="label"></li>
+                    </ul> 
+                    </div>
+                </fieldset>
+                </form>
+                </div>
+                
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-option="save" id="save" >Save</button>
+                    <button class="btn btn-danger" data-option="remove" id="remove">Remove</button>
+                </div>
+            
+            </div>
+        </div>  
+
+
+        
         <script src = "day_calendar.js"></script>
-    </body>
+     </body>
 </html>
