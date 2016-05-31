@@ -93,10 +93,12 @@ passport.use(new GoogleStrategy({
     callbackURL: "http://localhost:3000/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
-       User.findOrCreate({ googleId: profile.id }, function (err, user) {
+       /*User.findOrCreate({ googleId: profile.id }, function (err, user) {
          return done(err, user);
-       });
-  }
+       });*/
+	   console.log(profile.id);
+	   done(null, profile);
+	}
 ));
 
 passport.serializeUser(function(user, done) {
@@ -144,19 +146,18 @@ app.get('/', function(req, res) {
 // root URL
 
 app.get('/login', function(req, res) {
-	//var user = req.user
 	var account = req.user;
-		
-	/*if (typeof user == "undefined") 
-		account = user;
-	else
-		account = JSON.parse(user);*/
 		
 	if (typeof account == "undefined") {
 		res.render('login', { user : false});
 	} // 로그인 되어 있지 않을 때
 	else {
-		res.render('logout', { user : account });
+		if (account.email) {
+			res.render('logout', { user : req.session.passport.user.email });
+		} else {
+			res.render('logout', { user : req.session.passport.user.displayName || {} });			
+		}
+		//res.render('logout', { user : req.session.passport.user || {} });
 	} // 로그인 세션이 있을 때	
 });
 
