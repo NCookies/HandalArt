@@ -2,15 +2,19 @@
 
   var num = 1;  // bucket_list 순번
   var del_bool = true;
-  var comp_bool = true;
+  var comp_bool = false;
 // 추가 버튼 전에 새로운 노드를 추가
-  $('#lastNode').before("<tr><td>"+num+"</td><td><input type=\"text\"class=\'input\' id=\"content\" placeholder =\'내용\'></td><td><input type=\"date\" placeholder =\'목표 일자\' class=\'input\' id=\"goal\"></td></tr>");
+  $('#lastNode').before("<tr><td>"+num+"</td><td><input type=\"text\"class=\'input\' id=\"content\" placeholder =\'내용\'></td><td><input type=\"date\" placeholder =\'목표 일자\' class=\'input\' id=\"goal\"></td><td><div class=\"comp_check\"></div></td></tr>");
   num++;
+
+//확인여부
+
 
 //새로운 리스트 생성
   $('#addList').on('click',function() {
-    $('#lastNode').before("<tr><td>"+num+"</td><td><input type=\"text\"class=\'input\' id=\"content\" placeholder =\'내용\'></td><td><input type=\"date\" placeholder =\'목표 일자\' class=\'input\' id=\"goal\"></td></tr>");
+    $('#lastNode').before("<tr><td>"+num+"</td><td><input type=\"text\"class=\'input\' id=\"content\" placeholder =\'내용\'></td><td><input type=\"date\" placeholder =\'목표 일자\' class=\'input\' id=\"goal\"></td><td><div class=\"comp_check\"></div></td></tr>");
     $('#editList').html("완료");
+    comp_bool=false;
     num++;
   });
 
@@ -18,11 +22,11 @@
 $('#editList').on('click',function () {
   if(comp_bool==true){
     $('input').removeAttr('readonly');
-    $('#editList').html('리스트 편집')
+    $('#editList').html('완료')
     comp_bool=false;
 }else if(comp_bool==false){
   $('input').attr('readonly','true');
-  $('#editList').html('완료');
+  $('#editList').html('리스트 편집');
   comp_bool=true;
 }
 });

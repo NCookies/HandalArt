@@ -1,0 +1,66 @@
+#logo,#calender,#bucket,#login{
+  height: 128px;
+  width: 128px;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+#calender,#bucket,#login{
+  float: right;
+  padding-right: 5%;
+}
+
+body{
+  margin: 0px;
+}
+.arrow-up {
+	width: 0;
+	height: 0;
+	border-left: 50px solid transparent;  /* left arrow slant */
+	border-right: 50px solid transparent; /* right arrow slant */
+	border-bottom: 100px solid #2f2f2f; /* bottom, add background color here */
+	font-size: 10px;
+	line-height: 0;
+  display: inline-block;
+  margin: 0px;
+}
+
+.arrow-down {
+	width: 0;
+	height: 0;
+	border-left: 50px solid transparent;  /* left arrow slant */
+	border-right: 50px solid transparent; /* right arrow slant */
+	border-top: 100px solid #2f2f2f; /* bottom, add background color here */
+	font-size: 0;
+	line-height: 0;
+  display: inline-block;
+}
+
+.under{
+    background-image: url('/imgs/upsidedown');
+    width: 160px;
+    height: 130px;
+    padding-top: 30px;
+    border-style: none;
+    text-align: center;
+}
+table{
+  margin-top: 5%;
+  margin-left: 7%;
+  margin-bottom: 5%;
+}
+td{
+  padding-top: 3%;
+  padding-bottom: 3%;
+}
+div{
+  margin: 0px;
+}
+.up {
+  width: 160px;
+  height: 130px;
+  padding-top: 30px;
+  border-style: none;
+  text-align: center;
+  background-image: url("/imgs/triangle");
+}
