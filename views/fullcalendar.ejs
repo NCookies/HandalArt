@@ -48,7 +48,7 @@
 				In order to modify its option later.
 			*/
 			
-			$('#calendar').fullCalendar(
+			var calendar = $('#calendar').fullCalendar(
 			{
 				/*
 					header option will define our calendar header.
@@ -83,7 +83,7 @@
 				select: function(start, end, allDay)
 				{
 						// after selection user will be promted for enter title for event.
-					var title = prompt('Event Title:');
+					/*var title = prompt('Event Title:');
 						// if title is enterd calendar will add title and event into fullCalendar.
 					if (title)
 					{
@@ -97,7 +97,7 @@
 							true // make the event "stick"
 						);
 						// ajax call to store event in DB
-					}
+					}*/
 				calendar.fullCalendar('unselect');
 				},
 
@@ -109,7 +109,21 @@
       					title: event.title,
       					content: event.content
     				});
+					$("#add").one("click", function(evt) {
+						//evt.preventDefault();
+						var title = $('#title').val();
+						var day = $('#day').val();
+						var newEvent = {
+			                title: title,
+			                start: start,
+			                end: end
+			            };
+						console.log(newEvent.title);
+						$('#calendar').fullCalendar('renderEvent', newEvent, 'stick');
+						$('#view_eventadd').modal('toggle')
+					});
 				},
+				
 				eventClick: function(event, calEvent, jsEvent, view, element) 
 				{
     				$('#view_event').modal
@@ -117,15 +131,18 @@
       					title: event.title,
       					content: event.content
     				});
+    				/*$("edit").on("click", function() {
+    					console.log('edit');
+    					var title = $('#title').val();
+    					var day = $('#day').val();
+    					var changeEvent = {
+    						title: title,
+    						start: new Date(y, m, d)
+    					};
+    				$('#calendar').fullCalendar('renderEvent');
+    				$('#view_event').modal('toggle')
+    				});*/
 				},
-
-
-				// add 버튼 클릭시
-				/*add_click: function(start, end, allDay)
-				{
-					alert("aldsjflsdjf");
-				},*/
-
 
 				//이벤트 클릭함수 다른 방법
 				/*eventClick:  function(event, jsEvent, view) 
@@ -206,16 +223,12 @@
 						url: 'http://google.com/'
 					}
 				]
-
-			});
-
-			$("#add").on("click", function(start, end, allDay) {
-				alert("버튼ㅇㄴㅇ리ㅑ미햐ㅓㄴ일");
+ 	
 			});
 
 		});
-
 	</script>
+
 	<style type="text/css">
 		body
 		{
@@ -250,11 +263,18 @@
         				<h4 class="modal-title">일정</h4>
       			</div>
       			<div class="modal-body">
-        			<p><label>Event title</label><br />
-        			<input type = "text" id = "title" class = "span10"></p>
+        			<p>
+        				<label>Event title</label><br/>
+	        			<input type = "text" id = "title" class = "span10">
+	        		</p>
+
+        			<!--<p>
+        				<label>Day</label><br/>
+	        			<input type = "text" id = "day" class = "span10">
+	        		</p>-->
       			</div>
       			<div class="modal-footer">
-        			<button type = "button" class="btn btn-primary" data-option="add" id = "add">add</button>
+        			<button type = "button" class="btn btn-primary" data-option="add" id="add">add</button>
         			<button type = "button" class="btn btn-default" data-dismiss="modal">Close</button>
       			</div>
     		</div>
@@ -272,8 +292,8 @@
         			<p><input type = "text" class = "span10"></p>
       			</div>
       		<div class="modal-footer">
-        		<button type = "button" class = "btn btn-danger" data-option = "remove" onclick = "remove_click()";>remove</button>
-        		<button type = "button" class = "btn btn-primary" data-option = "edit" onclick = "edit_click();">edit</button>
+        		<button type = "button" class = "btn btn-danger" data-option = "remove" id = "remove">remove</button>
+        		<button type = "button" class = "btn btn-primary" data-option = "edit" id = "edit">edit</button>
         		<button type= " button" class = "btn btn-default" data-dismiss = "modal">Close</button>
       		</div>
     	</div>
