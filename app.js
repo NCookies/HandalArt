@@ -157,7 +157,6 @@ app.get('/login', function(req, res) {
 		} else {
 			res.render('logout', { user : req.session.passport.user.displayName || {} });			
 		}
-		//res.render('logout', { user : req.session.passport.user || {} });
 	} // 로그인 세션이 있을 때	
 });
 
