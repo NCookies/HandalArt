@@ -59,6 +59,21 @@ passport.use(new LocalStrategy({
     }
 ));
 
+passport.use(new FacebookStrategy({
+        clientID: '594228160736253',
+        clientSecret: '1cd92a04f2aa948c175013002f00341e',
+        callbackURL: "http://localhost:3000/auth/facebook/callback"
+    },
+    function(accessToken, refreshToken, profile, done) {
+		/*User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+			if (err) { return done(err); }
+			return done(err, user);
+		});*/
+		console.log(profile.id);
+		done(null, profile);
+    }
+));
+
 /*passport.use(new TwitterStrategy({
     consumerKey: TWITTER_CONSUMER_KEY,
     consumerSecret: TWITTER_CONSUMER_SECRET,
@@ -75,28 +90,13 @@ passport.use(new LocalStrategy({
 passport.use(new GoogleStrategy({
     clientID: '947227472989-n9mvvv2rg841nib0pb11o2s81a2kucpb.apps.googleusercontent.com',
     clientSecret: 'jFkoj6VjreSj0vFpqgyI59ze',
-    callbackURL: "http://www.example.com/auth/google/callback"
+    callbackURL: "http://localhost:3000/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
        User.findOrCreate({ googleId: profile.id }, function (err, user) {
          return done(err, user);
        });
   }
-));
-
-passport.use(new FacebookStrategy({
-        clientID: '594228160736253',
-        clientSecret: '1cd92a04f2aa948c175013002f00341e',
-        callbackURL: "http://localhost:3000/auth/facebook/callback"
-    },
-    function(accessToken, refreshToken, profile, done) {
-		/*User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-			if (err) { return done(err); }
-			return done(err, user);
-		});*/
-		console.log(profile.id);
-		done(null, profile);
-    }
 ));
 
 passport.serializeUser(function(user, done) {
