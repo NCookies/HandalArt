@@ -36,7 +36,7 @@
     max-height: 690px;
     overflow: hidden;
     /*position: relativ;*/
-    margin-top:150px;
+    margin-top:170px;
 }
 
 #mandal-container {
@@ -119,37 +119,41 @@
 }
 
 #mandal1 .center, #mandal-zoom1 {
-    background-color: #E5CF6C;
+    /*background-color: #A27673;*/
 }
 
 #mandal2 .center , #mandal-zoom2 {
-    background-color: #9DBE59;
+    /*background-color: #A27673;*/
 }
 
 #mandal3 .center , #mandal-zoom3 {
-    background-color: #5BBE94;
+    /*background-color: #A27673;*/
 }
 
 #mandal4 .center , #mandal-zoom4 {
-    background-color: #5884B3;
+    /*background-color: #A27673;*/
 }
 
 #mandal5 .center , #mandal-zoom5 {
-    background-color: #CC6686;
+    /*background-color: #A27673;*/
 }
 
 #mandal6 .center , #mandal-zoom6 {
-    background-color: #E68570;
+    /*background-color: #A27673;*/
 }
 
 #mandal7 .center , #mandal-zoom7 {
-    background-color: #F9EBAA;
+    /*background-color: #A27673;*/
 }
 
 #mandal8 .center , #mandal-zoom8 {
-    background-color: #D4E5B5;
+    /*background-color: #A27673;*/
+}
+
+.subGoal, .center{
+  background-color: #6FF8F5;
 }
 
 #zoom-center {
-    background-color: #B6E4D1;
+    background-color: #FFF1F2;
 }
