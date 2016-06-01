@@ -1,8 +1,8 @@
 $(document).ready(function() {
 
-    var w = 400;
-    var h = 400;
-    var r = h/2;
+    var Gw = 600;
+    var Gh = 600;
+    var Gr = Gh/2;
 
     var data = [{"label":"00:00", "value":30}, 
                 {"label":"00:30", "value":30}, 
@@ -30,16 +30,17 @@ $(document).ready(function() {
                 {"label":"11:30", "value":30},       
             ];
 
-    var color = ["AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure","Beige","Bisque","Black","BlanchedAlmond","Blue","BlueViolet","Brown","BurlyWood","CadetBlue","Chartreuse","Chocolate","Coral","CornflowerBlue","Cornsilk","Crimson","Cyan","DarkBlue","DarkCyan","DarkGoldenRod","DarkGray","DarkGrey","DarkGreen","DarkKhaki","DarkMagenta","DarkOliveGreen","Darkorange","DarkOrchid","DarkRed","DarkSalmon","DarkSeaGreen","DarkSlateBlue","DarkSlateGray","DarkSlateGrey","DarkTurquoise","DarkViolet","DeepPink","DeepSkyBlue","DimGray","DimGrey","DodgerBlue","FireBrick","FloralWhite","ForestGreen","Fuchsia","Gainsboro","GhostWhite","Gold","GoldenRod","Gray","Grey","Green","GreenYellow","HoneyDew","HotPink","IndianRed","Indigo","Ivory","Khaki","Lavender","LavenderBlush","LawnGreen","LemonChiffon","LightBlue","LightCoral","LightCyan","LightGoldenRodYellow","LightGray","LightGrey","LightGreen","LightPink","LightSalmon","LightSeaGreen","LightSkyBlue","LightSlateGray","LightSlateGrey","LightSteelBlue","LightYellow","Lime","LimeGreen","Linen","Magenta","Maroon","MediumAquaMarine","MediumBlue","MediumOrchid","MediumPurple","MediumSeaGreen","MediumSlateBlue","MediumSpringGreen","MediumTurquoise","MediumVioletRed","MidnightBlue","MintCream","MistyRose","Moccasin","NavajoWhite","Navy","OldLace","Olive","OliveDrab","Orange","OrangeRed","Orchid","PaleGoldenRod","PaleGreen","PaleTurquoise","PaleVioletRed","PapayaWhip","PeachPuff","Peru","Pink","Plum","PowderBlue","Purple","Red","RosyBrown","RoyalBlue","SaddleBrown","Salmon","SandyBrown","SeaGreen","SeaShell","Sienna","Silver","SkyBlue","SlateBlue","SlateGray","SlateGrey","Snow","SpringGreen","SteelBlue","Tan","Teal","Thistle","Tomato","Turquoise","Violet","Wheat","White","WhiteSmoke","Yellow","YellowGreen"];
-    
-    var vis = d3.select('#graph').append("svg:svg")
+    var color = ["AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure","Beige","Bisque","Black","BlanchedAlmond","Blue","BlueViolet","Brown","BurlyWood","CadetBlue","Chartreuse","Chocolate","Coral","CornflowerBlue","Cornsilk","Crimson","Cyan","DarkBlue","DarkCyan","DarkGoldenRod","DarkGray","DarkGrey","DarkGreen","DarkKhaki","DarkMagenta","DarkOliveGreen","Darkorange","DarkOrchid","DarkRed","DarkSalmon","DarkSeaGreen","DarkSlateBlue","DarkSlateGray","DarkSlateGrey","DarkTurquoise","DarkViolet","DeepPink","DeepSkyBlue","DimGray","DimGrey","DodgerBlue","FireBrick","FloralWhite","ForestGreen","Fuchsia","Gainsboro","GhostWhite","Gold","GoldenRod","Gray","Grey","Green","GreenYellow","HoneyDew","HotPink","IndianRed","Indigo","Ivory","Khaki","Lavender","LavenderBlush","LawnGreen","LemonChiffon","LightBlue","LightCoral","LightCyan","LightGoldenRodYellow","LightGray","LightGrey","LightGreen","LightPink","LightSalmon","LightSeaGreen","LightSkyBlue","LightSlateGray","LightSlateGrey","LightSteelBlue","LightYellow","Lime","LimeGreen","Linen","Magenta","Maroon","MediumAquaMarine","MediumBlue","MediumOrchid","MediumPurple","MediumSeaGreen","MediumSlateBlue","MediumSpringGreen","MediumTurquoise","MediumVioletRed","MidnightBlue","MintCream","MistyRose","Moccasin","NavajoWhite","Navy","OldLace","Olive","OliveDrab","Orange","OrangeRed","Orchid","PaleGoldenRod","PaleGreen","PaleTurquoise","PaleVioletRed","PapayaWhip","PeachPuff","Peru","Pink","Plum","PowderBlue","Purple","Red","RosyBrown","RoyalBlue","SaddleBrown","Salmon","SandyBrown","SeaGreen","SeaShell","Sienna","Silver","SkyBlue","SlateBlue","SlateGray","SlateGrey","Snow","SpringGreen","SteelBlue","Tan","Teal","Thistle","Tomato","Turquoise","Violet","WhiteSmoke","Yellow","YellowGreen"
+    ];
+        
+    var vis = d3.select('#graph').append("svg")
                 .data([data])
-                .attr("width", w)
-                .attr("height", h)
+                .attr("width", Gw)
+                .attr("height", Gh)
                 .append("g")
-                .attr("transform", "translate(" + r + "," + r + ")"); //원의 중심 지정
+                .attr("transform", "translate(" + Gr + "," + Gr + ")"); //원의 중심 지정
                 
-    var arc = d3.svg.arc().outerRadius(r).innerRadius(r-100);
+    var arc = d3.svg.arc().outerRadius(Gr).innerRadius(Gr-100);
                 
     var pie = d3.layout.pie()
                 .value(function(d){ return d.value; })
@@ -59,30 +60,61 @@ $(document).ready(function() {
                 .on("mouseup", mouseup);
 
     paths.transition().duration(500)
-    //.attr("fill", function(d, i){ return color(i); })
     .attr("d", arc)
     .each(function(d) { this._current = d; });
 
     // api.jqueryui.com/draggable/#event-drag
     // containment: ".slice", //limit area
     var dragging;
-    var isfilled = false;
+    //var isfilled = false;
     var sumValue = 0;
     var totalSize;
+    
+    var radians = 0.0174532925, 
+	clockRadius = 200,
+	margin = 50,
+	Cw = (clockRadius+margin)*2,
+    Ch = (clockRadius+margin)*2,
+    hourHandLength = clockRadius/2,
+    minuteHandLength = clockRadius-50,
+    hourLabelRadius = clockRadius - 40
+    hourLabelYOffset = 7;
+
+    var hourScale = d3.scale.linear()
+        .range([0,330])
+        .domain([0,11]);
+            
+    var minuteScale = secondScale = d3.scale.linear()
+        .range([0,354])
+        .domain([0,59]);
+    
+    var handData = [
+        {
+            type:'hour',
+            value:0,
+            length:-hourHandLength,
+            scale:hourScale
+        },
+        {   
+            type:'minute',
+            value:0,
+            length:-minuteHandLength,
+            scale:minuteScale
+        }    
+    ];
+    
+    drawClock();
 
     //가독성 위해 jQuery로 바꿔서 modal이랑 통합 필요
     function mousedown(d) {
         sumValue = 0;
-        isfilled = d3.select(this).classed("filling"); //hasclass
-        if( isfilled ){
-            edit(d); //이미 있는 일정의 이름 수정
-        }
-        else {
-            d3.select(this).classed("filling", true); //addclass
-            sumValue += d.value;
-            d.data.value = 0;
-            dragging = true;   
-        }
+        //isfilled = d3.select(this).classed("filling"); //hasclass
+        
+        d3.select(this).classed("filling", true); //addclass
+        sumValue += d.value;
+        d.data.value = 0;
+        dragging = true;   
+        
     }
         
     function mouseover(d) {
@@ -143,12 +175,12 @@ $(document).ready(function() {
     // Then, interpolate from _current to the new angles.
     // During the transition, _current is updated in-place by d3.interpolate.
     function arcTween(a) {
-    var i = d3.interpolate(this._current, a);
-    this._current = i(0);
+        var i = d3.interpolate(this._current, a);
+        this._current = i(0);
 
-    return function(t) {
-        return arc(i(t));
-    };
+        return function(t) {
+            return arc(i(t));
+        };
     }
 
     function edit(d) { 
@@ -157,15 +189,94 @@ $(document).ready(function() {
         $("#save").on("click", function() {
             var label = $("#label").val(); // 입력받은 일정 이름
             d.data.label = label;
-            
-            $("#createModal").modal("toggle"); // 버튼 클릭 시 modal close
+            $(this).css("clickOutside", true); // 화면 밖이나 x 클릭하면 modal close
+            $("#label").val(''); // reset textbox
+
         });
 
         $("#remove").on("click", function(d) {
             d.value = 0;
-            $("#createModal").modal("toggle");
-
+            $(this).css("clickOutside", true);
         });
     }
+
+    function drawClock(){ //create all the clock elements
+        updateData();	//draw them in the correct starting position
+        var svg = d3.select("#graph").append("svg")
+            .attr("width", Cw)
+            .attr("height", Ch)
+            .attr("x", clockRadius/3.8)
+            .attr("y", clockRadius/4)
+            .style("opacity", "0.5");
+
+        var face = svg.append('g')
+            .attr('id','clock-face')
+            .attr('transform','translate(' + (clockRadius + margin) + ',' + (clockRadius + margin) + ')');
+
+        face.selectAll('.hour-label')
+            .data(d3.range(3,13,3))
+                .enter()
+                .append('text')
+                .attr('class', 'hour-label')
+                .attr('text-anchor','middle')
+                .attr('x',function(d){
+                    return hourLabelRadius*Math.sin(hourScale(d)*radians);
+                })
+                .attr('y',function(d){
+                    return -hourLabelRadius*Math.cos(hourScale(d)*radians) + hourLabelYOffset;
+                })
+                .text(function(d){
+                    return d;
+                });
+
+        var hands = face.append('g').attr('id','clock-hands');
+
+        face.append('g').attr('id','face-overlay')
+            .append('circle').attr('class','hands-cover')
+                .attr('x',0)
+                .attr('y',0)
+                .attr('r',clockRadius/60);
+                
+        hands.selectAll('line')
+            .data(handData)
+                .enter()
+                .append('line')
+                .attr('class', function(d){
+                    return d.type + '-hand';
+                })
+                .attr('x1',0)
+                .attr('y1',function(d){
+                    return d.balance ? d.balance : 0;
+                })
+                .attr('x2',0)
+                .attr('y2',function(d){
+                    return d.length;
+                })
+                .attr('transform',function(d){
+                    return 'rotate('+ d.scale(d.value) +')';
+                });
+    }
+
+     function moveHands(){
+         d3.select('#clock-hands').selectAll('line')
+           .data(handData)
+           .transition()
+           .attr('transform',function(d){
+               return 'rotate('+ d.scale(d.value) +')';
+            });
+     }
+
+     function updateData(){
+          var t = new Date();
+          handData[0].value = (t.getHours() % 12) + t.getMinutes()/60 ;
+          handData[1].value = t.getMinutes();
+     }
+
+      setInterval(function(){
+          updateData();
+          moveHands();
+      }, 1000);
+
+      d3.select(self.frameElement).style("height", Ch + "px");
 
 });
