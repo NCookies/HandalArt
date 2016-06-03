@@ -230,18 +230,20 @@
 	</script>
 </head>
 <body>
-
-  <div id="header-back"
-	<header>
-		<a href="/"><img src="/imgs/logo" id="logo"/></a>
-		<a href="/login"><img src="/imgs/login" class="nav"/></a>
-		<a href="/bucket"><img src="/imgs/bucket" class="nav"/></a>
-		<a href="/mandal"><img src="/imgs/mandal" class="nav"/></a>
-	</header>
-  </div>
+  <div id="else-container">
+    <div id="header-back">
+  	<header>
+  		<a href="/"><img src="/imgs/logo" id="logo"/></a>
+  		<a href="/login"><img src="/imgs/login" class="nav"/></a>
+  		<a href="/bucket"><img src="/imgs/bucket" class="nav"/></a>
+  		<a href="/mandal"><img src="/imgs/mandal" class="nav"/></a>
+  	</header>
+    </div>
 
 	<!--FullCalendar container div-->
-	<div id='calendar'></div>
+	<div id='calendar'>
+  <div id='hide-scrollbar'>
+  <div id='calendar-inner'></div>
 
 	<div class="modal fade" id="view_eventadd">
   		<div class="modal-dialog">
@@ -287,6 +289,9 @@
     	</div>
   	</div>
 	</div>
-
+  </div>
+  </div>
+  </div>
+<div id="bg"></div>
 </body>
 </html>

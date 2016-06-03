@@ -10,11 +10,20 @@ body{
 	font-size: 14px;
 	font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
 }
+
 #calendar
 {
-	width: 900px;
+	width: 70%;
 	margin: auto;
+	margin-top: 170px;
+	/**/
+	overflow: hidden;
 }
+
+.modalfade{
+	z-index: 5000;
+}
+
 .fc {
 	direction: ltr;
 	text-align: left;
@@ -127,10 +136,6 @@ html .fc,
 .fc-widget-header,    /* <th>, usually */
 .fc-widget-content {  /* <td>, usually */
 	border: 1px solid #ddd;
-	}
-
-.fc-state-highlight { /* <td> today cell */ /* TODO: add .fc-today to <th> */
-	background: #fcf8e3;
 	}
 
 .fc-cell-overlay { /* semi-transparent rectangle while dragging */
