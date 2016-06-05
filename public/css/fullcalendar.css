@@ -18,7 +18,9 @@ body{
 	/**/
 	overflow: hidden;
 }
-
+.span10{
+	width: 80%;
+}
 .modalfade{
 	z-index: 5000;
 }

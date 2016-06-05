@@ -23,7 +23,6 @@
     this.originalBodyPad     = null
     this.scrollbarWidth      = 0
     this.ignoreBackdropClick = false
-
     if (this.options.remote) {
       this.$element
         .find('.modal-content')
@@ -189,7 +188,7 @@
 
       this.$backdrop = $(document.createElement('div'))
         .addClass('modal-backdrop ' + animate)
-        .appendTo(this.$body)
+        .appendTo('#else-container')
 
       this.$element.on('click.dismiss.bs.modal', $.proxy(function (e) {
         if (this.ignoreBackdropClick) {
