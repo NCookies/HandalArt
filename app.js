@@ -48,7 +48,7 @@ passport.use(new LocalStrategy({
         passwordField : 'password', // user password
         passReqToCallback : true
 		// 인증을 수행하는 인증 함수, HTTP request를 그대로  전달할지 여부
-    }, 
+    },
 	function(req ,userid, password, done) { // 후에 DB로 대체
         if (userid=='jungjung@gmail.com' && password=='qkqh'){
             var user = { 'email':'jungjung@gmail.com' };
@@ -108,7 +108,7 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(user, done) {
     //findById(id, function (err, user) {
-    console.log('deserialize');   
+    console.log('deserialize');
     done(null, user);
     //});
 });
@@ -146,18 +146,18 @@ app.get('/', function(req, res) {
 app.get('/login', function(req, res) {
 	//var user = req.user
 	var account = req.user;
-		
-	/*if (typeof user == "undefined") 
+
+	/*if (typeof user == "undefined")
 		account = user;
 	else
 		account = JSON.parse(user);*/
-		
+
 	if (typeof account == "undefined") {
 		res.render('login', { user : false});
 	} // 로그인 되어 있지 않을 때
 	else {
 		res.render('logout', { user : account });
-	} // 로그인 세션이 있을 때	
+	} // 로그인 세션이 있을 때
 });
 
 app.get('/logout', function(req, res) {
@@ -182,17 +182,17 @@ app.get('/auth/facebook/callback',
 
 		res.redirect('/');
 	});
-	
-app.get('/auth/google/callback', 
+
+app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
   });
-  
+
   app.get('/auth/twitter/callback',
   	passport.authenticate('twitter', { successRedirect: '/',
 	  failureRedirect: '/login' }));
-	
+
 // bucketlist
 app.get('/bucket', function(req, res) {
 	res.render('bucket_list');
@@ -213,10 +213,10 @@ app.get('/mandal/main', function(req, res) {
 	for (var i = 0; i <= 81; i++) {
 		arr.push('test' + i);
 	}
- 	
+
 	res.render('mandal_main', {jsonObj : arr});
 });
-	 
+
 app.get('/canvas', function(req, res) {
 	res.sendFile(path.join(__dirname+'/public/html/canvas_12clock.html'));
 });
@@ -237,11 +237,11 @@ app.post('/mandal/main', function(req, res) {
 });
 
 app.post('/login',
-		passport.authenticate('local', 
-		{ failureRedirect: '/login', 
-failureFlash: true }), 
+		passport.authenticate('local',
+		{ failureRedirect: '/login',
+failureFlash: true }),
 		function(req, res) {
-			//'아이디나 비밀번호가 바르지 않습니다.' 
+			//'아이디나 비밀번호가 바르지 않습니다.'
 	res.redirect('/');
 });
 // POST

@@ -2,18 +2,18 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Hello</title>
-    
+
 	<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-	
+
 	<script src="/js/mandal_main.js"></script>
-	
+
 	<script src="/js/vendor/jquery.zoomooz.min.js"></script>
-    
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" type="text/css" href="/css/mandal_main.css">
+
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" type="text/css" href="/css/mandal_main.css">
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
-    
+
 	<script type='text/javascript'>
 		$(document).ready(function() {
 			$('#sendData').on('click', function() {
@@ -23,19 +23,21 @@
 					$(this).children('.text-field').text(mandalData[index])
 					.next('.hidden-field').val(mandalData[index]);
 				});
-			}); 
+			});
 		});
 	</script>
 </head>
 
 <body>
-	<header>
-		<a href="/"><img src="/imgs/logo" id="logo"/></a>
-		<a href="/login"><img src="/imgs/login" class="nav"/></a>
-		<a href="/bucket"><img src="/imgs/bucket" class="nav"/></a>
-		<a href="/calendar"><img src="/imgs/calendar" class="nav"/></a>
+	<div id="else-container">
+		<header>
+			<div id="header-back"
+					<a href="/"><img src="/imgs/logo" id="logo"/></a>
+					<a href="/login"><img src="/imgs/login" class="nav"/></a>
+					<a href="/bucket"><img src="/imgs/bucket" class="nav"/></a>
+					<a href="/calendar"><img src="/imgs/calendar" class="nav"/></a>
+			</div>
 	</header>
-	
 	<section>
 		<div class="formContainer">
 			<form action="/mandal/main" method="POST" class="mandalForm">
@@ -62,7 +64,7 @@
 									</tr>
 								</table>
 							</div>
-							
+
 							<div class='mandal-top' id='mandal2'>
 								<table class="mandal-table">
 									<tr>
@@ -84,7 +86,7 @@
 									</tr>
 								</table>
 							</div>
-							
+
 							<div class='mandal-top' id='mandal3'>
 								<table class="mandal-table">
 									<tr>
@@ -106,8 +108,8 @@
 									</tr>
 								</table>
 							</div>
-							
-							
+
+
 							<div class='mandal-mid' id='mandal4'>
 								<table class="mandal-table">
 									<tr>
@@ -129,29 +131,29 @@
 									</tr>
 								</table>
 							</div>
-							
+
 							<div class='mandal-center'>
 								<table class="mandal-table">
 									<tr>
-									<td class="table-article zoomTarget" id="mandal-zoom1"></td>
-									<td class="table-article zoomTarget" id="mandal-zoom2"></td>
-									<td class="table-article zoomTarget" id="mandal-zoom3"></td>
+									<td class="table-article zoomTarget subGoal" id="mandal-zoom1"></td>
+									<td class="table-article zoomTarget subGoal" id="mandal-zoom2"></td>
+									<td class="table-article zoomTarget subGoal" id="mandal-zoom3"></td>
 									</tr>
 
 									<tr>
-									<td class="table-article zoomTarget" id="mandal-zoom4"></td>
-									<td class="table-article zoomTarget" id="zoom-center"></td>
-									<td class="table-article zoomTarget" id="mandal-zoom5"></td>
+									<td class="table-article zoomTarget subGoal" id="mandal-zoom4"></td>
+									<td class="table-article zoomTarget subGoal" id="zoom-center"></td>
+									<td class="table-article zoomTarget subGoal" id="mandal-zoom5"></td>
 									</tr>
 
 									<tr>
-									<td class="table-article zoomTarget" id="mandal-zoom6"></td>
-									<td class="table-article zoomTarget" id="mandal-zoom7"></td>
-									<td class="table-article zoomTarget" id="mandal-zoom8"></td>
+									<td class="table-article zoomTarget subGoal" id="mandal-zoom6"></td>
+									<td class="table-article zoomTarget subGoal" id="mandal-zoom7"></td>
+									<td class="table-article zoomTarget subGoal" id="mandal-zoom8"></td>
 									</tr>
 								</table>
 							</div>
-							
+
 							<div class='mandal-mid' id='mandal5'>
 								<table class="mandal-table">
 									<tr>
@@ -173,7 +175,7 @@
 									</tr>
 								</table>
 							</div>
-							
+
 
 							<div class='mandal-bot' id='mandal6'>
 								<table class="mandal-table">
@@ -196,7 +198,7 @@
 									</tr>
 								</table>
 							</div>
-							
+
 							<div class='mandal-bot' id='mandal7'>
 								<table class="mandal-table">
 									<tr>
@@ -218,7 +220,7 @@
 									</tr>
 								</table>
 							</div>
-							
+
 							<div class='mandal-bot' id='mandal8'>
 								<table class="mandal-table">
 									<tr>
@@ -242,14 +244,16 @@
 							</div>
 					</div>
 				</div>
-				
+
 				<input type="button" value='Get From Server' id='sendData'>
-				<input type="submit" value="Send To Server" id='getData'>		
+				<input type="submit" value="Send To Server" id='getData'>
 			</form>
 		</div>
 	</section>
 	<footer>
-		
+
 	</footer>
+	</div>
+	<div id="bg"></div>
 </body>
 </html>
