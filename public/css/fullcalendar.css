@@ -39,13 +39,16 @@ html .fc,
 	font-size: 1em;
 	}
 
+.fc td.fc-header-left,
+.fc td.fc-header-right{
+	vertical-align: bottom;
+}
+
 .fc td,
 .fc th {
 	padding: 0;
-	vertical-align: bottom;
+	vertical-align: top;
 	}
-
-
 
 /* Header
 ------------------------------------------------------------------------*/
@@ -133,6 +136,7 @@ html .fc,
 
 /* Cell Styles
 ------------------------------------------------------------------------*/
+
 .fc-widget-header,    /* <th>, usually */
 .fc-widget-content {  /* <td>, usually */
 	border: 1px solid #ddd;
@@ -267,9 +271,8 @@ html .fc,
 ------------------------------------------------------------------------*/
 
 .fc-event {
-	border: 1px solid; /* default BORDER color */
-	border-color: rgba(32,13,21,0.1); /* border color is here */
-	background-color: rgb(255, 150, 140); /* default BACKGROUND color */
+	border: 1px solid rgba(32,13,21,0.1); /* default BORDER color */
+	background-color: rgb(255,150,140); /* default BACKGROUND color */
 	color: #fff;               /* default TEXT color */
 	font-size: .85em;
 	cursor: default;
@@ -300,8 +303,8 @@ a.fc-event,
 
 .fc-event-time,
 .fc-event-title {
-	padding-right: 1px;
-	padding-left: 3px;
+		padding-right: 1px;
+		padding-left: 3px;
 	}
 
 .fc .ui-resizable-handle {
@@ -459,6 +462,7 @@ table.fc-border-separate {
 	vertical-align: middle;
 	text-align: right;
 	white-space: nowrap;
+	font-weight: normal;
 	}
 
 .fc-agenda .fc-week-number {
