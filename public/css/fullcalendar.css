@@ -6,7 +6,6 @@
 
 body{
 	margin-top: 40px;
-	text-align: center;
 	font-size: 14px;
 	font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
 }
@@ -136,6 +135,10 @@ html .fc,
 
 /* Cell Styles
 ------------------------------------------------------------------------*/
+
+.fc-widget-header{
+	/*font-style: italic;*/
+}
 
 .fc-widget-header,    /* <th>, usually */
 .fc-widget-content {  /* <td>, usually */
@@ -409,6 +412,12 @@ table.fc-border-separate {
 	padding: 0 2px;
 	}
 
+.fc-day-number{
+	font-weight: bold;
+	font-style: italic;
+	margin-right: 2px;
+}
+
 .fc-grid .fc-day-number {
 	float: right;
 	padding: 0 2px;
@@ -462,7 +471,8 @@ table.fc-border-separate {
 	vertical-align: middle;
 	text-align: right;
 	white-space: nowrap;
-	font-weight: normal;
+	font-weight: bold;
+	font-style: italic;
 	}
 
 .fc-agenda .fc-week-number {
