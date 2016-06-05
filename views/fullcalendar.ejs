@@ -5,9 +5,9 @@
 	<!--FullCalendar Dependencies-->
 	<link href='css/fullcalendar.css' rel='stylesheet' type="text/css">
 	<link href='css/fullcalendar.print.css' rel='stylesheet' media='print' type="text/css">
-	
+
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-	
+
 	<!--jQuery-->
 	<script src='https://code.jquery.com/jquery-1.10.2.min.js'></script>
 	<script src='vendor/jquery-ui-1.10.2.custom.min.js'></script>
@@ -23,11 +23,11 @@
 	<!--FullCalendar-->
 	<script src='vendor/fullcalendar.js'></script>
 	<script type="text/javascript">
-		
+
 		/*
 			jQuery document ready
 		*/
-		
+
 		$(document).ready(function()
 		{
 			/*
@@ -40,15 +40,15 @@
 			var d = date.getDate();
 			var m = date.getMonth();
 			var y = date.getFullYear();
-			
+
 			/*
 				Initialize fullCalendar and store into variable.
 				Why in variable?
 				Because doing so we can use it inside other function.
 				In order to modify its option later.
 			*/
-			
-			$('#calendar').fullCalendar(
+
+			var calendar = $('#calendar').fullCalendar(
 			{
 				/*
 					header option will define our calendar header.
@@ -83,7 +83,7 @@
 				select: function(start, end, allDay)
 				{
 						// after selection user will be promted for enter title for event.
-					var title = prompt('Event Title:');
+					/*var title = prompt('Event Title:');
 						// if title is enterd calendar will add title and event into fullCalendar.
 					if (title)
 					{
@@ -97,7 +97,7 @@
 							true // make the event "stick"
 						);
 						// ajax call to store event in DB
-					}
+					}*/
 				calendar.fullCalendar('unselect');
 				},
 
@@ -109,26 +109,43 @@
       					title: event.title,
       					content: event.content
     				});
+					$("#add").one("click", function(evt) {
+						//evt.preventDefault();
+						var title = $('#title').val();
+						var day = $('#day').val();
+						var newEvent = {
+			                title: title,
+			                start: start,
+			                end: end
+			            };
+						console.log(newEvent.title);
+						$('#calendar').fullCalendar('renderEvent', newEvent, 'stick');
+						$('#view_eventadd').modal('toggle')
+					});
 				},
-				eventClick: function(event, calEvent, jsEvent, view, element) 
+
+				eventClick: function(event, calEvent, jsEvent, view, element)
 				{
     				$('#view_event').modal
     				({
       					title: event.title,
       					content: event.content
     				});
+    				/*$("edit").on("click", function() {
+    					console.log('edit');
+    					var title = $('#title').val();
+    					var day = $('#day').val();
+    					var changeEvent = {
+    						title: title,
+    						start: new Date(y, m, d)
+    					};
+    				$('#calendar').fullCalendar('renderEvent');
+    				$('#view_event').modal('toggle')
+    				});*/
 				},
 
-
-				// add 버튼 클릭시
-				/*add_click: function(start, end, allDay)
-				{
-					alert("aldsjflsdjf");
-				},*/
-
-
 				//이벤트 클릭함수 다른 방법
-				/*eventClick:  function(event, jsEvent, view) 
+				/*eventClick:  function(event, jsEvent, view)
 				{
             		$('#modalTitle').html(event.title);
             		$('#modalBody').html(event.description);
@@ -209,38 +226,23 @@
 
 			});
 
-			$("#add").on("click", function(start, end, allDay) {
-				alert("버튼ㅇㄴㅇ리ㅑ미햐ㅓㄴ일");
-			});
-
 		});
-
 	</script>
-	<style type="text/css">
-		body
-		{
-			margin-top: 40px;
-			text-align: center;
-			font-size: 14px;
-			font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-		}
-		#calendar
-		{
-			width: 900px;
-			margin: 0 auto;
-		}
-	</style>
 </head>
 <body>
-	<header>
-		<a href="/"><img src="/imgs/logo" id="logo"/></a>
-		<a href="/login"><img src="/imgs/login" class="nav"/></a>
-		<a href="/bucket"><img src="/imgs/bucket" class="nav"/></a>
-		<a href="/mandal"><img src="/imgs/mandal" class="nav"/></a>
-	</header>
-	
+  <div id="else-container">
+    <header>
+      <div id="header-back">
+    		<a href="/"><img src="/imgs/logo" id="logo"/></a>
+    		<a href="/login"><img src="/imgs/login" class="nav"/></a>
+    		<a href="/bucket"><img src="/imgs/bucket" class="nav"/></a>
+    		<a href="/mandal"><img src="/imgs/mandal" class="nav"/></a>
+      </div>
+    </header>
 	<!--FullCalendar container div-->
-	<div id='calendar'></div>
+	<div id='calendar'>
+  <div id='hide-scrollbar'>
+  <div id='calendar-inner'></div>
 
 	<div class="modal fade" id="view_eventadd">
   		<div class="modal-dialog">
@@ -250,11 +252,18 @@
         				<h4 class="modal-title">일정</h4>
       			</div>
       			<div class="modal-body">
-        			<p><label>Event title</label><br />
-        			<input type = "text" id = "title" class = "span10"></p>
+        			<p>
+        				<label>Event title</label><br/>
+	        			<input type = "text" id = "title" class = "span10">
+	        		</p>
+
+        			<!--<p>
+        				<label>Day</label><br/>
+	        			<input type = "text" id = "day" class = "span10">
+	        		</p>-->
       			</div>
       			<div class="modal-footer">
-        			<button type = "button" class="btn btn-primary" data-option="add" id = "add">add</button>
+        			<button type = "button" class="btn btn-primary" data-option="add" id="add">add</button>
         			<button type = "button" class="btn btn-default" data-dismiss="modal">Close</button>
       			</div>
     		</div>
@@ -272,13 +281,16 @@
         			<p><input type = "text" class = "span10"></p>
       			</div>
       		<div class="modal-footer">
-        		<button type = "button" class = "btn btn-danger" data-option = "remove" onclick = "remove_click()";>remove</button>
-        		<button type = "button" class = "btn btn-primary" data-option = "edit" onclick = "edit_click();">edit</button>
+        		<button type = "button" class = "btn btn-danger" data-option = "remove" id = "remove">remove</button>
+        		<button type = "button" class = "btn btn-primary" data-option = "edit" id = "edit">edit</button>
         		<button type= " button" class = "btn btn-default" data-dismiss = "modal">Close</button>
       		</div>
     	</div>
   	</div>
 	</div>
-
+  </div>
+  </div>
+  </div>
+<div id="bg"></div>
 </body>
 </html>
