@@ -66,7 +66,7 @@
 					defaultView option used to define which view to show by default,
 					for example we have used agendaWeek.
 				*/
-				defaultView: 'agendaWeek',			// 첫 화면
+				defaultView: 'month',			// 첫 화면
 				/*
 					selectable:true will enable user to select datetime slot
 					selectHelper will add helpers for selectable.
@@ -80,8 +80,8 @@
 					End means ending time of event.
 					allDay means if events is for entire day or not.
 				*/
-				select: function(start, end, allDay)
-				{
+				//select: function(start, end, allDay)
+				//{
 						// after selection user will be promted for enter title for event.
 					/*var title = prompt('Event Title:');
 						// if title is enterd calendar will add title and event into fullCalendar.
@@ -98,35 +98,51 @@
 						);
 						// ajax call to store event in DB
 					}*/
-				calendar.fullCalendar('unselect');
-				},
+				//calendar.fullCalendar('unselect');
+				//},
 
 				// 모달 띄우기
-				dayClick: function(start, end, allDay)
+				select: function(start, end, allDay)		// dayClick 함수는 클릭이벤트만 있는 반면, select 함수는 드래그이벤트도 있음
 				{
-					var dragging;
+					//var dragging;
     				$('#view_eventadd').modal
     				({
       					title: event.title,
       					content: event.content
     				});
 
-    				$("#add").one("click", function() 
+    				$("#add").off('click').one("click", function() 
     				{
 						var title = $('#title').val();
-						//var day = $('#day').val();
-
+						/*if (title)		// 이벤트 추가 다른방법 (원래예제)
+						{
+							calendar.fullCalendar('renderEvent',
+								{
+									title: title,
+									start: start,
+									end: end,
+									allDay: allDay
+								},
+								true // make the event "stick"
+							);
+							// ajax call to store event in DB
+						}
+						calendar.fullCalendar('unselect');
+					});*/
 						var newEvent = null;
-						dragging = true;
+						//dragging = true;
 						newEvent = {
 				            title: title,
 				            start: start,
-				            end: end
+				            end: end,
+				            allDay: allDay		// 시간인식
 				        };
 						console.log(newEvent);
 						$('#calendar').fullCalendar('renderEvent', newEvent, 'stick');
 						$('#view_eventadd').modal('hide');
+						 // title = $('#title').val('');		// 앞에 썼던 title 내용 초기화, 나중에 썼던 title 내용이 맨 처음 클릭했던 날에만 들어감, 다른 날에는 빈칸으로 들어감
 					});
+					title = $('#title').val('');		// 앞에 썼던 title 내용 초기화, 나중에 썼던 title 내용이 지금까지 클릭했던 모든 날에 들어감
 				},
 				
 				eventClick: function(event, calEvent, jsEvent, view, element) 
@@ -137,7 +153,7 @@
       					content: event.content
     				});
     				
-    				$("#edit").on("click", function() 
+    				$("#edit").off('click').on("click", function() 
     				{
     					var title = $('#changetitle').val();
     					event.title = title;
@@ -148,7 +164,7 @@
 
     				});
 
-    				$("#remove").one("click", function()
+    				$("#remove").off('click').one("click", function()
     				{
     					var title = event._id;
         				console.log(title);
@@ -156,15 +172,6 @@
    						//$('#calendar').fullCalendar('addEventSource', newEvent);		// 사용할 경우 function()에 (newEvent)를 해주어야함
 						$('#view_event').modal('hide');
 	  				});
-				},
-				
-				dayDrag: function(start, end, allDay)
-				{
-					$('view_eventadd').modal
-					({
-						title: event.title,
-						content: event.content
-					});
 				},
 				/*
 					editable: true allow user to edit events.
