@@ -16,9 +16,17 @@
     "morgan": "~1.6.1",
     "mysql": "^2.10.2",
     "passport": "^0.3.2",
-    "passport-facebook": "^2.1.1",
+    "passport-facebook": "*",
     "passport-local": "^1.0.0",
-    "passport-twitter": "^1.0.4",
-    "serve-favicon": "~2.3.0"
+    "passport-twitter": "*",
+    "serve-favicon": "~2.3.0",
+    "passport-google-oauth": "*"
+  },
+  "oauth": {
+    "facebook": {
+      "FACEBOOK_APP_ID": "594228160736253",
+      "FACEBOOK_APP_SECRET": "1cd92a04f2aa948c175013002f00341e",
+      "callbackURL": "http://localhost:3000/auth/facebook/callback"
+    }
   }
 }

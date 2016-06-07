@@ -9,11 +9,8 @@
     <script type="text/javascript">
       $(document).ready(function() {
         var userEmail = ('<%- JSON.stringify(user) %>');
-        
-        console.log(userEmail);  
-        console.log(typeof userEmail);
-        
-        $('.user-email').text('Welcome ' + userEmail.email + '!!');
+                
+        $('.user-email').text('Welcome ' + userEmail + '!!');
       });
     </script>
    
