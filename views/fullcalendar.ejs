@@ -104,23 +104,28 @@
 				// 모달 띄우기
 				dayClick: function(start, end, allDay)
 				{
+					var dragging;
     				$('#view_eventadd').modal
     				({
       					title: event.title,
       					content: event.content
     				});
-					$("#add").one("click", function(evt) {
-						//evt.preventDefault();
+
+    				$("#add").one("click", function() 
+    				{
 						var title = $('#title').val();
-						var day = $('#day').val();
-						var newEvent = {
-			                title: title,
-			                start: start,
-			                end: end
-			            };
-						console.log(newEvent.title);
+						//var day = $('#day').val();
+
+						var newEvent = null;
+						dragging = true;
+						newEvent = {
+				            title: title,
+				            start: start,
+				            end: end
+				        };
+						console.log(newEvent);
 						$('#calendar').fullCalendar('renderEvent', newEvent, 'stick');
-						$('#view_eventadd').modal('toggle')
+						$('#view_eventadd').modal('hide');
 					});
 				},
 				
@@ -131,43 +136,36 @@
       					title: event.title,
       					content: event.content
     				});
-    				/*$("edit").on("click", function() {
-    					console.log('edit');
-    					var title = $('#title').val();
-    					var day = $('#day').val();
-    					var changeEvent = {
-    						title: title,
-    						start: new Date(y, m, d)
-    					};
-    				$('#calendar').fullCalendar('renderEvent');
-    				$('#view_event').modal('toggle')
-    				});*/
+    				
+    				$("#edit").on("click", function() 
+    				{
+    					var title = $('#changetitle').val();
+    					event.title = title;
+    					//event.title = event.changetitle;
+    					console.log(event.title);
+						$('#calendar').fullCalendar('updateEvent', event);
+						$('#view_event').modal('hide');
+
+    				});
+
+    				$("#remove").one("click", function()
+    				{
+    					var title = event._id;
+        				console.log(title);
+        				$('#calendar').fullCalendar('removeEvents', title);
+   						//$('#calendar').fullCalendar('addEventSource', newEvent);		// 사용할 경우 function()에 (newEvent)를 해주어야함
+						$('#view_event').modal('hide');
+	  				});
 				},
-
-				//이벤트 클릭함수 다른 방법
-				/*eventClick:  function(event, jsEvent, view) 
+				
+				dayDrag: function(start, end, allDay)
 				{
-            		$('#modalTitle').html(event.title);
-            		$('#modalBody').html(event.description);
-            		$('#eventUrl').attr('href',event.url);
-            		$('#calendarModal').modal();
-        		},
-        		// body 부분
-        		<div id="calendarModal" class="modal fade">
-					<div class="modal-dialog">
-    					<div class="modal-content">
-        					<div class="modal-header">
-            					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
-            					<h4 id="modalTitle" class="modal-title"></h4>
-        					</div>
-        				<div id="modalBody" class="modal-body"> </div>
-        					<div class="modal-footer">
-            					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        					</div>
-    					</div>
-					</div>
-				</div>*/
-
+					$('view_eventadd').modal
+					({
+						title: event.title,
+						content: event.content
+					});
+				},
 				/*
 					editable: true allow user to edit events.
 				*/
@@ -226,7 +224,9 @@
  	
 			});
 
+
 		});
+		
 	</script>
 
 	<style type="text/css">
@@ -267,11 +267,6 @@
         				<label>Event title</label><br/>
 	        			<input type = "text" id = "title" class = "span10">
 	        		</p>
-
-        			<!--<p>
-        				<label>Day</label><br/>
-	        			<input type = "text" id = "day" class = "span10">
-	        		</p>-->
       			</div>
       			<div class="modal-footer">
         			<button type = "button" class="btn btn-primary" data-option="add" id="add">add</button>
@@ -289,9 +284,11 @@
         				<h4 class="modal-title" id="event_title">일정</h4>
       			</div>
       			<div class="modal-body">
-        			<p><input type = "text" class = "span10"></p>
+        			<label>Event title</label><br/>
+        			<p><input type = "text" id = "changetitle" class = "span10"></p>
       			</div>
       		<div class="modal-footer">
+      			<!--<input type="hidden" id = "modalchange"/>-->
         		<button type = "button" class = "btn btn-danger" data-option = "remove" id = "remove">remove</button>
         		<button type = "button" class = "btn btn-primary" data-option = "edit" id = "edit">edit</button>
         		<button type= " button" class = "btn btn-default" data-dismiss = "modal">Close</button>
