@@ -28,12 +28,14 @@ app.set('port', process.env.PORT || 3000);
 
 // uncomment after placing your favicon in /public
 
-app.use('/vendor', express.static(path.join(__dirname, 'public/js/vendor')));
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/vendor', express.static(path.join(__dirname, 'public/js/vendor')));
+
 app.use(flash());
 
 app.use(cookieParser());
@@ -48,7 +50,7 @@ passport.use(new LocalStrategy({
         passwordField : 'password', // user password
         passReqToCallback : true
 		// 인증을 수행하는 인증 함수, HTTP request를 그대로  전달할지 여부
-    },
+    }, 
 	function(req ,userid, password, done) { // 후에 DB로 대체
         if (userid=='jungjung@gmail.com' && password=='qkqh'){
             var user = { 'email':'jungjung@gmail.com' };
@@ -88,15 +90,17 @@ passport.use(new FacebookStrategy({
 ));*/
 
 passport.use(new GoogleStrategy({
-    clientID: '947227472989-n9mvvv2rg841nib0pb11o2s81a2kucpb.apps.googleusercontent.com',
-    clientSecret: 'jFkoj6VjreSj0vFpqgyI59ze',
+    clientID: '947227472989-d2i27nlkn6la0gfdmlaocs2ah6aaa4tr.apps.googleusercontent.com',
+    clientSecret: 'LDZUY-y4KPijlulViqLR7wlh',
     callbackURL: "http://localhost:3000/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
-       User.findOrCreate({ googleId: profile.id }, function (err, user) {
+       /*User.findOrCreate({ googleId: profile.id }, function (err, user) {
          return done(err, user);
-       });
-  }
+       });*/
+	   console.log(profile.id);
+	   done(null, profile);
+	}
 ));
 
 passport.serializeUser(function(user, done) {
@@ -108,7 +112,7 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(user, done) {
     //findById(id, function (err, user) {
-    console.log('deserialize');
+    console.log('deserialize');   
     done(null, user);
     //});
 });
@@ -144,20 +148,18 @@ app.get('/', function(req, res) {
 // root URL
 
 app.get('/login', function(req, res) {
-	//var user = req.user
 	var account = req.user;
-
-	/*if (typeof user == "undefined")
-		account = user;
-	else
-		account = JSON.parse(user);*/
-
+		
 	if (typeof account == "undefined") {
 		res.render('login', { user : false});
 	} // 로그인 되어 있지 않을 때
 	else {
-		res.render('logout', { user : account });
-	} // 로그인 세션이 있을 때
+		if (account.email) { // 사이트 자체 로그인
+			res.render('logout', { user : req.session.passport.user.email });
+		} else { // 외부 계정 연동
+			res.render('logout', { user : req.session.passport.user.displayName || {} });			
+		}
+	} // 로그인 세션이 있을 때	
 });
 
 app.get('/logout', function(req, res) {
@@ -182,17 +184,17 @@ app.get('/auth/facebook/callback',
 
 		res.redirect('/');
 	});
-
-app.get('/auth/google/callback',
+	
+app.get('/auth/google/callback', 
   passport.authenticate('google', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
   });
-
+  
   app.get('/auth/twitter/callback',
   	passport.authenticate('twitter', { successRedirect: '/',
 	  failureRedirect: '/login' }));
-
+	
 // bucketlist
 app.get('/bucket', function(req, res) {
 	res.render('bucket_list');
@@ -213,10 +215,10 @@ app.get('/mandal/main', function(req, res) {
 	for (var i = 0; i <= 81; i++) {
 		arr.push('test' + i);
 	}
-
+ 	
 	res.render('mandal_main', {jsonObj : arr});
 });
-
+	 
 app.get('/canvas', function(req, res) {
 	res.sendFile(path.join(__dirname+'/public/html/canvas_12clock.html'));
 });
@@ -237,11 +239,11 @@ app.post('/mandal/main', function(req, res) {
 });
 
 app.post('/login',
-		passport.authenticate('local',
-		{ failureRedirect: '/login',
-failureFlash: true }),
+		passport.authenticate('local', 
+		{ failureRedirect: '/login', 
+failureFlash: true }), 
 		function(req, res) {
-			//'아이디나 비밀번호가 바르지 않습니다.'
+			//'아이디나 비밀번호가 바르지 않습니다.' 
 	res.redirect('/');
 });
 // POST
