@@ -28,12 +28,14 @@ app.set('port', process.env.PORT || 3000);
 
 // uncomment after placing your favicon in /public
 
-app.use('/vendor', express.static(path.join(__dirname, 'public/js/vendor')));
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/vendor', express.static(path.join(__dirname, 'public/js/vendor')));
+
 app.use(flash());
 
 app.use(cookieParser());
@@ -88,8 +90,8 @@ passport.use(new FacebookStrategy({
 ));*/
 
 passport.use(new GoogleStrategy({
-    clientID: '947227472989-n9mvvv2rg841nib0pb11o2s81a2kucpb.apps.googleusercontent.com',
-    clientSecret: 'jFkoj6VjreSj0vFpqgyI59ze',
+    clientID: '947227472989-d2i27nlkn6la0gfdmlaocs2ah6aaa4tr.apps.googleusercontent.com',
+    clientSecret: 'LDZUY-y4KPijlulViqLR7wlh',
     callbackURL: "http://localhost:3000/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
@@ -152,9 +154,9 @@ app.get('/login', function(req, res) {
 		res.render('login', { user : false});
 	} // 로그인 되어 있지 않을 때
 	else {
-		if (account.email) {
+		if (account.email) { // 사이트 자체 로그인
 			res.render('logout', { user : req.session.passport.user.email });
-		} else {
+		} else { // 외부 계정 연동
 			res.render('logout', { user : req.session.passport.user.displayName || {} });			
 		}
 	} // 로그인 세션이 있을 때	
