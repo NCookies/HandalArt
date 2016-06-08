@@ -104,46 +104,10 @@ $(document).ready(function() {
     ];
     
     drawClock();
+    var sumIndex=" ";
+    var upIndex = 0;
 
-    //가독성 위해 jQuery로 바꿔서 modal이랑 통합 필요
-    function mousedown(d) {
-        sumValue = 0;
-        //isfilled = d3.select(this).classed("filling"); //hasclass
-        
-        d3.select(this).classed("filling", true); //addclass
-        sumValue += d.value;
-        d.data.value = 0;
-        dragging = true;   
-        
-    }
-        
-    function mouseover(d) {
-        if( dragging ) {
-            d3.select(this).classed("filling", true);
-            sumValue += d.value;
-            d.data.value = 0;
-        }
-        
-        var percentage = (100 * d.value / sumData(data) ).toPrecision(3);
-        var percentageString = percentage + "%";
-        if (percentage < 0.1) { percentageString = "< 0.1%"; }     
-        d3.select("#percentage")
-            .text(percentageString+"　　　　"+d.data.label);
-
-        $("path").attr("opacity", "0.3");
-        $("path").filter(".filling").attr("opacity", "1");
-    }
-
-    function mouseup(d) {
-        dragging = false;
-        d.data.value = sumValue;
-        target = d3.select(this).attr("index"); //추가 된 파이 식별하기 위해 필요
-
-        jQuery.each(change(d, target));      
-        edit(d); //처음에 일정이름 추가
-    }
-
-    function sumData(data) {
+    function sumData(data) { // 퍼센트 구할 때 필요
         var arr = 0;
         var str = $.parseJSON(JSON.stringify(data));
             
@@ -152,23 +116,66 @@ $(document).ready(function() {
         }
         return arr;
     }
+    
+    // 클릭할때마다 값이 초기화되서 주의
+    function mousedown(d) {
+        sumValue = 0;
+        //isfilled = d3.select(this).classed("filling"); //hasclass
+        
+        $(this).addClass("filling");
+        sumValue += d.value;
+        d.data.value = 0;
+        dragging = true;
+    }
+        
+    function mouseover(d) {
+        if( dragging ) {
+            if( d.value == 30 ) {
+                sumIndex += ($(this).attr("index")+",");
+            }
+            $(this).addClass("filling");
+            sumValue += d.value;
+            d.data.value = 0;
+        }     
+        var percentage = (100 * d.value / sumData(data) ).toPrecision(3);
+        var percentageString = percentage + "%";
+        if (percentage < 0.1) { percentageString = "< 0.1%"; }     
+        d3.select("#percentage")
+        //    .text(percentageString+"　　　　"+d.data.label);
+        .text($(this).attr("index")+"　　　　"+d.data.label); 
+        
+        $("path").css("stroke", "black").attr("opacity", "0.3");
+        $("path").filter(".filling").attr("opacity", "1");
+    }
+
+    // path 밖에서 mouseup하면 mouseover가 연속됨.
+    function mouseup(d) {
+        dragging = false;
+        d.data.value = sumValue;      
+        $(this).addClass("filling");        
+        if(sumIndex != " ") {
+            $(this).attr("sumIndex", sumIndex);
+            sumIndex = " ";    
+        }
+        if(upIndex == 0) {
+            upIndex = $(this).attr("index");
+        }
+        target = d3.select(this).attr("index"); //추가 된 파이 식별하기 위해 필요 
+        edit(d, upIndex); //처음에 일정이름 추가
+    }
 
     $("g").on("mouseout", function() {
-        $("path").attr("opacity", "1");
+        $("path").css("stroke", "white").attr("opacity", "1");
     });
 
-    function change(d, target) {
-        paths.data(pie(data)); // compute the new angles
-        jQuery.each( $("path"), function (d) {
-            if( $(this).attr("index") == target ) {
-                $(this).css("fill", color[Math.floor(Math.random() * color.length)]);
-            }
-        })
-        //.attr("fill", function(d, i){ return color(i); });
-    
+    function change(target) {
+        paths.data(pie(data));
+        $("path").filter(function() {
+            return $(this).attr("index") == target;
+        }).css("fill", color[Math.floor(Math.random() * color.length)]);
+
         paths.transition().duration(750)
         .attrTween("d", arcTween); // redraw the paths
-
     }                            
 
     // Store the displayed angles in _current.
@@ -183,25 +190,67 @@ $(document).ready(function() {
         };
     }
 
-    function edit(d) { 
-        $("#createModal").modal({ backdrop: true });
+    function edit(d) {
+        $("#editModal").modal();    
         
-        $("#save").on("click", function() {
-            var label = $("#label").val(); // 입력받은 일정 이름
-            d.data.label = label;
-            $(this).css("clickOutside", true); // 화면 밖이나 x 클릭하면 modal close
-            $("#label").val(''); // reset textbox
-
-        });
-
-        $("#remove").on("click", function(d) {
-            d.value = 0;
-            $(this).css("clickOutside", true);
-        });
+        //remove click event before adding it.    
+        //cancel했을 때 path생성 안되게
+        $("#save").off('click').on('click', function() { 
+            // change label          
+            d.data.label = $('#event_name').val();
+            // redraw path
+            change(target);  
+            //reset textbox
+            $('#event_name').val('');
+        });   
+        
+        //sumIndex의 index를 가진 path.value = 30
+        // 드래그 큰 수부터: [1] ~ end+2
+        // 드래그 작은 수부터: [1]-1 ~ end+2
+        $("#remove").off('click').on('click', function() {
+            var startBig = false; //드래그 순차적인지의 여부 / path가 3개 이상일 때
+            var twoBig = false; // path가 2개일때
+            var sumIndex = $('path').filter(function() {
+                return $(this).attr('index') == target;
+            }).attr("sumIndex");         
+            var seperIndex = sumIndex.split(","); //sumIndex 배열로     
+            var dragEnd = seperIndex.length; //path의 갯수
+            if( seperIndex[1] < seperIndex[0] ) { //드래그 어디서 시작했나
+                console.log("Demfdj");
+                startBig = true;
+            } 
+            console.log(startBig);
+            seperIndex.sort(function(left, right) { //오름차순정렬
+                 return left-right;
+            });         
+            //드래그 순서에 따라 sumindex값이 다르기 때문에 반복문도 다름.
+            //for문의 처음이 다를 뿐인데 코드를 다시써야됨. 비효율적
+/*            console.log(target);
+            console.log(sumIndex);
+            console.log(seperIndex);
+            console.log(dragEnd);*/
+            console.log(seperIndex);
+            console.log(seperIndex[dragEnd-1]);
+            if(startBig) {
+                console.log("Afsdfa");
+                for(var i=seperIndex[1]-1; i<=target; i++) {
+                    console.log(i);
+                    console.log("작은수부터드래그---------");
+                }
+            }
+            else if(!startBig) {
+                console.log("BBsdfa");
+                for( var i=target; i<seperIndex[dragEnd-1]; i++) {
+                    console.log(i);
+                    console.log("큰수부터드래그----------");
+                }
+            }
+        });      
     }
 
-    function drawClock(){ //create all the clock elements
-        updateData();	//draw them in the correct starting position
+    
+    function drawClock() { //create all the clock elements
+        updateClock();	//draw them in the correct starting position
         var svg = d3.select("#graph").append("svg")
             .attr("width", Cw)
             .attr("height", Ch)
@@ -266,14 +315,14 @@ $(document).ready(function() {
             });
      }
 
-     function updateData(){
+     function updateClock(){
           var t = new Date();
           handData[0].value = (t.getHours() % 12) + t.getMinutes()/60 ;
           handData[1].value = t.getMinutes();
      }
 
       setInterval(function(){
-          updateData();
+          updateClock();
           moveHands();
       }, 1000);
 
