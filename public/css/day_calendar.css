@@ -1,4 +1,38 @@
 svg {
-    width: 600px;
+	  width: 600px;
     height: 600px;
+		stroke: #000;
+		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+}
+
+#graph path {
+  fill: white;
+  stroke: white;
+}
+
+#graph path.filling {
+  fill: lightgrey;
+}
+
+#percentage {
+  font-size: 3.5em;
+}
+
+.hour-hand{
+	stroke-width:6;
+	stroke-linecap:round;
+}
+
+.minute-hand{
+	stroke-width:3;
+	stroke-linecap:round;
+}
+
+.hands-cover{
+	stroke-width:3;
+	fill:#fff;
+}
+
+.hour-label{
+	font-size: 24px;
 }
