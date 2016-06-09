@@ -1943,7 +1943,7 @@ function MonthView(element, calendar) {
 
 		if (opt('weekMode') == 'fixed') {
 			addDays(visEnd, (6 - rowCnt) * 7); // add weeks to make up for it
-			rowCnt = 6;
+			rowCnt = 5;		// month에서 보여지는 week의 개수
 		}
 
 		t.title = formatDate(start, opt('titleFormat'));

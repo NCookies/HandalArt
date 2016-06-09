@@ -5,9 +5,9 @@
 	<!--FullCalendar Dependencies-->
 	<link href='css/fullcalendar.css' rel='stylesheet' type="text/css">
 	<link href='css/fullcalendar.print.css' rel='stylesheet' media='print' type="text/css">
-	
+
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-	
+
 	<!--jQuery-->
 	<script src='https://code.jquery.com/jquery-1.10.2.min.js'></script>
 	<script src='vendor/jquery-ui-1.10.2.custom.min.js'></script>
@@ -22,225 +22,23 @@
 
 	<!--FullCalendar-->
 	<script src='vendor/fullcalendar.js'></script>
-	<script type="text/javascript">
-		
-		/*
-			jQuery document ready
-		*/
-		
-		$(document).ready(function()
-		{
-			/*
-				date store today date.
-				d store today date.
-				m store current month.
-				y store current year.
-			*/
-			var date = new Date();
-			var d = date.getDate();
-			var m = date.getMonth();
-			var y = date.getFullYear();
-			
-			/*
-				Initialize fullCalendar and store into variable.
-				Why in variable?
-				Because doing so we can use it inside other function.
-				In order to modify its option later.
-			*/
-			
-			$('#calendar').fullCalendar(
-			{
-				/*
-					header option will define our calendar header.
-					left define what will be at left position in calendar
-					center define what will be at center position in calendar
-					right define what will be at right position in calendar
-				*/
-				header:
-				{
-					left: 'prev,next today',
-					center: 'title',
-					right: 'month,agendaWeek,agendaDay'
-				},
-				/*
-					defaultView option used to define which view to show by default,
-					for example we have used agendaWeek.
-				*/
-				defaultView: 'agendaWeek',			// 첫 화면
-				/*
-					selectable:true will enable user to select datetime slot
-					selectHelper will add helpers for selectable.
-				*/
-				selectable: true,
-				selectHelper: true,
-				/*
-					when user select timeslot this option code will execute.
-					It has three arguments. Start,end and allDay.
-					Start means starting time of event.
-					End means ending time of event.
-					allDay means if events is for entire day or not.
-				*/
-				select: function(start, end, allDay)
-				{
-						// after selection user will be promted for enter title for event.
-					var title = prompt('Event Title:');
-						// if title is enterd calendar will add title and event into fullCalendar.
-					if (title)
-					{
-						calendar.fullCalendar('renderEvent',
-							{
-								title: title,
-								start: start,
-								end: end,
-								allDay: allDay
-							},
-							true // make the event "stick"
-						);
-						// ajax call to store event in DB
-					}
-				calendar.fullCalendar('unselect');
-				},
-
-				// 모달 띄우기
-				dayClick: function(start, end, allDay)
-				{
-    				$('#view_eventadd').modal
-    				({
-      					title: event.title,
-      					content: event.content
-    				});
-				},
-				eventClick: function(event, calEvent, jsEvent, view, element) 
-				{
-    				$('#view_event').modal
-    				({
-      					title: event.title,
-      					content: event.content
-    				});
-				},
-
-
-				// add 버튼 클릭시
-				/*add_click: function(start, end, allDay)
-				{
-					alert("aldsjflsdjf");
-				},*/
-
-
-				//이벤트 클릭함수 다른 방법
-				/*eventClick:  function(event, jsEvent, view) 
-				{
-            		$('#modalTitle').html(event.title);
-            		$('#modalBody').html(event.description);
-            		$('#eventUrl').attr('href',event.url);
-            		$('#calendarModal').modal();
-        		},
-        		// body 부분
-        		<div id="calendarModal" class="modal fade">
-					<div class="modal-dialog">
-    					<div class="modal-content">
-        					<div class="modal-header">
-            					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">close</span></button>
-            					<h4 id="modalTitle" class="modal-title"></h4>
-        					</div>
-        				<div id="modalBody" class="modal-body"> </div>
-        					<div class="modal-footer">
-            					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        					</div>
-    					</div>
-					</div>
-				</div>*/
-
-				/*
-					editable: true allow user to edit events.
-				*/
-				editable: true,		// 드래그로 일정 위치 및 크기 수정
-				eventLimit: true,
-				/*
-					events is the main option for calendar.
-					for demo we have added predefined events in json object.
-				*/
-				events: [
-					{
-						title: 'All Day Event',
-						start: new Date(y, m, 1)
-					},
-					{
-						title: 'Long Event',
-						start: new Date(y, m, d-5),
-						end: new Date(y, m, d-2)
-					},
-					{
-						id: 999,
-						title: 'Repeating Event',
-						start: new Date(y, m, d-3, 16, 0),
-						allDay: false
-					},
-					{
-						id: 999,
-						title: 'Repeating Event',
-						start: new Date(y, m, d+4, 16, 0),
-						allDay: false
-					},
-					{
-						title: 'Meeting',
-						start: new Date(y, m, d, 10, 30),
-						allDay: false
-					},
-					{
-						title: 'Lunch',
-						start: new Date(y, m, d, 12, 0),
-						end: new Date(y, m, d, 14, 0),
-						allDay: false
-					},
-					{
-						title: 'Birthday Party',
-						start: new Date(y, m, d+1, 19, 0),
-						end: new Date(y, m, d+1, 22, 30),
-						allDay: false
-					},
-					{
-						title: 'Click for Google',
-						start: new Date(y, m, 28),
-						end: new Date(y, m, 29),
-						url: 'http://google.com/'
-					}
-				]
-
-			});
-
-			$("#add").on("click", function(start, end, allDay) {
-				alert("버튼ㅇㄴㅇ리ㅑ미햐ㅓㄴ일");
-			});
-
-		});
-
-	</script>
-	<style type="text/css">
-		body
-		{
-			margin-top: 40px;
-			text-align: center;
-			font-size: 14px;
-			font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-		}
-		#calendar
-		{
-			width: 900px;
-			margin: 0 auto;
-		}
-	</style>
+	
 </head>
 <body>
-	<header>
-		<a href="/"><img src="/imgs/logo" id="logo"/></a>
-		<a href="/login"><img src="/imgs/login" class="nav"/></a>
-		<a href="/bucket"><img src="/imgs/bucket" class="nav"/></a>
-		<a href="/mandal"><img src="/imgs/mandal" class="nav"/></a>
-	</header>
-	
+  <div id="else-container">
+    <div id="header-back">
+  	<header>
+  		<a href="/"><img src="/imgs/logo" id="logo"/></a>
+  		<a href="/login"><img src="/imgs/login" class="nav"/></a>
+  		<a href="/bucket"><img src="/imgs/bucket" class="nav"/></a>
+  		<a href="/mandal"><img src="/imgs/mandal" class="nav"/></a>
+  	</header>
+    </div>
+
 	<!--FullCalendar container div-->
-	<div id='calendar'></div>
+	<div id='calendar'>
+  <div id='hide-scrollbar'>
+  <div id='calendar-inner'>
 
 	<div class="modal fade" id="view_eventadd">
   		<div class="modal-dialog">
@@ -250,11 +48,18 @@
         				<h4 class="modal-title">일정</h4>
       			</div>
       			<div class="modal-body">
-        			<p><label>Event title</label><br />
-        			<input type = "text" id = "title" class = "span10"></p>
+        			<p>
+        				<label>Event title</label><br/>
+	        			<input type = "text" id = "title" class = "span10">
+	        		</p>
+
+        			<!--<p>
+        				<label>Day</label><br/>
+	        			<input type = "text" id = "day" class = "span10">
+	        		</p>-->
       			</div>
       			<div class="modal-footer">
-        			<button type = "button" class="btn btn-primary" data-option="add" id = "add">add</button>
+        			<button type = "button" class="btn btn-primary" data-option="add" id="add">add</button>
         			<button type = "button" class="btn btn-default" data-dismiss="modal">Close</button>
       			</div>
     		</div>
@@ -269,16 +74,20 @@
         				<h4 class="modal-title" id="event_title">일정</h4>
       			</div>
       			<div class="modal-body">
-        			<p><input type = "text" class = "span10"></p>
+        			<p><input type = "text" id = "changetitle" class = "span10"></p>
       			</div>
       		<div class="modal-footer">
-        		<button type = "button" class = "btn btn-danger" data-option = "remove" onclick = "remove_click()";>remove</button>
-        		<button type = "button" class = "btn btn-primary" data-option = "edit" onclick = "edit_click();">edit</button>
+        		<button type = "button" class = "btn btn-danger" data-option = "remove" id = "remove">remove</button>
+        		<button type = "button" class = "btn btn-primary" data-option = "edit" id = "edit">edit</button>
         		<button type= " button" class = "btn btn-default" data-dismiss = "modal">Close</button>
       		</div>
     	</div>
   	</div>
 	</div>
-
+  </div>
+  </div>
+  </div>
+  </div>
+  <div id="bg"></div>
 </body>
 </html>
