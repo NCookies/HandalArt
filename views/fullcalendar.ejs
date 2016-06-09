@@ -5,9 +5,9 @@
 	<!--FullCalendar Dependencies-->
 	<link href='css/fullcalendar.css' rel='stylesheet' type="text/css">
 	<link href='css/fullcalendar.print.css' rel='stylesheet' media='print' type="text/css">
-	
+
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-	
+
 	<!--jQuery-->
 	<script src='https://code.jquery.com/jquery-1.10.2.min.js'></script>
 	<script src='vendor/jquery-ui-1.10.2.custom.min.js'></script>
@@ -22,33 +22,23 @@
 
 	<!--FullCalendar-->
 	<script src='vendor/fullcalendar.js'></script>
-	<script type="text/javascript"></script>
-
-	<style type="text/css">
-		body
-		{
-			margin-top: 40px;
-			text-align: center;
-			font-size: 14px;
-			font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-		}
-		#calendar
-		{
-			width: 900px;
-			margin: 0 auto;
-		}
-	</style>
+	
 </head>
 <body>
-	<header>
-		<a href="/"><img src="/imgs/logo" id="logo"/></a>
-		<a href="/login"><img src="/imgs/login" class="nav"/></a>
-		<a href="/bucket"><img src="/imgs/bucket" class="nav"/></a>
-		<a href="/mandal"><img src="/imgs/mandal" class="nav"/></a>
-	</header>
-	
+  <div id="else-container">
+    <div id="header-back">
+  	<header>
+  		<a href="/"><img src="/imgs/logo" id="logo"/></a>
+  		<a href="/login"><img src="/imgs/login" class="nav"/></a>
+  		<a href="/bucket"><img src="/imgs/bucket" class="nav"/></a>
+  		<a href="/mandal"><img src="/imgs/mandal" class="nav"/></a>
+  	</header>
+    </div>
+
 	<!--FullCalendar container div-->
-	<div id='calendar'></div>
+	<div id='calendar'>
+  <div id='hide-scrollbar'>
+  <div id='calendar-inner'>
 
 	<div class="modal fade" id="view_eventadd">
   		<div class="modal-dialog">
@@ -62,6 +52,11 @@
         				<label>Event title</label><br/>
 	        			<input type = "text" id = "title" class = "span10">
 	        		</p>
+
+        			<!--<p>
+        				<label>Day</label><br/>
+	        			<input type = "text" id = "day" class = "span10">
+	        		</p>-->
       			</div>
       			<div class="modal-footer">
         			<button type = "button" class="btn btn-primary" data-option="add" id="add">add</button>
@@ -79,11 +74,9 @@
         				<h4 class="modal-title" id="event_title">일정</h4>
       			</div>
       			<div class="modal-body">
-        			<label>Event title</label><br/>
         			<p><input type = "text" id = "changetitle" class = "span10"></p>
       			</div>
       		<div class="modal-footer">
-      			<!--<input type="hidden" id = "modalchange"/>-->
         		<button type = "button" class = "btn btn-danger" data-option = "remove" id = "remove">remove</button>
         		<button type = "button" class = "btn btn-primary" data-option = "edit" id = "edit">edit</button>
         		<button type= " button" class = "btn btn-default" data-dismiss = "modal">Close</button>
@@ -91,6 +84,10 @@
     	</div>
   	</div>
 	</div>
-
+  </div>
+  </div>
+  </div>
+  </div>
+  <div id="bg"></div>
 </body>
 </html>

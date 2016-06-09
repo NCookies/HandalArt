@@ -189,7 +189,7 @@
 
       this.$backdrop = $(document.createElement('div'))
         .addClass('modal-backdrop ' + animate)
-        .appendTo(this.$body)
+        .appendTo('#else-container')
 
       this.$element.on('click.dismiss.bs.modal', $.proxy(function (e) {
         if (this.ignoreBackdropClick) {
