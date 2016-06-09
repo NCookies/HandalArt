@@ -1,12 +1,12 @@
 #logo{
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   margin: 20px 0px 20px 20px;
 }
 
 .nav{
-  height: 100px;
-  width: 100px;
+  height: 80px;
+  width: 80px;
   float: right;
   margin: 14px 20px 20px 0px;
 }
@@ -18,28 +18,32 @@
   position: fixed;
   display: block;
   width:100%;
-  background-color: rgba(255,255,255,0.8);
-  height:128px;
-  top:20px;
+  background-color: rgba(255,255,255,1);
+  height:110px;
+  top:0px;
 
   z-index: 3000;
+}
+
+#bg-above{
+  background-color: rgba(0,0,0,1);
 }
 
 #bg{
   position: fixed;
   display:block;
   width:100%;
-  height:100%;
+  min-height:100%;
   background-image: url('../imgs/background.jpg');
   background-size:cover;
   padding: 0px;
   margin: 0px;
 
-  -webkit-filter: blur(2px);
-  -moz-filter: blur(2px);
-  -o-filter: blur(2px);
-  -ms-filter: blur(2px);
-  filter: blur(2px);
+  -webkit-filter: blur(0);
+  -moz-filter: blur(0);
+  -o-filter: blur(0);
+  -ms-filter: blur(0);
+  filter: blur(0);
 
   left: 0;
   right: 0;
