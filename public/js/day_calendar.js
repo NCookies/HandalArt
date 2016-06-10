@@ -69,6 +69,7 @@ $(document).ready(function() {
     //var isfilled = false;
     var sumValue = 0;
     var totalSize;
+    var startBig = false;
     
     var radians = 0.0174532925, 
 	clockRadius = 200,
@@ -105,7 +106,7 @@ $(document).ready(function() {
     
     drawClock();
     var sumIndex=" ";
-    var upIndex = 0;
+    var startIndex = 0;
 
     function sumData(data) { // 퍼센트 구할 때 필요
         var arr = 0;
@@ -120,9 +121,7 @@ $(document).ready(function() {
     // 클릭할때마다 값이 초기화되서 주의
     function mousedown(d) {
         sumValue = 0;
-        //isfilled = d3.select(this).classed("filling"); //hasclass
-        
-        $(this).addClass("filling");
+        startIndex = $(this).attr("index");
         sumValue += d.value;
         d.data.value = 0;
         dragging = true;
@@ -133,7 +132,18 @@ $(document).ready(function() {
             if( d.value == 30 ) {
                 sumIndex += ($(this).attr("index")+",");
             }
-            $(this).addClass("filling");
+            if( $(this).attr("index") > startIndex ){
+                $('path').filter(function() {
+                return $(this).attr('index') == startIndex;
+                }).addClass("smallerFilling"); //mouseup path
+                $(this).addClass("smallerFilling"); //red
+            }
+            else if( $(this).attr("index") < startIndex ){
+                $('path').filter(function() {
+                return $(this).attr('index') == startIndex;
+                }).addClass("biggerFilling");
+                $(this).addClass("biggerFilling"); //blue
+            }
             sumValue += d.value;
             d.data.value = 0;
         }     
@@ -141,8 +151,8 @@ $(document).ready(function() {
         var percentageString = percentage + "%";
         if (percentage < 0.1) { percentageString = "< 0.1%"; }     
         d3.select("#percentage")
-        //    .text(percentageString+"　　　　"+d.data.label);
-        .text($(this).attr("index")+"　　　　"+d.data.label); 
+        .text(percentageString+"　　　　"+d.data.label);
+       // .text($(this).attr("index")+"　　　　"+d.data.label); 
         
         $("path").css("stroke", "black").attr("opacity", "0.3");
         $("path").filter(".filling").attr("opacity", "1");
@@ -151,17 +161,13 @@ $(document).ready(function() {
     // path 밖에서 mouseup하면 mouseover가 연속됨.
     function mouseup(d) {
         dragging = false;
-        d.data.value = sumValue;      
-        $(this).addClass("filling");        
+        d.data.value = sumValue;         
         if(sumIndex != " ") {
             $(this).attr("sumIndex", sumIndex);
             sumIndex = " ";    
         }
-        if(upIndex == 0) {
-            upIndex = $(this).attr("index");
-        }
         target = d3.select(this).attr("index"); //추가 된 파이 식별하기 위해 필요 
-        edit(d, upIndex); //처음에 일정이름 추가
+        edit(d); //처음에 일정이름 추가
     }
 
     $("g").on("mouseout", function() {
@@ -192,59 +198,45 @@ $(document).ready(function() {
 
     function edit(d) {
         $("#editModal").modal();    
-        
         //remove click event before adding it.    
         //cancel했을 때 path생성 안되게
+        var targetPath = $('path').filter(function() {
+                return $(this).attr('index') == target;
+        });
+
         $("#save").off('click').on('click', function() { 
-            // change label          
-            d.data.label = $('#event_name').val();
-            // redraw path
-            change(target);  
-            //reset textbox
-            $('#event_name').val('');
+            d.data.label = $('#event_name').val(); // change label  
+            change(target);  // redraw path
+            $('#event_name').val(''); //reset textbox
         });   
         
         //sumIndex의 index를 가진 path.value = 30
         // 드래그 큰 수부터: [1] ~ end+2
         // 드래그 작은 수부터: [1]-1 ~ end+2
         $("#remove").off('click').on('click', function() {
-            var startBig = false; //드래그 순차적인지의 여부 / path가 3개 이상일 때
-            var twoBig = false; // path가 2개일때
             var sumIndex = $('path').filter(function() {
                 return $(this).attr('index') == target;
-            }).attr("sumIndex");         
+            }).attr("sumIndex");  
             var seperIndex = sumIndex.split(","); //sumIndex 배열로     
-            var dragEnd = seperIndex.length; //path의 갯수
-            if( seperIndex[1] < seperIndex[0] ) { //드래그 어디서 시작했나
-                console.log("Demfdj");
-                startBig = true;
-            } 
-            console.log(startBig);
+            var length = seperIndex.length; //path의 갯수 
+            var str = $.parseJSON(JSON.stringify(data));           
             seperIndex.sort(function(left, right) { //오름차순정렬
                  return left-right;
-            });         
-            //드래그 순서에 따라 sumindex값이 다르기 때문에 반복문도 다름.
-            //for문의 처음이 다를 뿐인데 코드를 다시써야됨. 비효율적
-/*            console.log(target);
-            console.log(sumIndex);
-            console.log(seperIndex);
-            console.log(dragEnd);*/
-            console.log(seperIndex);
-            console.log(seperIndex[dragEnd-1]);
-            if(startBig) {
-                console.log("Afsdfa");
-                for(var i=seperIndex[1]-1; i<=target; i++) {
-                    console.log(i);
-                    console.log("작은수부터드래그---------");
-                }
-            }
-            else if(!startBig) {
-                console.log("BBsdfa");
-                for( var i=target; i<seperIndex[dragEnd-1]; i++) {
-                    console.log(i);
-                    console.log("큰수부터드래그----------");
-                }
-            }
+            });
+            if(targetPath.hasClass("biggerFilling")){
+                console.log(seperIndex);
+                console.log(length);
+                for (var i=seperIndex[1]; i<=seperIndex[length-1]+1; i++) {
+                    console.log(i);/*
+                    str[i].value = 30;
+                    paths.data(pie(str)); // compute the new angles                  
+                    paths.transition().duration(750)
+                        .attrTween("d", arcTween); // redraw the paths                 
+                    $('path').filter(function() {
+                        return $(this).attr('index') == i;
+                    }).attr("sumIndex", "");*/
+                } 
+            }         
         });      
     }
 
