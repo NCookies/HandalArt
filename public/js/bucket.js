@@ -1,8 +1,9 @@
 ﻿$(document).ready(function() {
 
   var num = 1;  // bucket_list 순번
-  var del_bool = true;
-  var comp_bool = false;
+  var del_bool = true;    //list 삭제시 삭제중인가를 판별
+  var comp_bool = false;  //list 편집시 편집중인지를 판별
+
 // 추가 버튼 전에 새로운 노드를 추가
   $('#lastNode').before("<tr><td>"+num+"</td><td><input type=\"text\"class=\'input\' id=\"content\" placeholder =\'내용\'></td><td><input type=\"date\" placeholder =\'목표 일자\' class=\'input\' id=\"goal\"></td><td><div class=\"comp_check\"></div></td></tr>");
   num++;
@@ -48,4 +49,11 @@ $('#delete').on('click',function () {
 
 });
 
-})
+
+//calendar hover
+$('#calendar').hover(function () {
+  $('#calendar').attr("src","imgs/calender_hover_icon.png");
+}, function () {
+  $('#calendar').attr("src","imgs/calendar_icon.png");
+});
+});
