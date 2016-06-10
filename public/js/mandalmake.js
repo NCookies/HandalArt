@@ -7,7 +7,7 @@ $(document).ready(function(){
         if (rote == false) {
             $('#addbtn').css('transform','rotate(45deg)');
             $('ul').slideDown(1000);
-        rote = true;
+            rote = true;
         }
         else {
             $('#addbtn').css('transform','rotate(0deg)');

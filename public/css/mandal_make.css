@@ -10,6 +10,16 @@
   padding-right: 5%;
 }
 
+#option{
+  margin-top : 200px;
+  width: 250px;
+  float: left;
+}
+
+section{
+  margin-top: 188px;
+}
+
 body{
   margin: 0px;
 }

@@ -109,7 +109,7 @@ $(document).ready(function()
 		   	        end: end,
 		   	        allDay: allDay		// 시간인식
 	    	    };
-
+				console.log(newEvent);
 				$('#calendar').fullCalendar('renderEvent', newEvent, 'stick');
 				$('#view_eventadd').modal('hide');
 				// title = $('#title').val('');		// 앞에 썼던 title 내용 초기화, 나중에 썼던 title 내용이 맨 처음 클릭했던 날에만 들어감, 다른 날에는 빈칸으로 들어감
@@ -156,35 +156,48 @@ $(document).ready(function()
 			{
 				title: 'All Day Event',
 				start: new Date(y, m, 1)
+			},
+			{
+				title: 'Long Event',
+				start: new Date(y, m, d-5),
+				end: new Date(y, m, d-2)
+			},
+			{
+				id: 999,
+				title: 'Repeating Event',
+				start: new Date(y, m, d-3, 16, 0),
+				allDay: false
+			},
+			{
+				id: 999,
+				title: 'Repeating Event',
+				start: new Date(y, m, d+4, 16, 0),
+				allDay: false
+			},
+			{
+				title: 'Meeting',
+				start: new Date(y, m, d, 10, 30),
+				allDay: false
+			},
+			{
+				title: 'Lunch',
+				start: new Date(y, m, d, 12, 0),
+				end: new Date(y, m, d, 14, 0),
+				allDay: false
+			},
+			{
+				title: 'Birthday Party',
+				start: new Date(y, m, d+1, 19, 0),
+				end: new Date(y, m, d+1, 22, 30),
+				allDay: false
+			},
+			{
+				title: 'Click for Google',
+				start: new Date(y, m, 28),
+				end: new Date(y, m, 29),
+				url: 'http://google.com/'
 			}
 		]
  	});
-
-	$(".sendClientEvents").on('click', function() {
-		var arr = calendar.fullCalendar('clientEvents');
-		var jsonObj;
-		$.each(arr, function(index, val) {
-			console.log(arr[index]);
-			jsonObj += JSON.stringify(arr[index]);
-		});
-
-		console.log(jsonObj);
-
-		$.ajax({
-			url: '/calendar',
-			type: 'POST',
-			data: { events: jsonObj },
-			success: function(data) {
-				if (data.success) {
-					console.log('데이터 전송 성공!!');
-				} else {
-					console.log('오류 발생!!');
-				}
-			},
-			error: function() {
-				console.log('오류 발생2!!');
-			}
-		});
-
-	});
 });
+		
