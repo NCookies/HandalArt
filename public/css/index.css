@@ -26,19 +26,22 @@ header{
 /*****************section*****************/
 
 #bucket, #calender,#mandalart{  /*main 화면 메뉴 이미지 크기*/
-  width: 256px;
-  height: 256px;
-  margin-left: 10%;
+  width: 200px;
+  height: 200px;
+  margin-left: 13%;
   margin-top: 60px;
 }
 
-p{                              /*슬로건 크기와 위치*/
-  font-size: 40pt;
-  padding-top: 20px;
-  padding-bottom: 40px;
-  text-align: center;
-  margin: 0px;
+ul{
+  margin-top: 10%;
 }
+
+p{                              /*슬로건 크기와 위치*/
+  font-size: 40px;
+  text-align: center;
+  margin-top: 120px;
+  margin-bottom: 20px;
+  }
 /*****************************************/
 
 /*****************footer*****************/
@@ -50,6 +53,7 @@ footer{                         /*footer에 있는 txt 오른쪽으로 정렬*/
 }
 
 small{                          /*small 위치 정렬*/
+  padding-top: 50px;
   padding-right: 20px;
 }
 /****************************************/
