@@ -2,52 +2,57 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="/css/bucket.css">
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <title>bucket</title>
+
+    <link rel="stylesheet" href="../css/bucket.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script src="../js/bucket.js"></script>
+
+    </head>
+    <div id="else-container">
     
-    <script type="text/javascript" src="/js/bucket.js" defer="defer"></script>
-    
-    <title>BucketList</title>
-  </head>
-  
-  <body>
-    
-    <header>
-      <a href="/"><img src="/imgs/logo" id="logo"/></a>
-      <a href="/login"><img src="/imgs/login" class="nav"/></a>
-      <a href="/calendar"><img src="/imgs/calendar" class="nav"/></a>
-      <a href="/mandal"><img src="/imgs/mandal" class="nav"/></a>      
-    </header>
-    
+    <body>
+      <header>
+        <div id="header-back">
+          <a href="/"><img src="imgs/logo.png" alt="logo" id="logo"/></a>
+          <a href="/login"><img src="imgs/login.png" alt="login" class="nav"/></a>
+          <a href="/mandal"><img src="imgs/mandal_icon.png" alt="mandal" class="nav"/></a>
+          <a href="/calendar"><img src="imgs/calendar_icon.png" alt="calender" class="nav" id="calendar"/></a>
+        </div>
+      </header>
     <section>
-        <table id="tableOfBucketList" border="3px">
-            <caption id=nameOfTable>버킷리스트<button class="addButton" type="Button" onClick="addRow()"></button></caption>
-            <thead>
-                <tr>
-                    <th scope="row" width="10%">순번</th>
-                    <th scope="row" width="80%">목표</th>
-                    <th scope="row" width="10%">목표기한</th>
-                </tr>
-            </thead>
-            <tbody id="unfinishedGoals">
-                <tr><td>1</td><td>프로젝트 100개 진행하기</td><td>2020년</td></tr>
-            </tbody>
-            <thead>
-                <tr>
-                    <th scope="row">순번</th>
-                    <th scope="row">목표</th>
-                    <th scope="row">성공날짜</th>
-                </tr>
-            </thead>
-            <tbody id="finishedGoals">
-                <tr>
-                    <td>1</td>
-                    <td>프로젝트 100개 진행하기</td>
-                    <td>2018년</td>
-                </tr>
-            </tbody>
-        </table>
+
+      <button type="button" id="delete" class="tableBtn">삭제</button>
+      <button type="button" id="editList" class="tableBtn">완료</button>
+      
+        <table border="1">
+          <thead align="center">
+            <tr>
+              <td colspan="4">
+                Bucket List!
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>순번</td>
+              <td>내용</td>
+              <td>목표 일자</td>
+              <td>목표 달성</td>
+            </tr>
+
+            <tr id="lastNode">
+              <td colspan="4" >
+                <input type="button" value="add Bucket" id="addList">
+              </td>
+            </tr>
+      </tbody>
+    </table>
     </section>
-    
+    <footer></footer>
+    </div>
+    <div id="bg"></div>
   </body>
 </html>

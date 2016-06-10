@@ -2,63 +2,138 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
+
 var bodyParser = require('body-parser');
+
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+
+var passport = require('passport')
+var LocalStrategy = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
+var TwitterStrategy = require('passport-twitter').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+
+var flash = require('connect-flash');
+
 var http = require('http');
-
-
 var app = express();
+
+'use strict';
 
 // view engine setup
 //app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 3000);
 
-
 // uncomment after placing your favicon in /public
 
-app.use('/vendor', express.static(path.join(__dirname, 'public/js/vendor')));
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/vendor', express.static(path.join(__dirname, 'public/js/vendor')));
 
+app.use(flash());
 
-// catch 404 and forward to error handler
-/*app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
+app.use(cookieParser());
+app.use(session({
+	resave: false,
+	saveUninitialized: false,
+	secret: 'keyboard cat'
+}));
 
-// error handlers
+passport.use(new LocalStrategy({
+        usernameField : 'email', // user email
+        passwordField : 'password', // user password
+        passReqToCallback : true
+		// 인증을 수행하는 인증 함수, HTTP request를 그대로  전달할지 여부
+    }, 
+	function(req ,userid, password, done) { // 후에 DB로 대체
+        if (userid=='jungjung@gmail.com' && password=='qkqh'){
+            var user = { 'email':'jungjung@gmail.com' };
+            return done(null, user);
+        } else{
+            return done(null, false);
+        }
+    }
+));
 
-// development error handler
-// will print stacktrace
+passport.use(new FacebookStrategy({
+        clientID: '594228160736253',
+        clientSecret: '1cd92a04f2aa948c175013002f00341e',
+        callbackURL: "http://localhost:3000/auth/facebook/callback"
+    },
+    function(accessToken, refreshToken, profile, done) {
+		/*User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+			if (err) { return done(err); }
+			return done(err, user);
+		});*/
+		console.log(profile.id);
+		done(null, profile);
+    }
+));
 
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
+/*passport.use(new TwitterStrategy({
+    consumerKey: TWITTER_CONSUMER_KEY,
+    consumerSecret: TWITTER_CONSUMER_SECRET,
+    callbackURL: "http://www.example.com/auth/twitter/callback"
+  },
+  function(token, tokenSecret, profile, done) {
+    User.findOrCreate(..., function(err, user) {
+      if (err) { return done(err); }
+      done(null, user);
     });
-  });
+  }
+));*/
+
+passport.use(new GoogleStrategy({
+    clientID: '947227472989-d2i27nlkn6la0gfdmlaocs2ah6aaa4tr.apps.googleusercontent.com',
+    clientSecret: 'LDZUY-y4KPijlulViqLR7wlh',
+    callbackURL: "http://localhost:3000/auth/google/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+       /*User.findOrCreate({ googleId: profile.id }, function (err, user) {
+         return done(err, user);
+       });*/
+	   console.log(profile.id);
+	   done(null, profile);
+	}
+));
+
+passport.serializeUser(function(user, done) {
+	// user : LocalStrategy 객체의 인증함수에서 done(null,user)에 의해 리턴된 값이 넘어옴
+    console.log('serialize');
+    done(null, user); // session에 저장할 정보
+});
+// 로그인에 성공하면 사용자 정보를 세션에 저장
+
+passport.deserializeUser(function(user, done) {
+    //findById(id, function (err, user) {
+    console.log('deserialize');   
+    done(null, user);
+    //});
+});
+// node.js의 모든 페이지에 접속할 때마다 호출, 사용자 정보를 세션에서 읽어옴
+
+// 호출될 때마다 매번 사용자 id 또는 email을 이용하여 DB에서 추가로 정보를 가져옴
+// 하지만 이 방식은 DB 접근이 너무 잦기 때문에 비추천
+// 저장할 데이터가 너무 크지 않은 이상 사용자 로그인 데이타를 모두 serialize시에 session에 넣는 것을 권장
+// 데이터가 너무 많으면 redis와 같은 외부 메모리 DB를 이용해서 저장
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+function ensureAuthenticated(req, res, next) {
+    // 로그인이 되어 있으면, 다음 파이프라인으로 진행
+    if (req.isAuthenticated()) { return next(); }
+    // 로그인이 안되어 있으면, login 페이지로 진행
+    res.redirect('/login');
 }
 
-// production error handler
-// no stacktraces leaked to user
-
-
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
-});*/
 
 http.createServer(app, function (req, res) {
 	console.log(req.ip + 'was connected!');
@@ -67,22 +142,62 @@ http.createServer(app, function (req, res) {
 });
 
 
-// GET
 app.get('/', function(req, res) {
 	res.render('index');
 });
 // root URL
 
 app.get('/login', function(req, res) {
-	res.render('login');
+	var account = req.user;
+		
+	if (typeof account == "undefined") {
+		res.render('login', { user : false});
+	} // 로그인 되어 있지 않을 때
+	else {
+		if (account.email) { // 사이트 자체 로그인
+			res.render('logout', { user : req.session.passport.user.email });
+		} else { // 외부 계정 연동
+			res.render('logout', { user : req.session.passport.user.displayName || {} });			
+		}
+	} // 로그인 세션이 있을 때	
 });
-// /mandal URL, render mandalart_main.html file
 
+app.get('/logout', function(req, res) {
+	req.logout();
+	res.redirect('/');
+});
+
+app.get('/auth/facebook', passport.authenticate('facebook'));
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+
+app.get('/auth/twitter', passport.authenticate('twitter'));
+
+app.get('/auth/facebook/callback',
+    passport.authenticate('facebook', { failureRedirect: '/login' }),
+	function(req, res) {
+		var user = JSON.stringify(req.user);
+		var account = req.account;
+
+		// Associate the Facebook account with the logged-in user.
+
+		res.redirect('/');
+	});
+	
+app.get('/auth/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
+  
+  app.get('/auth/twitter/callback',
+  	passport.authenticate('twitter', { successRedirect: '/',
+	  failureRedirect: '/login' }));
+	
 // bucketlist
 app.get('/bucket', function(req, res) {
-	res.render('bucket_list', {
-		
-	});
+	res.render('bucket_list');
 });
 
 // calendar
@@ -96,127 +211,51 @@ app.get('/mandal', function(req, res) {
 });
 
 app.get('/mandal/main', function(req, res) {
-	/*var roominfo = function(roomname){
-		this.roomname=roomname;
-	};
-
-	room_info_array= new Array(1);
-	room_info_array[0]=new roominfo("room");*/
-	
-	var subTargets = 
-		[{
-			"id" : "act1_1",
-			"article" : "세부목표1"
-		}, 
-		{
-			"id" : "act1_2",
-			"article" : "세부목표2"
-		},
-		{
-			"id" : "act1_3",
-			"article" : "세부목표3"
-		},
-		{
-			"id" : "act1_4",
-			"article" : "세부목표4"
-		},
-		{
-			"id" : "act1_5",
-			"article" : "세부목표5"
-		},
-		{
-			"id" : "act1_6",
-			"article" : "세부목표6"
-		},
-		{
-			"id" : "act1_7",
-			"article" : "세부목표7"
-		},
-		{
-			"id" : "act1_8",
-			"article" : "세부목표8"
-		}]
-	
-
-	var actions = 
-		[{
-			"id" : "act1_1",
-			"article" : "실천사항1"
-		}, 
-		{
-			"id" : "act1_2",
-			"article" : "실천사항2"
-		},
-		{
-			"id" : "act1_3",
-			"article" : "실천사항3"
-		},
-		{
-			"id" : "act1_4",
-			"article" : "실천사항4"
-		},
-		{
-			"id" : "act1_5",
-			"article" : "실천사항5"
-		},
-		{
-			"id" : "act1_6",
-			"article" : "실천사항6"
-		},
-		{
-			"id" : "act1_7",
-			"article" : "실천사항7"
-		},
-		{
-			"id" : "act1_8",
-			"article" : "실천사항8"
-		},
-		{
-			"id" : "act2_1",
-			"article" : "실천사항1"
-		}, 
-		{
-			"id" : "act2_2",
-			"article" : "실천사항2"
-		},
-		{
-			"id" : "act2_3",
-			"article" : "실천사항3"
-		},
-		{
-			"id" : "act2_4",
-			"article" : "실천사항4"
-		},
-		{
-			"id" : "act2_5",
-			"article" : "실천사항5"
-		},
-		{
-			"id" : "act2_6",
-			"article" : "실천사항6"
-		},
-		{
-			"id" : "act2_7",
-			"article" : "실천사항7"
-		},
-		{
-			"id" : "act2_8",
-			"article" : "실천사항8"
-		}]
-		
-	var jsonObj = {
-		FinalTarget : "최종목표",
-		subTargets : subTargets,
-		actions : actions
+	var arr = new Array();
+	for (var i = 0; i <= 81; i++) {
+		arr.push('test' + i);
 	}
  	
-	res.render('mandal_main', {jsonObj : jsonObj});
+	res.render('mandal_main', {jsonObj : arr});
 });
 	 
-app.get('/canvas', function(req, res) {
-	res.sendFile(path.join(__dirname+'/public/html/canvas_12clock.html'));
+app.get('/day_calendar', function(req, res) {
+	res.render('day_calendar');
+});
+// GET
+
+
+app.post('/mandal/main', function(req, res) {
+	//res.send('article : ' + req.body.mandalArticle);
+	if (req.xhr || req.accepts('json, html')==='json') {
+		console.log(JSON.stringify(req.body))
+		//res.send({success: true});
+		// (에러가 있다면 { error: 'error description' }을 보냄)
+	} else {
+		res.redirect(303, '/');
+		// (에러가 있다면 에러 페이지로 리다이렉트)
+	}
 });
 
+app.post('/calendar', function(req, res) {
+	if (req.xhr || req.accepts('json, html')==='json') {
+		console.log(JSON.stringify(req.body));
+		// (에러가 있다면 { error: 'error description' }을 보냄)
+	} else {
+		res.redirect(303, '/');
+		// (에러가 있다면 에러 페이지로 리다이렉트)
+	}
+});
+
+app.post('/login',
+		passport.authenticate('local', 
+		{ failureRedirect: '/login', 
+failureFlash: true }), 
+		function(req, res) {
+			//'아이디나 비밀번호가 바르지 않습니다.' 
+	res.redirect('/');
+});
+// POST
 
 // images
 app.get('/imgs/logo', function(req, res) {

@@ -6,39 +6,48 @@
 
     <link rel="stylesheet" href="/css/mandal_make.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" href="/css/mandal_main.css">
 
-    <script src="public/js/vendor/jquery-1.10.2.min.js"></script>
-    <script src="public/js/vendor/jquery-ui-1.10.3.custom.min.js"></script>
-    <script src="/js/mandalmake.js"></script>
+    <script src="vendor/jquery-1.10.2.min.js"></script>
+    <script src="vendor/jquery-ui-1.10.2.custom.min.js"></script>
+    <script src="js/mandalmake.js"></script>
 
 
     <title>만다라트</title>
   </head>
 
   <body>
+    <div id="else-container">
+
     <header>
-      <a href="/"><img src="/imgs/logo" id="logo"draggable="false"/></a>
-      <a href="/login"><img src="/imgs/login" class="nav" draggable="false"/></a>
-      <a href="/calendar"><img src="/imgs/calendar" class="nav" draggable="false"/></a>
-      <a href="/bucket"><img src="/imgs/bucket" class="nav" draggable="false"/></a>
+      <div id="header-back">
+        <a href="/"><img src="/imgs/logo" id="logo"draggable="false"/></a>
+        <a href="/login"><img src="/imgs/login" class="nav" draggable="false"/></a>
+        <a href="/calendar"><img src="/imgs/calendar" class="nav" draggable="false"/></a>
+        <a href="/bucket"><img src="/imgs/bucket" class="nav" draggable="false"/></a>
+      </div>
     </header>
 
-    <section>
-      <p draggable="false">
-        만다라트
-      </p>
+    <div id = 'option'>
       <img src="imgs/plus.png" id="addbtn"/>
-      <ul >
-        <li><a href="/mandal_template"><img src="imgs/select_circle.png" class="selector" id="circle"/></a></li>
-        <li><img src="imgs/select_triangle.png" class="selector" id="triangle"/></li>
-        <li><a href="/mandal/main"><img src="imgs/select_square.png" class="selector" id="square"/></a></li>
-      </ul>
-<!-- 계시물의 개수를 받아 for문을 돌려 이미지를 출력해준다. -->
+        <ul>
+          <li><a href="/mandal_template"><img src="imgs/select_circle.png" class="selector" id="circle"/></a></li>
+          <li><img src="imgs/select_triangle.png" class="selector" id="triangle"/></li>
+          <li><a href="/mandal/main"><img src="imgs/select_square.png" class="selector" id="square"/></a></li>
+        </ul>
+    </div>
 
+<!-- 게시물의 개수를 받아 for문을 돌려 이미지를 출력해준다. -->
+    <section>
+      <div class="preview"></div>
+      <div class="preview"></div>
+      <div class="preview"></div>
     </section>
 
     <footer>
 
     </footer>
+    </div>
+    <div id="bg"></div>
   </body>
 </html>

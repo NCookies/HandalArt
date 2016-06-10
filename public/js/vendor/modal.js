@@ -23,7 +23,6 @@
     this.originalBodyPad     = null
     this.scrollbarWidth      = 0
     this.ignoreBackdropClick = false
-
     if (this.options.remote) {
       this.$element
         .find('.modal-content')

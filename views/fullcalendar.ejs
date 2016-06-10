@@ -14,9 +14,9 @@
 	<script src = 'js/calendar.js'></script>
 	<!-- Bootstrap-->
 	<link href = "css/bootstrap.min.css" rel="stylesheet" media="screen">
-	<link href = 'css/modals.less' rel = "stylesheet/less" type = "text/css">
 	<script src = 'vendor/bootstrap.min.js'></script>
 	<script src = 'vendor/modal.js'></script>
+	<script src = 'vendor/modals.less'></script>
     <!--<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
     -->
 
@@ -32,6 +32,7 @@
 				<a href="/login"><img src="/imgs/login" class="nav"/></a>
 				<a href="/bucket"><img src="/imgs/bucket" class="nav"/></a>
 				<a href="/mandal"><img src="/imgs/mandal" class="nav"/></a>
+				<button class="sendClientEvents">제출</button>				
 			</header>
 		</div>
 
@@ -52,6 +53,11 @@
 										<label>Event title</label><br/>
 										<input type = "text" id = "title" class = "span10">
 									</p>
+
+									<!--<p>
+										<label>Day</label><br/>
+										<input type = "text" id = "day" class = "span10">
+									</p>-->
 								</div>
 								<div class="modal-footer">
 									<button type = "button" class="btn btn-primary" data-option="add" id="add">add</button>
@@ -69,10 +75,7 @@
 									<h4 class="modal-title" id="event_title">일정</h4>
 								</div>
 								<div class="modal-body">
-									<p>
-										<label>Event title</label><br/>
-										<input type = "text" id = "changetitle" class = "span10">
-									</p>
+									<p><input type = "text" id = "changetitle" class = "span10"></p>
 								</div>
 								<div class="modal-footer">
 									<button type = "button" class = "btn btn-danger" data-option = "remove" id = "remove">remove</button>
@@ -85,7 +88,6 @@
 				</div>
 			</div>	
 		</div>
-
 	</div>
     <div id="bg"></div>
 </body>
