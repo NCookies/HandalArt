@@ -9,13 +9,23 @@ form{
   width: 250px;
 }
 
-#email, #password, #login{
+#email, #password{
+  width: 250px;
+  height: 40px;
+  display: block;
+  margin: 10px 0px 10px 0px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+#login{
   width: 250px;
   height: 50px;
   display: block;
   margin: 10px 0px 10px 0px;
   box-sizing: border-box;
   position: relative;
+
 }
 
 #email, #password{
@@ -44,9 +54,17 @@ a:active {
   border-bottom-right-radius: 15px;
 }
 
+#log_form{
+  /*margin-top: 350px;*/
+}
+
+section{
+  margin-top:350px;
+}
+
 p{
-  background-color: #fff;
-  color: #000;
+  /*background-color: #fff;*/
+  /*color: #000;*/
   margin: 0px;
   text-align: center;
   padding: 10px 0px 10px 0px;
@@ -54,6 +72,6 @@ p{
 }
 small{
   float: right;
-  padding-top:200px;
+  /*padding-top:200px;*/
   padding-right: 20px;
 }
