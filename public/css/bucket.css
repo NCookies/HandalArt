@@ -1,20 +1,6 @@
-#logo{
-  width: 128px;
-  height: 128px;
-  float: left;
-  margin: 10px 0px 0px 10px;
-}
-
-.header_icon{
-  width: 128px;
-  height: 128px;
-  display: inline-block;
-  float: right;
-  margin-right: 5%;
-}
 section{
-  clear: both;
-  padding-top: 50px;
+  /*clear: both;*/
+  padding-top: 120px;
 }
 .tableBtn{
   margin-top: 8%;
@@ -24,13 +10,19 @@ thead{
 }
 table{
   margin-top: 3%;
-  width: 44%;
-  margin-left: 25%;
+  width: 850px;
+  margin: auto;
   border-collapse: collapse;
 }
 td{
   padding: 0 0 0 0;
 }
+
+.comp_check{
+  width: 100%;
+  height: 24px;
+}
+
 input{
   width: 99%;
   height: 99%;
@@ -43,9 +35,6 @@ input{
 td{
   text-align: center;
 }
-input:hover{
-  background-color: #EEE;
-}
 .button {
   float: left;
   margin-left: 42%;
@@ -55,8 +44,8 @@ button{
   display:inline-block;
   float: right;
   margin-right: 1.5%;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   border-radius: 90px;
   font-size: 25px;
   border: none;
@@ -64,7 +53,9 @@ button{
   background-color: #5CD1E5;
   transition-duration: 0.5s;
   }
-
+.input{
+  background-color: rgba(0,0,0,0);
+}
 button:hover{
   box-shadow: 0px 3px 2px #d5d5d5;
   background-color: #EEEEEE;

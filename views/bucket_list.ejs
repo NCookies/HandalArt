@@ -5,27 +5,32 @@
     <title>bucket</title>
 
     <link rel="stylesheet" href="../css/bucket.css">
+    <link rel="stylesheet" href="../css/style.css">
     <script src="https://code.jquery.com/jquery-1.12.3.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
     <script src="../js/bucket.js"></script>
 
     </head>
+    <div id="else-container">
+    
     <body>
       <header>
-        <a href="/"><img src="imgs/logo.png" alt="logo" id="logo"/></a>
-        <a href="/login"><img src="imgs/login.png" alt="login" class="header_icon"/></a>
-        <a href="/mandal"><img src="imgs/mandal_icon.png" alt="mandal" class="header_icon"/></a>
-        <a href="/calendar"><img src="imgs/calendar_icon.png" alt="calender" class="header_icon"/></a>
+        <div id="header-back">
+          <a href="/"><img src="imgs/logo.png" alt="logo" id="logo"/></a>
+          <a href="/login"><img src="imgs/login.png" alt="login" class="nav"/></a>
+          <a href="/mandal"><img src="imgs/mandal_icon.png" alt="mandal" class="nav"/></a>
+          <a href="/calendar"><img src="imgs/calendar_icon.png" alt="calender" class="nav" id="calendar"/></a>
+        </div>
       </header>
     <section>
 
       <button type="button" id="delete" class="tableBtn">삭제</button>
       <button type="button" id="editList" class="tableBtn">완료</button>
-
+      
         <table border="1">
           <thead align="center">
             <tr>
-              <td colspan="3">
+              <td colspan="4">
                 Bucket List!
               </td>
             </tr>
@@ -35,10 +40,11 @@
               <td>순번</td>
               <td>내용</td>
               <td>목표 일자</td>
+              <td>목표 달성</td>
             </tr>
 
             <tr id="lastNode">
-              <td colspan="3" >
+              <td colspan="4" >
                 <input type="button" value="add Bucket" id="addList">
               </td>
             </tr>
@@ -46,5 +52,7 @@
     </table>
     </section>
     <footer></footer>
+    </div>
+    <div id="bg"></div>
   </body>
 </html>
