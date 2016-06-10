@@ -1,77 +1,203 @@
-/////메인 달력 만들기
-  //현재 년도와 월에 대해 ny, nm이라는 전역변수를 선언하고, 값을 부여합니다. 값은 javascript로 선언할 수도 있겠지만 간편하게 php로 받습니다.
-  //### ASP Coding ###//
-  //  var ny = "<%=year(now)%>";
-  //  var nm = "<%=month(now)%>";
-  var ny = "<?=date("Y")?>";
-  var nm = "<?=date("m")?>";
-  function makeDiary() {
-    var strsm = nm+"";
-    if(strsm.length==1) { strsm = "0"+strsm; }
-    var nfirstdate = new Date(ny,(nm-1),1);
-    var nfirstweek = nfirstdate.getDay();
-    var nlastdate = new Date(ny,nm,0);
-    var nlastday = nlastdate.getDate();
-    var dtmsg = "<tr align='center' height='25'><td width='14%' style='color:#ff0000;border-right:1px solid #cccccc;border-bottom:1px solid #666666;'><b>일</b></td>";
-    dtmsg += "<td width='14%' style='border-right:1px solid #cccccc;border-bottom:1px solid #666666;'><b>월</b></td><td width='14%' style='border-right:1px solid #cccccc;border-bottom:1px solid #666666;'><b>화</b></td>";
-    dtmsg += "<td width='14%' style='border-right:1px solid #cccccc;border-bottom:1px solid #666666;'><b>수</b></td><td width='14%' style='border-right:1px solid #cccccc;border-bottom:1px solid #666666;'><b>목</b></td>";
-    dtmsg += "<td width='14%' style='border-right:1px solid #cccccc;border-bottom:1px solid #666666;'><b>금</b></td><td width='14%' style='border-bottom:1px solid #666666;'><b>토</b></td></tr>";
-    var d = 0;
-    var ntdsum = nlastday+nfirstweek;
-    var dmsg = "";
-    for(i=0; i<ntdsum; i++) {
-      if(i<nfirstweek) {
-        if(i==0) dmsg += "<td valign='top' style='padding-top:3;border-top:1px solid #cccccc;border-right:1px solid #cccccc;'><span style='padding-left:3;color:#ff8989;'></span></td>";
-        else dmsg += "<td valign='top' style='padding-top:3;border-top:1px solid #cccccc;border-right:1px solid #cccccc;'><span style='padding-left:3;color:#bbbbbb;'></span></td>";
-      }
-      else {
-        d++;
-        var tdfc = "";
-        if(((i+1)%7)==1) { tdfc = "color:#ff0000;"; }
-        dmsg += "<td valign='top' style='padding-top:3;border-top:1px solid #cccccc;border-right:1px solid #cccccc;color:#474747;'><span style='padding-left:3;"+tdfc+"'>"+d+"</span></td>";
-      }
-      if(i<ntdsum-1 && ((i+1)%7)==0) { dmsg += "</tr><tr>"; }
-    }
-    i = 0;
-    if(7-(ntdsum%7)>0 && (ntdsum%7)>0) {
-      for(i=0; i<(7-(ntdsum%7)); i++) {
-        tdfc = "color:#bbbbbb;";
-        if(i==0 && (ntdsum%7)==0) { tdfc = "color:#ff8989;"; }
-        dmsg += "<td valign='top' style='padding-top:3;border-top:1px solid #cccccc;border-right:1px solid #cccccc;'><span style='padding-left:3;"+tdfc+"'>"+(i+1)+"</span></td>";
-      }
-    }
-    document.getElementById("maindiary").innerHTML = "<table width='100%' height='100%' border='0' cellspacing='0' cellpadding='0'>"+dtmsg+"<tr>"+dmsg+"</tr></table>";
-    var ltm = nm-1;
-    var lty = ny;
-    if(ltm<1) { lty = ny-1; ltm = 12; }
-    var tlastdate = new Date(lty,ltm,0);
-    var tlastday = tlastdate.getDate();
-    var btcnt = -1;
-    for(i=0; i<7; i++) {
-      if(!document.getElementById("maindiary").childNodes[0].rows[1].cells[i].childNodes[0].innerText) btcnt++;
-    }
-    var tfirstday = tlastday - btcnt;
-    for(i=0; i<=btcnt; i++) {
-      document.getElementById("maindiary").childNodes[0].rows[1].cells[i].childNodes[0].innerText = tfirstday+i;
-    }
-    for(i=1; i<document.getElementById("maindiary").childNodes[0].rows.length; i++) {
-      if(document.getElementById("maindiary").childNodes[0].rows[i].cells[6]) {
-        document.getElementById("maindiary").childNodes[0].rows[i].cells[6].style.borderRight = "0";
-      }
-    }
-    if(ny=="<?=date("Y")?>" && nm=="<?=date("m")?>") {
-      for(i=1; i<document.getElementById("maindiary").childNodes[0].rows.length; i++) {
-        for(j=0; j<7; j++) {
-          if(document.getElementById("maindiary").childNodes[0].rows[i].cells[j].style.color=="#474747") {
-            if(document.getElementById("maindiary").childNodes[0].rows[i].cells[j].innerText=="<?=date("d")*1?>") {
-              document.getElementById("maindiary").childNodes[0].rows[i].cells[j].style.backgroundColor = "#fffdc8";
-            }
-            else {
-              document.getElementById("maindiary").childNodes[0].rows[i].cells[j].style.backgroundColor = "";
-            }
-          }
-        }
-      }
-    }
-  }
-  makeDiary();
+/*
+	jQuery document ready
+*/
+
+$(document).ready(function()
+{
+	/*
+		date store today date.
+		d store today date.
+		m store current month.
+		y store current year.
+	*/
+	var date = new Date();
+	var d = date.getDate();
+	var m = date.getMonth();
+	var y = date.getFullYear();
+	
+	/*
+		Initialize fullCalendar and store into variable.
+		Why in variable?
+		Because doing so we can use it inside other function.
+		In order to modify its option later.
+	*/
+	
+	var calendar = $('#calendar').fullCalendar(
+	{
+		/*
+			header option will define our calendar header.
+			left define what will be at left position in calendar
+			center define what will be at center position in calendar
+			right define what will be at right position in calendar
+		*/
+		header:
+		{
+			left: 'prev,next today',
+			center: 'title',
+			right: 'month,agendaWeek,agendaDay'
+		},
+		/*
+			defaultView option used to define which view to show by default,
+			for example we have used agendaWeek.
+		*/
+		defaultView: 'month',			// 첫 화면
+		/*
+			selectable:true will enable user to select datetime slot
+			selectHelper will add helpers for selectable.
+		*/
+		selectable: true,
+		selectHelper: true,
+		/*
+			when user select timeslot this option code will execute.
+			It has three arguments. Start,end and allDay.
+			Start means starting time of event.
+			End means ending time of event.
+			allDay means if events is for entire day or not.
+		*/
+		//select: function(start, end, allDay)
+		//{
+				// after selection user will be promted for enter title for event.
+			/*var title = prompt('Event Title:');
+				// if title is enterd calendar will add title and event into fullCalendar.
+			if (title)
+			{
+				calendar.fullCalendar('renderEvent',
+					{
+						title: title,
+						start: start,
+						end: end,
+						allDay: allDay
+					},
+					true // make the event "stick"
+				);
+				// ajax call to store event in DB
+			}*/
+		//calendar.fullCalendar('unselect');
+		//},
+			// 모달 띄우기
+		select: function(start, end, allDay)		// dayClick 함수는 클릭이벤트만 있는 반면, select 함수는 드래그이벤트도 있음
+		{
+			//var dragging;
+			$('#view_eventadd').modal
+			({
+  					title: event.title,
+   					content: event.content
+			});
+			$("#add").off('click').one("click", function() 
+			{
+				var title = $('#title').val();
+				/*if (title)		// 이벤트 추가 다른방법 (원래예제)
+				{
+					calendar.fullCalendar('renderEvent',
+						{
+							title: title,
+							start: start,
+							end: end,
+							allDay: allDay
+						},
+						true // make the event "stick"
+					);
+					// ajax call to store event in DB
+				}
+				calendar.fullCalendar('unselect');
+				});*/
+				var newEvent = null;
+				//dragging = true;
+				newEvent = {
+	   		        title: title,
+	   	    	    start: start,
+		   	        end: end,
+		   	        allDay: allDay		// 시간인식
+	    	    };
+				console.log(newEvent);
+				$('#calendar').fullCalendar('renderEvent', newEvent, 'stick');
+				$('#view_eventadd').modal('hide');
+				// title = $('#title').val('');		// 앞에 썼던 title 내용 초기화, 나중에 썼던 title 내용이 맨 처음 클릭했던 날에만 들어감, 다른 날에는 빈칸으로 들어감
+			});
+			title = $('#title').val('');		// 앞에 썼던 title 내용 초기화, 나중에 썼던 title 내용이 지금까지 클릭했던 모든 날에 들어감
+		},
+		
+		eventClick: function(event, calEvent, jsEvent, view, element) 
+		{
+  			$('#view_event').modal
+  			({
+    				title: event.title,
+   					content: event.content
+   			});
+  				
+  			$("#edit").off('click').on("click", function() 
+  			{
+  				var title = $('#changetitle').val();
+  				event.title = title;
+   				//event.title = event.changetitle;
+   				console.log(event.title);
+				$('#calendar').fullCalendar('updateEvent', event);
+				$('#view_event').modal('hide');
+   			});
+   			$("#remove").off('click').one("click", function()
+  			{
+  				var title = event._id;
+    			console.log(title);
+    			$('#calendar').fullCalendar('removeEvents', title);
+ 				//$('#calendar').fullCalendar('addEventSource', newEvent);		// 사용할 경우 function()에 (newEvent)를 해주어야함
+				$('#view_event').modal('hide');
+ 			});
+		},
+		/*
+			editable: true allow user to edit events.
+		*/
+		editable: true,		// 드래그로 일정 위치 및 크기 수정
+		eventLimit: true,
+		/*
+			events is the main option for calendar.
+			for demo we have added predefined events in json object.
+		*/
+		events: [
+			{
+				title: 'All Day Event',
+				start: new Date(y, m, 1)
+			},
+			{
+				title: 'Long Event',
+				start: new Date(y, m, d-5),
+				end: new Date(y, m, d-2)
+			},
+			{
+				id: 999,
+				title: 'Repeating Event',
+				start: new Date(y, m, d-3, 16, 0),
+				allDay: false
+			},
+			{
+				id: 999,
+				title: 'Repeating Event',
+				start: new Date(y, m, d+4, 16, 0),
+				allDay: false
+			},
+			{
+				title: 'Meeting',
+				start: new Date(y, m, d, 10, 30),
+				allDay: false
+			},
+			{
+				title: 'Lunch',
+				start: new Date(y, m, d, 12, 0),
+				end: new Date(y, m, d, 14, 0),
+				allDay: false
+			},
+			{
+				title: 'Birthday Party',
+				start: new Date(y, m, d+1, 19, 0),
+				end: new Date(y, m, d+1, 22, 30),
+				allDay: false
+			},
+			{
+				title: 'Click for Google',
+				start: new Date(y, m, 28),
+				end: new Date(y, m, 29),
+				url: 'http://google.com/'
+			}
+		]
+ 	});
+});
+		

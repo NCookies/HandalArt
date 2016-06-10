@@ -1,12 +1,58 @@
 #logo{
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   margin: 20px 0px 20px 20px;
 }
 
 .nav{
-  height: 100px;
-  width: 100px;
+  height: 80px;
+  width: 80px;
   float: right;
-  margin: 20px 20px 20px 0px;
+  margin: 14px 20px 20px 0px;
+}
+.header{
+  margin-bottom:5px
+}
+
+#header-back{
+  position: fixed;
+  display: block;
+  width:100%;
+  background-color: rgba(255,255,255,1);
+  height:110px;
+  top:0px;
+
+  z-index: 3000;
+}
+
+#bg-above{
+  background-color: rgba(0,0,0,1);
+}
+
+#bg{
+  position: fixed;
+  display:block;
+  width:100%;
+  min-height:100%;
+  background-image: url('../imgs/background.jpg');
+  background-size:cover;
+  padding: 0px;
+  margin: 0px;
+
+  -webkit-filter: blur(0);
+  -moz-filter: blur(0);
+  -o-filter: blur(0);
+  -ms-filter: blur(0);
+  filter: blur(0);
+
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+#else-container{
+  position: absolute;
+  right:0;
+  left:0;
+  z-index:1000;
 }
