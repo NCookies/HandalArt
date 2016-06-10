@@ -230,10 +230,19 @@ app.post('/mandal/main', function(req, res) {
 	if (req.xhr || req.accepts('json, html')==='json') {
 		console.log(JSON.stringify(req.body))
 		//res.send({success: true});
-		res.send('dsfd');
 		// (에러가 있다면 { error: 'error description' }을 보냄)
 	} else {
-		res.redirect(303, '/success');
+		res.redirect(303, '/');
+		// (에러가 있다면 에러 페이지로 리다이렉트)
+	}
+});
+
+app.post('/calendar', function(req, res) {
+	if (req.xhr || req.accepts('json, html')==='json') {
+		console.log(JSON.stringify(req.body));
+		// (에러가 있다면 { error: 'error description' }을 보냄)
+	} else {
+		res.redirect(303, '/');
 		// (에러가 있다면 에러 페이지로 리다이렉트)
 	}
 });

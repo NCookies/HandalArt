@@ -199,7 +199,7 @@
         }); // mouseleave 이벤트 종료
 
         zoom_settings = {
-            targetsize: 0.3,
+            targetsize: 0.25,
             scalemode: "both",
             duration: 500,
             easing: "ease",
