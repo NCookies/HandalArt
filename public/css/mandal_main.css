@@ -1,6 +1,7 @@
 .formcontainer{
   margin-top:170px;
 }
+
 .zoomViewport{
     /*border: 3px;*/
     /*float : left;*/
@@ -65,19 +66,17 @@
     width: 65px;
     font-weight:normal;
     font-family:Arial, sans-serif;
-    font-size: 80%;
+    font-size: 100%;
 
-    text-align:center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
     vertical-align: middle;
-
-    overflow:hidden;
-    /*text-overflow:ellipsis;*/
-
     table-layout:fixed;
+    text-align:center;
     word-break:break-all;
-    resize: none;
-
-    display: table-cell;
+    line-height: 70px;
 }
 
 .input-button {

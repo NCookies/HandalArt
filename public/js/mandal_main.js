@@ -59,11 +59,16 @@
         $('.input-button').css('visibility', 'hidden');
 
         $('.input-button').on('click', function() {
-            var text = prompt("내용을 입력해주세요", $(this).parent().text());
-            if (text == null) text = '';
+            $('#view_event').modal({
 
-            $(this).next('.text-field').text(text)
-            .next('.hidden-field').val(text);
+            });
+            console.log('sdfd');
+
+            /*var text = prompt("내용을 입력해주세요", $(this).parent().text());
+            if (text == null) text = '';*/
+
+            /*$(this).next('.text-field').text(text)
+            .next('.hidden-field').val(text);*/
             // table-article 안에 text-field라는 클래스의 엘리먼트가 있으면 편집
 
             return false;
