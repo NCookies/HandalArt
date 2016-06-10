@@ -2,53 +2,280 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Hello</title>
-    
+
 	<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-	
+
 	<script src="/js/mandal_main.js"></script>
-	
+	<script src = '/vendor/bootstrap.min.js'></script>
+	<script src = '/vendor/modal.js'></script>
 	<script src="/js/vendor/jquery.zoomooz.min.js"></script>
-    
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" type="text/css" href="../css/mandal_main.css">
-	<link rel="stylesheet" type="text/css" href="../css/style.css">
-    
+
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="/css/mandal_main.css">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+
 	<script type='text/javascript'>
 		$(document).ready(function() {
 			$('#sendData').on('click', function() {
-				var finalTar = jQuery.parseJSON('<%- JSON.stringify(jsonObj.FinalTarget) %>');
-				var subTar = jQuery.parseJSON('<%- JSON.stringify(jsonObj.subTargets) %>');
-				var actions = jQuery.parseJSON('<%- JSON.stringify(jsonObj.actions) %>');
-                
-				$.each(subTar, function(index, value) {
-                    console.log(subTar[index].article);
-                });
-				
-				$.each(actions, function(index, value) {
-                    console.log(actions[index].article);
-                });
-			}); 
+				var mandalData = jQuery.parseJSON('<%- JSON.stringify(jsonObj) %>');
+
+				$('.table-article').each(function(index) {
+					$(this).children('.text-field').text(mandalData[index])
+					.next('.hidden-field').val(mandalData[index]);
+				});
+			});
 		});
 	</script>
 </head>
 
 <body>
-	<header>
-		<a href="/"><img src="/imgs/logo" id="logo"/></a>
-		<a href="/bucket"><img src="/imgs/bucket" class="nav"/></a>
-		<a href="/calendar"><img src="/imgs/calendar" class="nav"/></a>
-		<a href="/mandal"><img src="/imgs/mandal" class="nav"/></a>
-	</header>
-	
-	<section>
-		
-		<input type="button" value='확인' id='sendData'>		
-		
-	</section>
-	
-	<footer>
-		
-	</footer>
+	<div id="else-container">
+		<header>
+			<div id="header-back">
+					<a href="/"><img src="/imgs/logo" id="logo"/></a>
+					<a href="/login"><img src="/imgs/login" class="nav"/></a>
+					<a href="/bucket"><img src="/imgs/bucket" class="nav"/></a>
+					<a href="/calendar"><img src="/imgs/calendar" class="nav"/></a>
+			</div>
+		</header>
+		<section>
+			<div class="formContainer">
+				<form action="/mandal/main" method="POST" class="mandalForm">
+					<div class='zoomViewport'>
+						<div class='zoomContainer' id='mandal-container'>
+								<div class='mandal-top' id='mandal1'>
+									<table class="mandal-table">
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										</tr>
+
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article zoomTarget center"></td>
+										<td class="table-article"></td>
+										</tr>
+
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										</tr>
+									</table>
+								</div>
+
+								<div class='mandal-top' id='mandal2'>
+									<table class="mandal-table">
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										</tr>
+
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article zoomTarget center"></td>
+										<td class="table-article"></td>
+										</tr>
+
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										</tr>
+									</table>
+								</div>
+
+								<div class='mandal-top' id='mandal3'>
+									<table class="mandal-table">
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										</tr>
+
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article zoomTarget center"></td>
+										<td class="table-article"></td>
+										</tr>
+
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										</tr>
+									</table>
+								</div>
+
+
+								<div class='mandal-mid' id='mandal4'>
+									<table class="mandal-table">
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										</tr>
+
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article zoomTarget center"></td>
+										<td class="table-article"></td>
+										</tr>
+
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										</tr>
+									</table>
+								</div>
+
+								<div class='mandal-center'>
+									<table class="mandal-table">
+										<tr>
+										<td class="table-article zoomTarget subGoal" id="mandal-zoom1"></td>
+										<td class="table-article zoomTarget subGoal" id="mandal-zoom2"></td>
+										<td class="table-article zoomTarget subGoal" id="mandal-zoom3"></td>
+										</tr>
+
+										<tr>
+										<td class="table-article zoomTarget subGoal" id="mandal-zoom4"></td>
+										<td class="table-article zoomTarget subGoal" id="zoom-center"></td>
+										<td class="table-article zoomTarget subGoal" id="mandal-zoom5"></td>
+										</tr>
+
+										<tr>
+										<td class="table-article zoomTarget subGoal" id="mandal-zoom6"></td>
+										<td class="table-article zoomTarget subGoal" id="mandal-zoom7"></td>
+										<td class="table-article zoomTarget subGoal" id="mandal-zoom8"></td>
+										</tr>
+									</table>
+								</div>
+
+								<div class='mandal-mid' id='mandal5'>
+									<table class="mandal-table">
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										</tr>
+
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article zoomTarget center"></td>
+										<td class="table-article"></td>
+										</tr>
+
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										</tr>
+									</table>
+								</div>
+
+
+								<div class='mandal-bot' id='mandal6'>
+									<table class="mandal-table">
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										</tr>
+
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article zoomTarget center"></td>
+										<td class="table-article"></td>
+										</tr>
+
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										</tr>
+									</table>
+								</div>
+
+								<div class='mandal-bot' id='mandal7'>
+									<table class="mandal-table">
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										</tr>
+
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article zoomTarget center"></td>
+										<td class="table-article"></td>
+										</tr>
+
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										</tr>
+									</table>
+								</div>
+
+								<div class='mandal-bot' id='mandal8'>
+									<table class="mandal-table">
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										</tr>
+
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article zoomTarget center"></td>
+										<td class="table-article"></td>
+										</tr>
+
+										<tr>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										<td class="table-article"></td>
+										</tr>
+									</table>
+								</div>
+						</div>
+					</div>
+
+					<input type="button" value='Get From Server' id='sendData'>
+					<input type="submit" value="Send To Server" id='getData'>
+				</form>
+			</div>
+		</section>
+
+		<footer>
+
+		</footer>
+	</div>
+	<button class="btn btn-default" id="popbutton">모달출력버튼</button>
+	<div class="modal fade" id="view_event">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">&times;</button>
+					<h4 class="modal-title" id="event_title">일정</h4>
+				</div>
+				<div class="modal-body">
+					<p><input type = "text" id = "changetitle" class = "span10"></p>
+				</div>
+				<div class="modal-footer">
+					<button type = "button" class = "btn btn-danger" data-option = "remove" id = "remove">remove</button>
+					<button type = "button" class = "btn btn-primary" data-option = "edit" id = "edit">edit</button>
+					<button type= " button" class = "btn btn-default" data-dismiss = "modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="bg"></div>
 </body>
 </html>
