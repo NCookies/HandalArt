@@ -219,7 +219,7 @@ app.get('/mandal/main', function(req, res) {
 	res.render('mandal_main', {jsonObj : arr});
 });
 	 
-app.get('/day_calendar', function(req, res) {
+app.get('/calendar/day', function(req, res) {
 	res.render('day_calendar');
 });
 // GET
