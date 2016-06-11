@@ -41,20 +41,20 @@ $(document).ready(function()
 
 		titleFormat: {
 			month: "yyyy년 MMMM",
-			week: "[yyyy] MMM d일{ [yyyy] MMM d일}",
+			week: "[yyyy] MMM d일 - { [yyyy] MMM d일}",		// {}이거 왜있어 승우야?
 			day: "yyyy년 MMM d일 dddd"
 			},
-			allDayDefault: true,
-			weekends : false,
+			allDayDefault: true,		// false로 하면 하루종일 수행하는 일정을 추가했을 경우 주에서 all-day에 표시되지 않고 시간대를 처음부터 끝까지 차지함
+			weekends: true,				// false로 하면 일요일이랑 토요일이 안나옴
 			monthNames: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
 			monthNamesShort: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
 			dayNames: ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"],
 			dayNamesShort: ["일","월","화","수","목","금","토"],
 			buttonText: {
-			today : "오늘",
-			month : "월별",
-			week : "주별",
-			day : "일별"
+			today: "오늘",
+			month: "월별",
+			week: "주별",
+			day: "일별"
 		},
 		/*
 			defaultView option used to define which view to show by default,

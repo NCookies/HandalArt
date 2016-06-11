@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Calendar_month</title>
+	<!-- <meta charset = "utf-8"> -->
+    <title>Calendar_month</title>
 
 	<link href="/css/style.css" rel="stylesheet" type="text/css">
 
@@ -15,7 +16,7 @@
 
 	<script src = '/vendor/bootstrap.min.js'></script>
 	<script src = '/vendor/modal.js'></script>
-	<script src = '/vendor/modals.less'></script>
+	<link href='/css/modals.less' rel = 'stylesheet' type = 'text/css'>
 	
 	<!--FullCalendar-->
 	
@@ -79,7 +80,10 @@
 									<h4 class="modal-title" id="event_title">일정</h4>
 								</div>
 								<div class="modal-body">
-									<p><input type = "text" id = "changetitle" class = "span10"></p>
+									<p>
+										<label>Event title</label><br/>
+										<input type = "text" id = "changetitle" class = "span10">
+									</p>
 								</div>
 								<div class="modal-footer">
 									<button type = "button" class = "btn btn-danger" data-option = "remove" id = "remove">remove</button>
