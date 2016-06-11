@@ -24,7 +24,7 @@ var app = express();
 // view engine setup
 //app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 8080);
 
 // uncomment after placing your favicon in /public
 
@@ -64,7 +64,7 @@ passport.use(new LocalStrategy({
 passport.use(new FacebookStrategy({
         clientID: '594228160736253',
         clientSecret: '1cd92a04f2aa948c175013002f00341e',
-        callbackURL: "http://localhost:3000/auth/facebook/callback"
+        callbackURL: "http://localhost:8080/auth/facebook/callback"
     },
     function(accessToken, refreshToken, profile, done) {
 		/*User.findOrCreate({ facebookId: profile.id }, function (err, user) {
@@ -92,7 +92,7 @@ passport.use(new FacebookStrategy({
 passport.use(new GoogleStrategy({
     clientID: '947227472989-d2i27nlkn6la0gfdmlaocs2ah6aaa4tr.apps.googleusercontent.com',
     clientSecret: 'LDZUY-y4KPijlulViqLR7wlh',
-    callbackURL: "http://localhost:3000/auth/google/callback"
+    callbackURL: "http://localhost:8080/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
        /*User.findOrCreate({ googleId: profile.id }, function (err, user) {
@@ -137,8 +137,8 @@ function ensureAuthenticated(req, res, next) {
 
 http.createServer(app, function (req, res) {
 	console.log(req.ip + 'was connected!');
-}).listen(3000, function(req, res) {
-	console.log('Port 3000 is listening');
+}).listen(8080, function(req, res) {
+	console.log('Port 8080 is listening');
 });
 
 
@@ -219,7 +219,7 @@ app.get('/mandal/main', function(req, res) {
 	res.render('mandal_main', {jsonObj : arr});
 });
 	 
-app.get('/day_calendar', function(req, res) {
+app.get('/calendar/day', function(req, res) {
 	res.render('day_calendar');
 });
 // GET
