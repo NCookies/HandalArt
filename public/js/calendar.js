@@ -24,6 +24,7 @@ $(document).ready(function()
 	
 	var calendar = $('#calendar').fullCalendar(
 	{
+		lang : 'ko',
 		/*
 			header option will define our calendar header.
 			left define what will be at left position in calendar
@@ -34,8 +35,27 @@ $(document).ready(function()
 		{
 			left: 'prev,next today',
 			center: 'title',
-			right: 'month,agendaWeek,agendaDay'
+			right: 'month,agendaWeek,agendaDay',
+			
 		},
+
+		titleFormat: {
+month: "yyyy년 MMMM",
+week: "[yyyy] MMM d일{ [yyyy] MMM d일}",
+day: "yyyy년 MMM d일 dddd"
+},
+allDayDefault: true,
+weekends : false,
+monthNames: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
+monthNamesShort: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
+dayNames: ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"],
+dayNamesShort: ["일","월","화","수","목","금","토"],
+buttonText: {
+today : "오늘",
+month : "월별",
+week : "주별",
+day : "일별"
+},
 		/*
 			defaultView option used to define which view to show by default,
 			for example we have used agendaWeek.
@@ -109,7 +129,7 @@ $(document).ready(function()
 		   	        end: end,
 		   	        allDay: allDay		// 시간인식
 	    	    };
-				console.log(newEvent);
+
 				$('#calendar').fullCalendar('renderEvent', newEvent, 'stick');
 				$('#view_eventadd').modal('hide');
 				// title = $('#title').val('');		// 앞에 썼던 title 내용 초기화, 나중에 썼던 title 내용이 맨 처음 클릭했던 날에만 들어감, 다른 날에는 빈칸으로 들어감
@@ -130,14 +150,12 @@ $(document).ready(function()
   				var title = $('#changetitle').val();
   				event.title = title;
    				//event.title = event.changetitle;
-   				console.log(event.title);
 				$('#calendar').fullCalendar('updateEvent', event);
 				$('#view_event').modal('hide');
    			});
    			$("#remove").off('click').one("click", function()
   			{
   				var title = event._id;
-    			console.log(title);
     			$('#calendar').fullCalendar('removeEvents', title);
  				//$('#calendar').fullCalendar('addEventSource', newEvent);		// 사용할 경우 function()에 (newEvent)를 해주어야함
 				$('#view_event').modal('hide');
