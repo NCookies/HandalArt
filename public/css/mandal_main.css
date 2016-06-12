@@ -7,16 +7,16 @@
     /*float : left;*/
     margin: auto;
     /*padding: 10px;*/
-    max-width: 690px;
-    max-height: 690px;
+    max-width: 750px;
+    max-height: 750px;
     overflow: hidden;
     /*position: relativ;*/
 }
 
 #mandal-container {
     /*margin:auto;*/
-	  width: 690px;
-	  height: 690px;
+	  width: 750px;
+	  height: 750px;
     /*padding: 10px;*/
     /*margin: 5px;*/
 }
@@ -67,6 +67,7 @@
     font-weight:normal;
     font-family:Arial, sans-serif;
     font-size: 100%;
+    margin: 0px !important;
 
     white-space: nowrap;
     overflow: hidden;
