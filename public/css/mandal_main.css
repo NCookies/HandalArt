@@ -89,6 +89,16 @@
     height: 20%;
     width: 3%;
     display: table-cell;
+
+    position: absolute;
+}
+
+#modal-article {
+    width: 100%;
+}
+
+.tooltip-inner {
+    white-space: pre-wrap;
 }
 
 #mandal1 .center, #mandal-zoom1 {

@@ -1,4 +1,12 @@
-var express = require('express');
+﻿var express = require('express');
+
+var index = require('./routes/index');
+var auth = require('./routes/auth');
+
+var bucket = require('./routes/bucket');
+var mandal = require('./routes/mandal');
+var calendar = require('./routes/calendar');
+
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -16,15 +24,54 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 var flash = require('connect-flash');
 
+var mysql = require('mysql');
+
 var http = require('http');
 var app = express();
 
+var connection = mysql.createConnection({
+    host :'localhost',
+    port : 3306,
+    user : 'root',
+    password : 'ehehgks!!123',
+    database:'handalart'
+});
+
+var pool = mysql.createPool({
+    host    :'localhost',
+    port : 3306,
+    user : 'root',
+    password : 'ehehgks!!123',
+    database:'handalart',
+    connectionLimit:20,
+    waitForConnections:false
+});
+
+
+connection.connect(function(err) {
+    if (err) {
+        console.error('mysql connection error');
+        console.error(err);
+        throw err;
+    }
+});
+
+/*
+insert into member_group values (1, "student", 2);
+
+insert into member values ("jung", "qkqh", "TaeKyun", "jungjung@gmail.com", 1990213, 1);
+insert into member values ("NCookie", "good", "SeungWoo", "swstar21c@gmail.com", 19990902, 1);
+
+insert into bucketlist values ("jung", "bucket_1", "YET", "자바 프로젝트 완료", "20160627");
+insert into mandal_ultimate values("jung", 1, "bucket_1", "Study!!");
+*/
+ 
 'use strict';
 
 // view engine setup
 //app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.set('port', process.env.PORT || 8080);
+app.set('port', process.env.PORT || 3000);
 
 // uncomment after placing your favicon in /public
 
@@ -33,6 +80,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+//app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/vendor', express.static(path.join(__dirname, 'public/js/vendor')));
 
@@ -51,20 +99,43 @@ passport.use(new LocalStrategy({
         passReqToCallback : true
 		// 인증을 수행하는 인증 함수, HTTP request를 그대로  전달할지 여부
     }, 
-	function(req ,userid, password, done) { // 후에 DB로 대체
-        if (userid=='jungjung@gmail.com' && password=='qkqh'){
-            var user = { 'email':'jungjung@gmail.com' };
-            return done(null, user);
-        } else{
-            return done(null, false);
-        }
+	function(req ,userid, password, done) {
+		var account;
+
+		pool.getConnection(function(err, connection) {
+			connection.query("select * from member where member_Email = ?", [userid], function(err, rows) {
+				if (err) {
+					console.error(err);
+					connection.rollback(function () {
+						console.error('rollback error');
+						throw err;
+					});
+				}
+
+				account = JSON.parse(JSON.stringify(rows));
+
+				if (account == null) {
+					console.log("No Account");
+					return done(null, false);
+				}
+
+				if (userid == rows[0].member_Email && password == rows[0].member_Password) {
+					var user = { 'email': rows[0].member_Email, 'id': rows[0].member_Id };
+					return done(null, user);
+				} else {
+					return done(null, false);
+				}
+			});
+
+			connection.release();
+		});	
     }
 ));
 
 passport.use(new FacebookStrategy({
         clientID: '594228160736253',
         clientSecret: '1cd92a04f2aa948c175013002f00341e',
-        callbackURL: "http://localhost:8080/auth/facebook/callback"
+        callbackURL: "http://localhost:3000/auth/facebook/callback"
     },
     function(accessToken, refreshToken, profile, done) {
 		/*User.findOrCreate({ facebookId: profile.id }, function (err, user) {
@@ -92,7 +163,7 @@ passport.use(new FacebookStrategy({
 passport.use(new GoogleStrategy({
     clientID: '947227472989-d2i27nlkn6la0gfdmlaocs2ah6aaa4tr.apps.googleusercontent.com',
     clientSecret: 'LDZUY-y4KPijlulViqLR7wlh',
-    callbackURL: "http://localhost:8080/auth/google/callback"
+    callbackURL: "http://localhost:3000/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
        /*User.findOrCreate({ googleId: profile.id }, function (err, user) {
@@ -135,17 +206,11 @@ function ensureAuthenticated(req, res, next) {
 }
 
 
-http.createServer(app, function (req, res) {
-	console.log(req.ip + 'was connected!');
-}).listen(8080, function(req, res) {
-	console.log('Port 8080 is listening');
-});
 
 
-app.get('/', function(req, res) {
-	res.render('index');
-});
+app.get('/', index.route);
 // root URL
+
 
 app.get('/login', function(req, res) {
 	var account = req.user;
@@ -162,17 +227,22 @@ app.get('/login', function(req, res) {
 	} // 로그인 세션이 있을 때	
 });
 
+
 app.get('/logout', function(req, res) {
 	req.logout();
 	res.redirect('/');
 });
 
+
 app.get('/auth/facebook', passport.authenticate('facebook'));
+
 
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
 
+
 app.get('/auth/twitter', passport.authenticate('twitter'));
+
 
 app.get('/auth/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/login' }),
@@ -191,91 +261,82 @@ app.get('/auth/google/callback',
     res.redirect('/');
   });
   
-  app.get('/auth/twitter/callback',
-  	passport.authenticate('twitter', { successRedirect: '/',
-	  failureRedirect: '/login' }));
-	
-// bucketlist
-app.get('/bucket', function(req, res) {
-	res.render('bucket_list');
-});
 
-// calendar
-app.get('/calendar', function(req, res) {
-	res.render('fullcalendar');
-});
+app.get('/auth/twitter/callback',
+passport.authenticate('twitter', { successRedirect: '/',
+	failureRedirect: '/login' }));
+
+
+// bucketlist
+app.route('/bucket')
+.get(bucket.bucketInit)
+//.post(bucket);
 
 // mandal_art
-app.get('/mandal', function(req, res) {
-	res.render('mandal_make');
-});
+app.get('/mandal', mandal.makeMandal);
 
-app.get('/mandal/main', function(req, res) {
-	var arr = new Array();
-	for (var i = 0; i <= 81; i++) {
-		arr.push('test' + i);
-	}
- 	
-	res.render('mandal_main', {jsonObj : arr});
-});
+
+app.route('/mandal/main/:id')
+.get(mandal.getData);
+
+app.route('/mandal/main')
+.get(mandal.mainMandal)
+.post(mandal.getData);
 	 
-app.get('/calendar/day', function(req, res) {
-	res.render('day_calendar');
-});
-// GET
+// calendar
+app.route('/calendar')
+.get(calendar.fullCalendar)
+.post(calendar.dayCalendarGetData)
 
 
-app.post('/mandal/main', function(req, res) {
-	//res.send('article : ' + req.body.mandalArticle);
-	if (req.xhr || req.accepts('json, html')==='json') {
-		console.log(JSON.stringify(req.body))
-		//res.send({success: true});
-		// (에러가 있다면 { error: 'error description' }을 보냄)
-	} else {
-		res.redirect(303, '/');
-		// (에러가 있다면 에러 페이지로 리다이렉트)
-	}
-});
+app.route('/calendar/day')
+.get(calendar.dayCalendar)
+.post(calendar.dayCalendarGetData);
 
-app.post('/calendar', function(req, res) {
-	if (req.xhr || req.accepts('json, html')==='json') {
-		console.log(JSON.stringify(req.body));
-		// (에러가 있다면 { error: 'error description' }을 보냄)
-	} else {
-		res.redirect(303, '/');
-		// (에러가 있다면 에러 페이지로 리다이렉트)
-	}
-});
 
 app.post('/login',
 		passport.authenticate('local', 
 		{ failureRedirect: '/login', 
 failureFlash: true }), 
 		function(req, res) {
-			//'아이디나 비밀번호가 바르지 않습니다.' 
+		//'아이디나 비밀번호가 바르지 않습니다.' 
 	res.redirect('/');
 });
 // POST
+
+
 
 // images
 app.get('/imgs/logo', function(req, res) {
 	res.sendFile(path.join(__dirname+'/public/imgs/logo.png'));
 });
 
+
 app.get('/imgs/bucket', function(req, res) {
 	res.sendFile(path.join(__dirname+'/public/imgs/bucket_icon.png'));
 });
+
 
 app.get('/imgs/calendar', function(req, res) {
 	res.sendFile(path.join(__dirname+'/public/imgs/calendar_icon.png'));
 });
 
+
 app.get('/imgs/mandal', function(req, res) {
 	res.sendFile(path.join(__dirname+'/public/imgs/mandal_icon.png'));
 });
 
+
 app.get('/imgs/login', function(req, res) {
 	res.sendFile(path.join(__dirname+'/public/imgs/login.png'));
 });
+
+
+http.createServer(app, function (req, res) {
+	console.log(req.ip + 'was connected!');
+}).listen(3000, function(req, res) {
+	console.log('Port 3000 is listening');
+});
+
 
 module.exports = app;

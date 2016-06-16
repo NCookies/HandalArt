@@ -2,40 +2,79 @@
 <html>
   <head>
     <meta charset="utf-8">
-
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js" ></script>
     <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/vendor/bootstrap.min.js"></script>
     <title>만다라트</title>
   </head>
   <body>
     <div id="else-container">
     <header>
-      <div id="header-back">
-        <a href="/"><img src="/imgs/logo" id="logo"/></a>
-        <a href="/login"><img src="/imgs/login" id="login"/></a>
+      <nav class ="navbar navbar-transparent navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-target">
+              <span class="sr-only">navigation of toggle</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+        <div id="navbar-target" class="navbar-collapse in">
+          <ul id="navbar-logo" class="nav navbar-nav navbar-left">
+            <li><a href="/"><img src="/imgs/logo" class="index_nav"/></a></li>
+          </ul>
+        <!-- <li><a href="/login"><img src="/imgs/login" id="login"/></a><li/> -->
+          <ul id="navbar" class="nav navbar-nav navbar-right">
+            <li><a href="/bucket"><img src="/imgs/bucket" class="index_nav"/></a></li>
+            <li><a href="/mandal"><img src="/imgs/mandal" class="index_nav"/></a></li>
+            <li><a href="/calendar"><img src="/imgs/calendar" class="index_nav"/></a></li>
+          </ul>
         </div>
+     </div>
+     </nav>
     </header>
 
-    <section>
-      <ul>
-        <a href="/bucket"><img src="/imgs/bucket" id="bucket"/></a>
-        <a href="/mandal"><img src="/imgs/mandal" id="mandalart"/></a>
-        <a href="/calendar"><img src="/imgs/calendar" id="calender"/></a>
-      </ul>
 
-      <p>
-        '미래를 예측하는 방법은 미래를 창조하는 것이다.'
-      </p>
-    </section>
+    <div class="content">
+      <div class="subscribe">
+        <!-- <div class="row"> -->
+          <div id="form-container" class="col-md-4 col-md-offset-4 col-sm6-6 col-sm-offset-3">
+            <form action="" class="form-inline form-login" role="form">
+              <div class="form-group">
+                <!-- <label class="sr-only" for="">로그인</label> -->
+                <div class="input-group">
+                  <label for="login_id" class="fa fa-user"></label>
+                  <input type="text" id="login_id" class="form-control transparent" placeholder="아이디">
+                </div>
+                <div class="input-group">
+                  <label for="login_password" class="fa fa-lock"></label>
+                  <input type="password" id="login_password" class="form-control transparent" placeholder="비밀번호">
+                </div>
+              </div>
+              <div id="div-button">
+                <button id="login" type="submit" class="btn btn-danger btn-fill">로그인</button>
+              </div>
+            </form>
+          </div>
+        <!-- </div> -->
+      </div>
+      </div>
+      <div class="wise">
+        <h4 id="wise">
+          '미래를 예측하는 방법은 미래를 창조하는 것이다.'
+        </h4>
+      </div>
 
     <footer>
       <small>by- daidai</small>
     </footer>
     </div>
+    <div id="black-cover"></div>
     <div id="bg">
-
-    </div>
   </body>
 </html>

@@ -121,15 +121,15 @@ $(document).ready(function()
 				}
 				calendar.fullCalendar('unselect');
 				});*/
-				var newEvent = null;
+				//var newEvent = null;
 				//dragging = true;
-				newEvent = {
+				var newEvent = {
 	   		        title: title,
 	   	    	    start: start,
 		   	        end: end,
 		   	        allDay: allDay		// 시간인식
 	    	    };
-
+	    	    console.log(newEvent);
 				$('#calendar').fullCalendar('renderEvent', newEvent, 'stick');
 				$('#view_eventadd').modal('hide');
 				// title = $('#title').val('');		// 앞에 썼던 title 내용 초기화, 나중에 썼던 title 내용이 맨 처음 클릭했던 날에만 들어감, 다른 날에는 빈칸으로 들어감
@@ -139,12 +139,12 @@ $(document).ready(function()
 		
 		eventClick: function(event, calEvent, jsEvent, view, element) 
 		{
+			//var title = $('#title').val();
   			$('#view_event').modal
   			({
     				title: event.title,
    					content: event.content
    			});
-  				
   			$("#edit").off('click').on("click", function() 
   			{
   				var title = $('#changetitle').val();
@@ -160,6 +160,7 @@ $(document).ready(function()
  				//$('#calendar').fullCalendar('addEventSource', newEvent);		// 사용할 경우 function()에 (newEvent)를 해주어야함
 				$('#view_event').modal('hide');
  			});
+ 			title = $('#changetitle').val(event.title);			// title란에 기존에 입력했던 event의 이름이 나옴
 		},
 		/*
 			editable: true allow user to edit events.
@@ -210,14 +211,42 @@ $(document).ready(function()
 				allDay: false
 			},
 			{
-				title: 'Click for Google',
+				title: 'Go to Google',
 				start: new Date(y, m, 28),
 				end: new Date(y, m, 29),
-				url: 'http://google.com/'
+				// url: 'http://google.com/'
 			}
 		]
  	});
-	 $(".fc-button-agendaDay").on('click', function() {
-		 window.location = "/calendar/day";
-	 });
+
+	$(".fc-button-agendaDay").on('click', function() {
+		var eventsArray = JSON.stringify((calendar.fullCalendar('clientEvents').map(function(e) {
+			return {
+				start: e.start,
+				end: e.end,
+				title: e.title
+			};
+		})));
+
+		$.ajax({
+			url: '/calendar/day',
+			type: 'POST',
+			data: { events: eventsArray },
+			success: function(data) {
+				if (data.success) {
+					console.log('데이터 전송 성공!!');
+				} else {
+					console.log('오류 발생!!');
+				}
+			},
+			error: function() {
+				console.log('오류 발생2!!');
+			}
+		});
+		
+
+		//var renderedData = new EJS({url:'/calendar/day'}).render({data: eventsArray});
+		$(".fc-view-agendaDay").load("/calendar/day");
+		//$(".fc-view-agendaDay").load("/calendar/day")
+	});
 });

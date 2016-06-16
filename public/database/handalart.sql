@@ -16,7 +16,6 @@
 #	member_Birth
 #	mandal_detail_content
 
-
 CREATE DATABASE handalart;
 USE handalart;
 
@@ -50,17 +49,17 @@ CREATE TABLE calendar
     ON DELETE CASCADE
     ON UPDATE CASCADE,
 	calendar_Year		SMALLINT UNSIGNED NOT NULL,
-    INDEX(calendar_Year),
+     INDEX(calendar_Year),
     calendar_Month		TINYINT UNSIGNED NOT NULL,
     INDEX(calendar_Month),
-    calendar_Date		TINYINT UNSIGNED NOT NULL,
-    INDEX(calendar_Date),
+    calendar_Day		TINYINT UNSIGNED NOT NULL,
+    INDEX(calendar_Day),
     calendar_Start_time	FLOAT(2,1) UNSIGNED NOT NULL, # Data rule : hour(24h).0 or 5(0 means O'clock, 5 means half an hour) => 19.5 means 7:30 
     INDEX(calendar_Start_time),
-    calendar_End_time	TINYINT UNSIGNED NOT NULL,
+    calendar_End_time	FLOAT(2,1) UNSIGNED NOT NULL,
     INDEX(calendar_End_time),
-    calendar_Schedule	VARCHAR(300) NOT NULL,
-    PRIMARY KEY(member_Id, calendar_Year, calendar_Month, calendar_Date, calendar_Start_time, calendar_End_time)
+    calendar_Title	VARCHAR(200) NOT NULL,
+    PRIMARY KEY(member_Id, calendar_Year, calendar_Month, calendar_Day, calendar_Start_time, calendar_End_time)
 )ENGINE=InnoDB CHARSET=utf8;
 
 CREATE TABLE bucketlist
@@ -74,64 +73,43 @@ CREATE TABLE bucketlist
     bucketlist_Is_achieved		ENUM('YET', 'ACHIEVED') NOT NULL,
     INDEX(bucketlist_Is_achieved),
     bucketlist_Ultimate_goal	VARCHAR(200) NOT NULL,
-    bucketlist_When				SMALLINT UNSIGNED NOT NULL,
+    bucketlist_When				DATE NOT NULL,
     INDEX(bucketlist_When),
-    PRIMARY KEY(member_Id, bucketlist_Id, bucketlist_Is_achieved)
+    PRIMARY KEY(member_Id, bucketlist_Id)
 )ENGINE=InnoDB CHARSET=utf8;
 
-CREATE TABLE mandal
+CREATE TABLE mandal_detail
 (
 	member_Id				VARCHAR(20) NOT NULL,
     FOREIGN KEY(member_Id) REFERENCES member(member_Id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-	mandal_Id				TINYINT UNSIGNED NOT NULL,
-    INDEX(mandal_Id),
-    PRIMARY KEY(member_Id, mandal_Id)
-)ENGINE=InnoDB CHARSET=utf8;
-
-CREATE TABLE mandal_sub
-(
-	member_Id				VARCHAR(20) NOT NULL,
-    FOREIGN KEY(member_Id) REFERENCES mandal(member_Id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-	mandal_Id				TINYINT UNSIGNED NOT NULL,
-    FOREIGN KEY(mandal_Id) REFERENCES mandal(mandal_Id)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-	mandal_sub_Id			TINYINT UNSIGNED NOT NULL,
-    INDEX(mandal_sub_Id),
-    PRIMARY KEY(member_Id, mandal_Id, mandal_sub_Id)
-)ENGINE=InnoDB CHARSET=utf8;
-
-CREATE TABLE mandal_detail
-# problem : First of all, this issue can be ignore. bucketlist and mandal_detail are related. However its relation's cardinality is 1:N. According to
-#			handalart's ERD, bucketlist and mandalart should be 1:1. So I'm considering to relate bucketlist
-#			and mandal not mandal_detail. But it can be going to make data redundancy. ..
-(
-	member_Id				VARCHAR(20) NOT NULL,
-    FOREIGN KEY(member_Id) REFERENCES mandal_sub(member_Id)
+    bucketlist_Id			VARCHAR(20) NOT NULL,
+    FOREIGN KEY(bucketlist_Id) REFERENCES mandal_ultimate(bucketlist_Id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
     mandal_Id				TINYINT UNSIGNED NOT NULL,
-    FOREIGN KEY(mandal_Id) REFERENCES mandal_sub(mandal_Id)
+    FOREIGN KEY(mandal_Id) REFERENCES mandal_ultimate(mandal_Id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
     mandal_sub_Id			TINYINT UNSIGNED NOT NULL,
-    FOREIGN KEY(mandal_sub_Id) REFERENCES mandal_sub(mandal_sub_Id)
+    mandal_detail_content	VARCHAR(560) NOT NULL, #한 목표당 70자 제한
+    PRIMARY KEY(member_Id, mandal_Id, mandal_sub_Id, mandal_detail_content)
+)ENGINE=InnoDB CHARSET=utf8;
+
+CREATE TABLE mandal_ultimate
+(
+	member_Id				VARCHAR(20) NOT NULL,
+    FOREIGN KEY(member_Id) REFERENCES member(member_Id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-	mandal_detail_Id		TINYINT UNSIGNED NOT NULL,
-    INDEX(mandal_detail_Id),
-	bucketlist_Id			VARCHAR(20) NOT NULL,
+    mandal_Id				TINYINT UNSIGNED NOT NULL,
+    Index(mandal_Id),
+    bucketlist_Id			VARCHAR(20) NOT NULL,
     FOREIGN KEY(bucketlist_Id) REFERENCES bucketlist(bucketlist_Id)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-    bucketlist_Is_achieved	ENUM('YET', 'ACHIEVED') NOT NULL,
-    FOREIGN KEY(bucketlist_Is_achieved) REFERENCES bucketlist(bucketlist_Is_achieved)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-    PRIMARY KEY(member_Id, mandal_Id, mandal_sub_Id, mandal_detail_Id),
-    mandal_detail_content	VARCHAR(100) NULL
+    INDEX(bucketlist_Id),
+	mandal_ultimate_Sub_goal 	VARCHAR(560) NOT NULL, #한 목표당 70자 제한
+    PRIMARY KEY(member_Id, bucketlist_Id, mandal_Id, mandal_ultimate_Sub_goal)
 )ENGINE=InnoDB CHARSET=utf8;

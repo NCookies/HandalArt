@@ -1,20 +1,92 @@
-#logo{
+@media (max-width: 768px){
+    .navbar-transparent{
+        padding-top: 0px;
+        background-color: rgba(0, 0, 0, 0.75);
+    }
+    .navbar-transparent .navbar-collapse.in .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-transparent .navbar-collapse.in .navbar-nav .open .dropdown-menu > li > a:focus, .navbar-transparent .dropdown-menu > li > a:hover, .navbar-transparent .dropdown-menu > li > a:focus, [class*="navbar-ct"] .dropdown-menu > li > a:hover, [class*="navbar-ct"] .dropdown-menu > li > a:focus{
+        color: #FFFFFF;
+        background-color: rgba(0,0,0,0);
+        opacity: 1;
+    }
+    .navbar-transparent .navbar-collapse.in .navbar-nav .open .dropdown-menu > li > a, [class*="navbar-ct"] .dropdown-menu > li > a {
+        color: #FFFFFF;
+        opacity: 0.8;
+    }
+    .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+        background-color: rgba(0,0,0,0);
+        border-color: #428BCA;
+    }
+    .navbar-collapse{
+        text-align: center;
+    }
+    .navbar-collapse .navbar-form {
+        width: 170px;
+        margin: 0 auto;
+    }
+    .navbar-transparent .dropdown-menu .divider{
+        background-color: #434343;
+    }
+}
+
+@media (max-width: 768px){}
+.else-container {
+    margin-bottom: 50px;
+}
+
+@font-face{
+font-family: 'NaunumGothic';
+src: url('css/NanumBarunGothic.eot')format('eot');
+src: url('css/NanumBarunGothic.woff') format('woff');
+}
+
+.navbar-fixed-top .navbar-collapse{
+  max-height:none !important;
+}
+
+#navbar, #navbar-logo{
+  width:auto;
+}
+
+/*#logo{
   width: 80px;
   height: 80px;
   margin: 20px 0px 20px 20px;
+}*/
+
+.index_nav{
+  width: 60px;
+  height: 60px;
 }
 
-.nav{
-  height: 80px;
-  width: 80px;
-  float: right;
-  margin: 14px 20px 20px 0px;
+/*.navbar-transparent{
+  padding-top: 0px;
+  background-color: rgba(0,0,0,0.75);
+}*/
+
+#navbar-target>ul>li>a{
+  vertical-align: middle;
+  color: #D4D4D4;
 }
+
+#navbar-target>ul>li{
+  text-align: center;
+  vertical-align: middle;
+}
+
+.navbar-toggle .icon-bar{
+  background-color: #FFFFFF;
+}
+
+P, .navbar, .brand{
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+}
+
 .header{
   margin-bottom:5px
 }
 
-#header-back{
+/*#header-back{
   position: fixed;
   display: block;
   width:100%;
@@ -23,12 +95,20 @@
   top:0px;
 
   z-index: 3000;
-}
+}*/
 
-#bg-above{
-  background-color: rgba(0,0,0,1);
-}
 
+
+#black-cover{
+  background-color: rgba(0,0,0,0.6);
+  position:fixed;
+  opacity:1;
+  left:0;
+  top:0;
+  width: 100%;
+  height:100%;
+  z-index: 125;
+}
 #bg{
   position: fixed;
   display:block;
@@ -55,4 +135,5 @@
   right:0;
   left:0;
   z-index:1000;
+  padding: 0 15px;
 }

@@ -24,4 +24,22 @@ $(document).ready(function(){
         $('p').text('\'미래를 예측하는 방법은 미래를 창조하는 것이다.\'');
         break;
   }
+
+  $('#calender').hover(function () {
+      $('#calender').attr("src","imgs/calender_hover_icon.png");
+      }, function () {
+      $('#calender').attr("src","imgs/calendar_icon.png");
+    });
+
+    $('#bucket').hover(function () {
+        $('#bucket').attr("src","imgs/bucket_hover_icon.png");
+        }, function () {
+        $('#bucket').attr("src","imgs/bucket_icon.png");
+      });
+
+      $('#mandalart').hover(function () {
+          $('#mandalart').attr("src","imgs/mandal_hover_icon.png");
+          }, function () {
+          $('#mandalart').attr("src","imgs/mandal_icon.png");
+        });
 });

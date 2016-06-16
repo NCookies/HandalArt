@@ -4,10 +4,12 @@
 	<!-- <meta charset = "utf-8"> -->
     <title>Calendar_month</title>
 
+	<script src="//d3js.org/d3.v3.min.js"></script>
+	<script src="/vendor/ejs.js"></script>
 	<link href="/css/style.css" rel="stylesheet" type="text/css">
 
 	<!--jQuery-->
-	<script src='https://code.jquery.com/jquery-1.10.2.min.js'></script>
+	<script src='/vendor/jquery-1.10.2.min.js'></script>
 	<script src='/vendor/jquery-ui-1.10.2.custom.min.js'></script>
 	<script src = '/js/calendar.js'></script>
 
@@ -16,7 +18,7 @@
 
 	<script src = '/vendor/bootstrap.min.js'></script>
 	<script src = '/vendor/modal.js'></script>
-	<link href='/css/modals.less' rel = 'stylesheet' type = 'text/css'>
+	<link href='/css/modals.less' rel = 'stylesheet' type = 'text/less'>
 	
 	<!--FullCalendar-->
 	
@@ -27,7 +29,21 @@
 	<script src='/vendor/jquery-ui.js'></script>
 	<script src='/vendor/fullcalendar.js'></script>
 	<!--<script src='/vendor/lang-all.js'></script>-->
-	
+
+	<script src = '/vendor/modal.js'></script>
+	<link href='/css/modals.less' rel='stylesheet' type='text/css'>
+
+
+	<link rel="stylesheet" type="text/css" href="/css/day_calendar.css"/>
+	<link rel="stylesheet" type="text/css" href="/js/day_calendar.js"/>
+
+	<!--<script type='text/javascript'>
+		$(document).ready(function() {
+			$(".fc-button-agendaDay").on('click', function() {
+				<% include ./day_calendar.ejs %>
+			});
+		});
+	</script>-->	
 </head>
 <body>
     <div id="else-container">

@@ -12,8 +12,6 @@
             var ls_one_char = ""; // 한글자씩 검사한다
             var ls_str2 = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다.
 
-            console.log(ls_str);
-
             if (li_byte > li_max - 3 &&keyCode == 8) {
                 console.log('backspace');
                 return li_byte - 1;
@@ -48,16 +46,36 @@
             return li_byte;
         }
 
-
-
         $("html, body").animate({scrollTop: $('#header-back').height()}, 1000);
         // 페이지가 로드 되었을 때 스크롤 이동(줌 했을 때 화면이 잘리지 않도록)
 
 
-        $("td")
-        .append('<input type="button" value="" class="input-button">')
+        $(".falseSub")
+        .append('<input type="button" class="input-button btn btn-secondary"'
+        + 'data-toggle="tooltip" title=" ">')
         .append('<p class="text-field"></p>')
-        .append('<input type="hidden" name="mandalArticle" class="hidden-field">');
+
+        $(".detailGoal")
+        .append('<input type="button" class="input-button btn btn-secondary"'
+        + 'data-toggle="tooltip" title=" ">')
+        .append('<p class="text-field"></p>')
+        .append('<input type="hidden" name="detailArticle" class="hidden-field">');
+        // 최종 목표
+
+        $(".subGoal")
+        .append('<input type="button" class="input-button btn btn-secondary"'
+        + 'data-toggle="tooltip" title=" ">')
+        .append('<p class="text-field"></p>')
+        .append('<input type="hidden" name="subArticle" class="hidden-field">');
+        // 보조 목표
+
+        $(".ultimateGoal")
+        .append('<input type="button" class="input-button btn btn-secondary"'
+        + 'data-toggle="tooltip" title=" ">')
+        .append('<p class="text-field"></p>')
+        .append('<input type="hidden" name="ultimateArticle" class="hidden-field">');
+        // 실천 사항
+
         // 버튼, 내용 텍스트, 제출용 영역을 모든 테이블에 생성
 
 
@@ -69,6 +87,9 @@
             var $this = $(this);
             var prevArticle = $this.next(".text-field").text();
 
+            $("#modal-article").val("");
+            // 초기화
+
             if (prevArticle != "") {
                 $("#add-modal").text("편집");
                 $("#modal-article").val(prevArticle);
@@ -79,12 +100,12 @@
             $("#modal-article").off("keydown").on("keydown", function(evt) {
                 var keyCode = evt.keyCode || evt.which;
 
-                fc_chk_byte($(this), 50, keyCode);
+                fc_chk_byte($(this), 100, keyCode);
 
                 if (evt.keyCode == 13) {
                     $("#add-modal").trigger("click");
                 }
-            }).focus(); // 엔터를 입력하면 추가/편집
+            }); // 엔터를 입력하면 추가/편집
 
             $("#modal-cancle").on("click", function() {
                 $('#modal-article').val('');
@@ -196,20 +217,44 @@
             return false;
         });
 
-        $('.table-article').on('mouseover', function(e) {
-            e.stopPropagation();
+        $('.table-article').on('mouseover', function() {
+            var article = $(this).children(".text-field").text()
 
-            $(this).children('.input-button').css('visibility', 'visible');
-            // 테이블에 마우스를 올리면 해당 칸에 버튼이 보임
+            if (article == "") {
+                $(this).children('.input-button')
+                .tooltip("hide");
+            }
+            // 내용이 초기화 상태일 때에는 tooltip을 띄우지 않음
+
+            $(this).children('.input-button').css('visibility', 'visible')
+            .attr("title", article) // 테이블에 마우스를 올리면 해당 칸에 버튼이 보임
+            .tooltip({
+                placement: 'top',
+                container: 'body'
+            })
+            .tooltip("fixTitle");
+            // tooltip 옵션 설정 및 내용 수정
 
             return false;
         });
+
+            $.each($('.detailGoal'), function(index) {
+                $(this).children('.text-field').text("detail_" + index)
+                .next('.hidden-field').val("detail_" + index);
+            });
+
+            $.each($('.subGoal'), function(index) {
+                $(this).children('.text-field').text("sub_" + index)
+                .next('.hidden-field').val("sub_" + index);
+            });
+
+            $('.ultimateGoal').children('.text-field').text("ultimate_")
+                .next('.hidden-field').val("ultimate_");
 
         $('.mandalForm').on('submit', function(evt) {
             evt.preventDefault();
             var action = $(this).attr('action');
             var $container = $(this).closest('.formConatiner');
-            console.log($(this).serialize());
 
             $.ajax({
                url: action,
@@ -217,13 +262,13 @@
                data: $(this).serialize(),
                success: function(data) {
                     if (data.success) {
-                        $container.html('<h2>Thank you!</h2>');
+                        console.log('데이터 전송 성공!!');
                     } else {
-                        $container.html('There was a problem');
+                        console.log('오류 발생!!');
                     }
-               },
-               error: function() {
-                   $container.html('There was a problem');
+                },
+                error: function() {
+                    console.log('오류 발생2!!');
                }
             });
         });
