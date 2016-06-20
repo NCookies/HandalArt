@@ -34,13 +34,18 @@
 }
 
 @font-face{
-font-family: 'NaunumGothic';
+font-family: 'NanumGothic';
 src: url('css/NanumBarunGothic.eot')format('eot');
 src: url('css/NanumBarunGothic.woff') format('woff');
 }
 
 .navbar-fixed-top .navbar-collapse{
   max-height:none !important;
+}
+
+.navbar-fixed-top{
+	padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 #navbar, #navbar-logo{

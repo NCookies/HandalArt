@@ -6,9 +6,11 @@
 
     <link rel="stylesheet" href="../css/bucket.css">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
     <script src="../js/bucket.js"></script>
+    <script type="text/javascript" src="js/vendor/bootstrap.min.js"></script>
 
     </head>
     <div id="else-container">
@@ -16,11 +18,29 @@
     <body>
       <header>
         <div id="header-back">
-          <a href="/"><img src="imgs/logo.png" alt="logo" id="logo"/></a>
-          <a href="/login"><img src="imgs/login.png" alt="login" class="nav"/></a>
-          <a href="/mandal"><img src="imgs/mandal_icon.png" alt="mandal" class="nav" id="mandalart"/></a>
-          <a href="/calendar"><img src="imgs/calendar_icon.png" alt="calender" class="nav" id="calendar"/></a>
-        </div>
+          <nav class ="navbar navbar-transparent navbar-fixed-top" role="navigation">
+            <div class="container">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-target">
+                  <span class="sr-only">navigation of toggle</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+              </div>
+            <div id="navbar-target" class="navbar-collapse in">
+              <ul id="navbar-logo" class="nav navbar-nav navbar-left">
+                <li><a href="/"><img src="/imgs/logo" class="index_nav"/></a></li>
+              </ul>
+            <!-- <li><a href="/login"><img src="/imgs/login" id="login"/></a><li/> -->
+              <ul id="navbar" class="nav navbar-nav navbar-right">
+                <li><a href="/bucket"><img src="/imgs/bucket" class="index_nav"/></a></li>
+                <li><a href="/mandal"><img src="/imgs/mandal" class="index_nav"/></a></li>
+                <li><a href="/calendar"><img src="/imgs/calendar" class="index_nav"/></a></li>
+              </ul>
+            </div>
+         </div>
+         </nav>
       </header>
     <section>
 
@@ -29,7 +49,7 @@
       <button type="button"id="addList" class="tableBtn">추가</button>
 
       <form action="/bucket" method="POST" class="bucketForm">
-        <table border="1" id="tmain">
+        <table border="1" id="tmain" class="table-hover">
           <thead align="center">
             <tr>
               <td class="checkbox">&nbsp</td>
@@ -59,6 +79,7 @@
     </section>
     <footer></footer>
     </div>
+    <div id="black-cover"></div>
     <div id="bg"></div>
   </body>
 </html>

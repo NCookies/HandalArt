@@ -4,7 +4,7 @@ section{
 }
 
 .tableBtn{
-  margin-top: 8%;
+  margin-top: 30px;
 }
 
 .checkbox{
@@ -13,10 +13,21 @@ section{
 
 #tmain{
   height: 100%;
-  margin-top: 3%;
   width: 850px;
   margin: auto;
   border-collapse: collapse;
+  color: rgb(255,255,255);
+  font-family: 'NanumGothic';
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  text-align: center !important;
+  border-top-color: #ffffff;
+  border-bottom-color: #ffffff;
+  border-left-color: #ffffff;
+  border-right-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+#tmain>.input{
 }
 
 thead{

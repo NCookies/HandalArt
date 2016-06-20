@@ -11,21 +11,22 @@ var pool = mysql.createPool({
 });
 
 exports.bucketInit = function(req, res) {
-    pool.getConnection(function(err, connection) {
-		connection.query("select * from bucketlist where member_Id = ?", 
-		 req.session.passport.user.id, function(err, rows) {
-			if (err) {
-				console.error(err);
-				connection.rollback(function () {
-					console.error('rollback error');
-					throw err;
-				});
-			}
-
-			bucketData = JSON.parse(JSON.stringify(rows));
-
-			console.log(bucketData);
-			res.render('bucket_list', {bucketList : bucketData});		
-		});
-	})
+  //   pool.getConnection(function(err, connection) {
+	// 	connection.query("select * from bucketlist where member_Id = ?",
+	// 	 req.session.passport.user.id, function(err, rows) {
+	// 		if (err) {
+	// 			console.error(err);
+	// 			connection.rollback(function () {
+	// 				console.error('rollback error');
+	// 				throw err;
+	// 			});
+	// 		}
+  //
+	// 		bucketData = JSON.parse(JSON.stringify(rows));
+  //
+	// 		console.log(bucketData);
+	// 		res.render('bucket_list', {bucketList : bucketData});
+	// 	});
+	// })
+  res.render('bucket_list');
 };

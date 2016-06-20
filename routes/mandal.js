@@ -11,18 +11,59 @@ var pool = mysql.createPool({
 });
 
 
+var connection = mysql.createConnection({
+    host :'localhost',
+    port : 8080,
+    user : 'root',
+    password : 'mysqlhandalart3576',
+    database:'handalart'
+});
+
+
 exports.makeMandal = function(req, res) {
-    res.render('mandal_make');
+
+    if (typeof req.session.passport.user.id == "undefined") {
+		res.render('mandal_make'); 
+	}
+
+    var mandalId;
+    connection.query('select max(mandal_Id) from mandal_ultimate where member_Id = ?',//'select mandal_Id from mandal_ultimate where member_Id = ? order by mandal_Id desc limit 1'//
+        [req.session.passport.user.id], function(err, rows) {
+            mandalId = Number(JSON.stringify(rows[0]).match(/\d+/)[0]) + 1;
+
+            res.render('mandal_make');
+    });
+}
+
+
+exports.mainMandalNoUser = function(req, res) {
+    res.render('mandal_main');
 }
 
 
 exports.mainMandal = function(req, res) {
-    var arr = new Array();
-	for (var i = 0; i <= 81; i++) {
-		arr.push('test' + i);
-	}
+    pool.getConnection(function(err, connection) {
+        var mandalCenterData;
+        var mandalData;
+
+        connection.query('select * from mandal_ultimate where member_Id = ? and mandal_Id = ?',//'select mandal_Id from mandal_ultimate where member_Id = ? order by mandal_Id desc limit 1'//
+        [req.session.passport.user.id, 2], function(err, rows) {
+            mandalCenterData = JSON.stringify(rows);
+
+            connection.query('select * from mandal_detail where member_Id = ? and mandal_Id = ?',
+            [req.session.passport.user.id, req.params.id], function(err, rows) {
+                mandalData = JSON.stringify(rows);
+
+                console.log("data : " + mandalData);
+
+                res.render('mandal_main', { center : mandalCenterData, mandal : mandalData});
+            });
+        });
+
+        connection.release();
+    });
  	
-	res.render('mandal_main', {jsonObj : arr});
+	//res.render('mandal_main', {jsonObj : arr});
 }
 
 exports.getData = function(req, res) {

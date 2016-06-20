@@ -56,6 +56,14 @@ connection.connect(function(err) {
     }
 });
 
+function loggedIn(req, res, next) {
+    if (req.user) {
+        next();
+    } else {
+        res.redirect('/');
+    }
+}
+
 /*
 insert into member_group values (1, "student", 2);
 
@@ -65,7 +73,7 @@ insert into member values ("NCookie", "good", "SeungWoo", "swstar21c@gmail.com",
 insert into bucketlist values ("jung", "bucket_1", "YET", "자바 프로젝트 완료", "20160627");
 insert into mandal_ultimate values("jung", 1, "bucket_1", "Study!!");
 */
- 
+
 'use strict';
 
 // view engine setup
@@ -98,7 +106,7 @@ passport.use(new LocalStrategy({
         passwordField : 'password', // user password
         passReqToCallback : true
 		// 인증을 수행하는 인증 함수, HTTP request를 그대로  전달할지 여부
-    }, 
+    },
 	function(req ,userid, password, done) {
 		var account;
 
@@ -119,8 +127,10 @@ passport.use(new LocalStrategy({
 					return done(null, false);
 				}
 
-				if (userid == rows[0].member_Email && password == rows[0].member_Password) {
-					var user = { 'email': rows[0].member_Email, 'id': rows[0].member_Id };
+				if (userid == rows[0].member_Email &&
+				password == rows[0].member_Password) {
+					var user = { 'email': rows[0].member_Email,
+					'id': rows[0].member_Id };
 					return done(null, user);
 				} else {
 					return done(null, false);
@@ -128,7 +138,7 @@ passport.use(new LocalStrategy({
 			});
 
 			connection.release();
-		});	
+		});
     }
 ));
 
@@ -183,7 +193,7 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(user, done) {
     //findById(id, function (err, user) {
-    console.log('deserialize');   
+    console.log('deserialize');
     done(null, user);
     //});
 });
@@ -198,43 +208,16 @@ passport.deserializeUser(function(user, done) {
 app.use(passport.initialize());
 app.use(passport.session());
 
-function ensureAuthenticated(req, res, next) {
+/*function ensureAuthenticated(req, res, next) {
     // 로그인이 되어 있으면, 다음 파이프라인으로 진행
     if (req.isAuthenticated()) { return next(); }
     // 로그인이 안되어 있으면, login 페이지로 진행
-    res.redirect('/login');
-}
+    res.redirect('/');
+}*/
 
 
 
-
-app.get('/', index.route);
-// root URL
-
-
-app.get('/login', function(req, res) {
-	var account = req.user;
-		
-	if (typeof account == "undefined") {
-		res.render('login', { user : false});
-	} // 로그인 되어 있지 않을 때
-	else {
-		if (account.email) { // 사이트 자체 로그인
-			res.render('logout', { user : req.session.passport.user.email });
-		} else { // 외부 계정 연동
-			res.render('logout', { user : req.session.passport.user.displayName || {} });			
-		}
-	} // 로그인 세션이 있을 때	
-});
-
-
-app.get('/logout', function(req, res) {
-	req.logout();
-	res.redirect('/');
-});
-
-
-app.get('/auth/facebook', passport.authenticate('facebook'));
+/*app.get('/auth/facebook', passport.authenticate('facebook'));
 
 
 app.get('/auth/google',
@@ -254,56 +237,81 @@ app.get('/auth/facebook/callback',
 
 		res.redirect('/');
 	});
-	
-app.get('/auth/google/callback', 
+
+app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
   });
-  
 
 app.get('/auth/twitter/callback',
-passport.authenticate('twitter', { successRedirect: '/',
-	failureRedirect: '/login' }));
+	passport.authenticate('twitter', { successRedirect: '/',
+	failureRedirect: '/login' }));*/
+
+
+
+
+
+app.get('/', index.routeHasId);
+
+
+app.post('/login',
+    passport.authenticate('local', { failureRedirect: '/', failureFlash: true }),
+    function(req, res) {
+	//'아이디나 비밀번호가 바르지 않습니다.'
+	/*console.log('login post');*/
+
+	console.log(req.body.email);
+	console.log(req.body.password);
+	console.log(req.session.passport.user.id);
+
+	res.redirect('/');
+	//res.redirect('/login_success');
+});
+
+
+/*app.get('/login_success', ensureAuthenticated, function(req, res) {
+	console.log("get login_success");
+	res.redirect('/' + req.session.passport.user.id);
+});*/
+
+
+app.get('/logout', function(req, res) {
+	console.log('logout');
+	req.logout();
+	res.redirect('/');
+});
+
 
 
 // bucketlist
 app.route('/bucket')
-.get(bucket.bucketInit)
+.get(loggedIn, bucket.bucketInit)
 //.post(bucket);
 
 // mandal_art
-app.get('/mandal', mandal.makeMandal);
+app.get('/mandal', loggedIn, mandal.makeMandal);
 
-
-app.route('/mandal/main/:id')
-.get(mandal.getData);
 
 app.route('/mandal/main')
-.get(mandal.mainMandal)
-.post(mandal.getData);
-	 
+.get(loggedIn, mandal.mainMandal);
+
+app.route('/mandal/main/:id')
+.get(loggedIn, mandal.mainMandal)
+.post(loggedIn, mandal.getData);
+
 // calendar
 app.route('/calendar')
-.get(calendar.fullCalendar)
-.post(calendar.dayCalendarGetData)
+.get(loggedIn, calendar.fullCalendar)
+.post(loggedIn, calendar.dayCalendarGetData)
 
 
 app.route('/calendar/day')
-.get(calendar.dayCalendar)
-.post(calendar.dayCalendarGetData);
+.get(loggedIn, calendar.dayCalendar)
+.post(loggedIn, calendar.dayCalendarGetData);
 
 
-app.post('/login',
-		passport.authenticate('local', 
-		{ failureRedirect: '/login', 
-failureFlash: true }), 
-		function(req, res) {
-		//'아이디나 비밀번호가 바르지 않습니다.' 
-	res.redirect('/');
-});
-// POST
-
+//app.get('/:id', index.routeHasId);
 
 
 // images

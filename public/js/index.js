@@ -1,6 +1,5 @@
 $(document).ready(function(){
   var random = Math.floor((Math.random()*10+1)/2);
-  console.log(random);
   switch(random){
       case 0:
         $('p').text('\'시간을 도구로 사용할 뿐, 시간에 의존해서는 안된다.\'');
@@ -42,4 +41,29 @@ $(document).ready(function(){
           }, function () {
           $('#mandalart').attr("src","imgs/mandal_icon.png");
         });
+
+  $('.form-login').on('submit', function(evt) {
+        evt.preventDefault();
+        var action = $(this).attr('action');
+
+		    console.log($(this).serialize());
+
+        $.ajax({
+            url: '/login',
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function(data, err) {
+                if (data.success) {
+                    console.log('데이터 전송 성공!!');
+					location.reload();
+                } else {
+                    console.log('오류 발생!!');
+					location.reload();
+                }
+            },
+            error:function(request, status, error) {
+                console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        });
+    });
 });

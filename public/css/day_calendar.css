@@ -2,7 +2,11 @@ svg {
 	  width: 600px;
     height: 600px;
 		stroke: #000;
-		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+.fc-content{
+	min-width: 600px;
 }
 
 #graph path {
