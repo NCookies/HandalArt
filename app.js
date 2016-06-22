@@ -33,18 +33,18 @@ var connection = mysql.createConnection({
     host :'localhost',
     port : 3306,
     user : 'root',
-    password : 'ehehgks!!123',
-    database:'handalart'
+    password : 'mysqlhandalart3576!',
+    database : 'handalart'
 });
 
 var pool = mysql.createPool({
-    host    :'localhost',
+    host :'localhost',
     port : 3306,
     user : 'root',
-    password : 'ehehgks!!123',
-    database:'handalart',
-    connectionLimit:20,
-    waitForConnections:false
+    password : 'mysqlhandalart3576!',
+    database : 'handalart',
+    connectionLimit : 20,
+    waitForConnections : false
 });
 
 
@@ -152,7 +152,9 @@ passport.use(new FacebookStrategy({
 			if (err) { return done(err); }
 			return done(err, user);
 		});*/
-		console.log(profile.id);
+        console.log("profile : " + typeof profile);
+        console.log("token : " + accessToken);
+		console.log("facebook id : " + profile.id);
 		done(null, profile);
     }
 ));
@@ -217,7 +219,7 @@ app.use(passport.session());
 
 
 
-/*app.get('/auth/facebook', passport.authenticate('facebook'));
+app.get('/auth/facebook', passport.authenticate('facebook'));
 
 
 app.get('/auth/google',
@@ -228,10 +230,12 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 
 
 app.get('/auth/facebook/callback',
-    passport.authenticate('facebook', { failureRedirect: '/login' }),
+    passport.authenticate('facebook', { failureRedirect: '/' }),
 	function(req, res) {
 		var user = JSON.stringify(req.user);
 		var account = req.account;
+        
+        console.log('sdf' + req.session.passport.user.displayName);
 
 		// Associate the Facebook account with the logged-in user.
 
@@ -239,16 +243,14 @@ app.get('/auth/facebook/callback',
 	});
 
 app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login' }),
+  passport.authenticate('google', { failureRedirect: '/' }),
   function(req, res) {
     res.redirect('/');
   });
 
 app.get('/auth/twitter/callback',
 	passport.authenticate('twitter', { successRedirect: '/',
-	failureRedirect: '/login' }));*/
-
-
+	failureRedirect: '/' }));
 
 
 
@@ -260,10 +262,6 @@ app.post('/login',
     function(req, res) {
 	//'아이디나 비밀번호가 바르지 않습니다.'
 	/*console.log('login post');*/
-
-	console.log(req.body.email);
-	console.log(req.body.password);
-	console.log(req.session.passport.user.id);
 
 	res.redirect('/');
 	//res.redirect('/login_success');
@@ -281,7 +279,7 @@ app.get('/logout', function(req, res) {
 	req.logout();
 	res.redirect('/');
 });
-
+ 
 
 
 // bucketlist
@@ -294,11 +292,14 @@ app.get('/mandal', loggedIn, mandal.makeMandal);
 
 
 app.route('/mandal/main')
-.get(loggedIn, mandal.mainMandal);
+.get(loggedIn, mandal.makeNewMandal)
+.post(loggedIn, mandal.getData);
+
 
 app.route('/mandal/main/:id')
 .get(loggedIn, mandal.mainMandal)
 .post(loggedIn, mandal.getData);
+
 
 // calendar
 app.route('/calendar')

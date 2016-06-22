@@ -46,7 +46,7 @@
             return li_byte;
         }
 
-        $("html, body").animate({scrollTop: $('#header-back').height()}, 1000);
+        $("html, body").animate({scrollTop: $('.zoomContainer').height()}, 1000);
         // 페이지가 로드 되었을 때 스크롤 이동(줌 했을 때 화면이 잘리지 않도록)
 
 
@@ -238,6 +238,8 @@
             return false;
         });
 
+
+        $('#sendData').on('click', function() {
             $.each($('.detailGoal'), function(index) {
                 $(this).children('.text-field').text("detail_" + index)
                 .next('.hidden-field').val("detail_" + index);
@@ -250,14 +252,22 @@
 
             $('.ultimateGoal').children('.text-field').text("ultimate_")
                 .next('.hidden-field').val("ultimate_");
+        });
+        
 
         $('.mandalForm').on('submit', function(evt) {
             evt.preventDefault();
+
+            var href = window.location.href;
+            var lastSegment = href.split('/').pop();
+
+            console.log(lastSegment);
+
             var action = $(this).attr('action');
-            var $container = $(this).closest('.formConatiner');
+            console.log($(this).serialize());
 
             $.ajax({
-               url: action,
+               url: action + '/' + lastSegment,
                type: 'POST',
                data: $(this).serialize(),
                success: function(data) {
@@ -271,6 +281,8 @@
                     console.log('오류 발생2!!');
                }
             });
+            window.location.href = "/mandal";
+            
         });
 
         $('.table-article').on('mouseleave', function(e) { // 마우스가 영역 떠났을 때

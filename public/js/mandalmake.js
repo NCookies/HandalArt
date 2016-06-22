@@ -15,6 +15,4 @@ $(document).ready(function(){
             rote = false;
         }
     });
-
-    $(".preview").load("/mandal/main .mandal-center");
 });

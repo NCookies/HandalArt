@@ -13,15 +13,34 @@
     <script src="vendor/jquery-ui-1.10.2.custom.min.js"></script>
     <script src="js/mandalmake.js"></script>
     <script type="text/javascript" src="js/vendor/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/nav.js"></script>
 
     <title>만다라트</title>
+
+    <script type='text/javascript'>
+      $(document).ready(function() {
+        var index = JSON.parse(<%- JSON.stringify(mandalIndex) %>);
+
+        $.each(index, function(index, val) {
+          $("section")
+          .append('<a href="/mandal/main/' + val.mandal_Id + '"><div class="preview"></div></a>');
+        });
+
+        $.each($(".preview"), function(index, val) {
+          var link = "/mandal/main/" + (index + 1)
+          console.log(link);
+          $(this).load(link + " .mandal-center")
+        });
+
+      });
+    </script>
   </head>
 
   <body>
     <div id="else-container">
 
     <header>
-      <nav class ="navbar navbar-transparent navbar-fixed-top" role="navigation">
+      <nav id="navupdown" class ="navbar navbar-transparent navbar-fixed-top" role="navigation">
         <div class="container">
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-target">
@@ -48,19 +67,17 @@
 
     <div id = 'option'>
       <img src="imgs/plus.png" id="addbtn"/>
+      <i id="plus" class="fa fa-plus-circle"></i>
         <ul id="mandal_slide">
           <li><a href="/mandal_template"><img src="imgs/select_circle.png" class="selector" id="circle"/></a></li>
           <li><img src="imgs/select_triangle.png" class="selector" id="triangle"/></li>
           <li><a href="/mandal/main"><img src="imgs/select_square.png" class="selector" id="square"/></a></li>
-          <li><a href="../login">아스아스아으</a></li>
         </ul>
     </div>
 
 <!-- 게시물의 개수를 받아 for문을 돌려 이미지를 출력해준다. -->
     <section>
-      <div class="preview"></div>
-      <div class="preview"></div>
-      <div class="preview"></div>
+      
     </section>
 
     <footer>

@@ -123,6 +123,7 @@ $(document).ready(function()
 				});*/
 				//var newEvent = null;
 				//dragging = true;
+				console.log(start);
 				var newEvent = {
 	   		        title: title,
 	   	    	    start: start,
@@ -182,13 +183,11 @@ $(document).ready(function()
 				end: new Date(y, m, d-2)
 			},
 			{
-				id: 999,
 				title: 'Repeating Event',
 				start: new Date(y, m, d-3, 16, 0),
 				allDay: false
 			},
 			{
-				id: 999,
 				title: 'Repeating Event',
 				start: new Date(y, m, d+4, 16, 0),
 				allDay: false
@@ -224,9 +223,13 @@ $(document).ready(function()
 			return {
 				start: e.start,
 				end: e.end,
-				title: e.title
+				title: e.title,
+				allDay: e.allDay,
+				id: e._id
 			};
 		})));
+
+		console.log(eventsArray);
 
 		$.ajax({
 			url: '/calendar/day',

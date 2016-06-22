@@ -55,10 +55,10 @@ $(document).ready(function(){
             success: function(data, err) {
                 if (data.success) {
                     console.log('데이터 전송 성공!!');
-					location.reload();
+					          location.reload();
                 } else {
                     console.log('오류 발생!!');
-					location.reload();
+					          location.reload();
                 }
             },
             error:function(request, status, error) {
