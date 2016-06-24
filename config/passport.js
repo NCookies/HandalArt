@@ -106,11 +106,9 @@ module.exports = function (passport) {
                         });
                     }
 
-                    console.log('auth Id : ' + JSON.stringify(rows));
 
                     var auth_Id = Number(JSON.stringify(rows[0]).split(':')[2].match(/\d+/)[0]);
-
-                    console.log('auth_Id : ' + auth_Id);
+                    // 계정이 DB에 등록되었는지 확인하는 변수 0 또는 1
 
 
                     if (auth_Id == 1) { // 계정이 등록된 경우
@@ -119,7 +117,7 @@ module.exports = function (passport) {
                             'displayName' : profile.displayName
                         };
 
-                        console.log("이미 있음");
+                        console.log("mysql : already exist");
 
                         return done(null, profile);
                     }
@@ -141,13 +139,13 @@ module.exports = function (passport) {
                             'displayName' : profile.displayName
                         };
 
-                        console.log("DB에 추가")
+                        console.log("mysql : add in database");
 
                         return done(null, user);
                         // DB에 추가
                     }
                 });
-                
+
                 connection.release();
             });
         }
@@ -174,11 +172,9 @@ module.exports = function (passport) {
                         });
                     }
 
-                    console.log('auth Id : ' + JSON.stringify(rows));
 
                     var auth_Id = Number(JSON.stringify(rows[0]).split(':')[2].match(/\d+/)[0]);
-
-                    console.log('auth_Id : ' + auth_Id);
+                    // 계정이 DB에 등록되었는지 확인하는 변수 0 또는 1
 
 
                     if (auth_Id == 1) { // 계정이 등록된 경우
@@ -187,7 +183,7 @@ module.exports = function (passport) {
                             'displayName' : profile.displayName
                         };
 
-                        console.log("이미 있음");
+                        console.log("mysql : already exist");
 
                         return done(null, profile);
                     }
@@ -209,7 +205,7 @@ module.exports = function (passport) {
                             'displayName' : profile.displayName
                         };
 
-                        console.log("DB에 추가")
+                        console.log("mysql : add in database");
 
                         return done(null, user);
                         // DB에 추가
