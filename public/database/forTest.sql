@@ -15,7 +15,20 @@ SELECT EXISTS ( SELECT * FROM member WHERE member_DisplayName = "승우");
 
 SELECT EXISTS ( SELECT * FROM member WHERE member_AuthId = 'facebook:1736493206592283');
 
+show tables;
 
 desc member;
+desc mandal;
+desc mandalsub;
+desc mandaldetail;
 
 SET SQL_SAFE_UPDATES =0;
+
+
+select * from mandal;
+select max(mandal_Id) from mandal where member_AuthId = "local:jung";
+
+insert into mandal values ("local:jung", 1, "dsf", null);
+
+delete from mandal where member_AuthId = "local:jung";
+

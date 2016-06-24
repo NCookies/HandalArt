@@ -71,7 +71,10 @@ module.exports = function (passport) {
 
                     if (userid == account[0].member_AuthId.split(':')[1] &&
                     password == account[0].member_Password) {
-                        var user = { 'displayName': account[0].member_DisplayName }
+                        var user = { 
+                            'id' : account[0].member_AuthId,
+                            'displayName': account[0].member_DisplayName 
+                        }
                         //'id': rows[0].member_AuthId };
                         return done(null, user);
                     } else {

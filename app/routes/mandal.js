@@ -11,18 +11,22 @@ var pool = mysql.createPool({
 });
 
 
-var connection = mysql.createConnection({
+var pool = mysql.createPool({
     host :'localhost',
-    port : 8080,
+    port : 3306,
     user : 'root',
-    password : 'mysqlhandalart3576',
-    database:'handalart'
+    password : 'mysqlhandalart3576!',
+    database : 'handalart',
+    connectionLimit : 20,
+    waitForConnections : false
 });
 
-
+// =====================================
+// /mandal routes ======================
+// =====================================
 exports.makeMandal = function(req, res) {
 
-    pool.getConnection(function(err, connection) {
+    /*pool.getConnection(function(err, connection) {
         connection.query('select distinct mandal_Id from mandal_ultimate where member_Id = ? order by mandal_Id asc;',
         [req.session.passport.user.id], function(err, rows) {
             if (err) {
@@ -36,61 +40,49 @@ exports.makeMandal = function(req, res) {
         });
 
         connection.release();
-    });
+    });*/
+    res.render('mandal_make', { mandalIndex : false });
 }
 
-
+// =====================================
+// MAKE NEW MANDAL =====================
+// =====================================
 exports.makeNewMandal = function(req, res) {
     res.render('mandal_main', { center : false, mandal : false});
 }
 
 
-
-exports.mainMandal = function(req, res) {
-    pool.getConnection(function(err, connection) {
-        var mandalCenterData;
-        var mandalData;
-
-
-        connection.query('select * from mandal_ultimate where member_Id = ? and mandal_Id = ?',
-        [req.session.passport.user.id, req.params.id], function(err, rows) {
-            mandalCenterData = JSON.stringify(rows);
-
-            connection.query('select * from mandal_detail where member_Id = ? and mandal_Id = ?',
-            [req.session.passport.user.id, req.params.id], function(err, rows) {
-                mandalData = JSON.stringify(rows);
-
-                //console.log("data : " + mandalData);
-
-                res.render('mandal_main', { center : mandalCenterData, mandal : mandalData});
-            });
-        });
-
-        connection.release();
-    });
- 	
-	//res.render('mandal_main', {jsonObj : arr});
-}
-
+// =====================================
+// GET DATA FOR MANDAL =================
+// =====================================
 exports.getData = function(req, res) {
 
-    if (req.session.passport.user.id == "undefined") {
-        res.redirect(303, '/');
-    }
-
-
     pool.getConnection(function(err, connection) {
-        var mandalId;
 
-        console.log("id : " + req.params.id);
-        console.log("type : " + typeof req.params.id);
+        var maxMandal;
 
         if (req.params.id == "main") { // 없으면 새로 추가
             console.log('new mandal');
-            connection.query('select max(mandal_Id) from mandal_ultimate where member_Id = ?',
+
+            connection.query('SELECT MAX(mandal_Id) FROM mandal WHERE member_AuthId = ?',
             [req.session.passport.user.id], function(err, rows) {
-                mandalId = Number(JSON.stringify(rows[0]).match(/\d+/)[0]) + 1;
+                console.log("length : " + rows.length);
+
+                if (rows.length == 1) {
+                    console.log("length : " + rows.length);
+                    console.log('sdf');
+                    return;
+                }
+
+                if (maxMandal == null) {
+                    console.log('maxMandal is null!!');
+                    mandalId = 1;
+                }2
+
+                maxMandal = Number(JSON.stringify(rows[0]).match(/\d+/)[0]) + 1;
                 // "max(mandal_Id)" : 1에서 '()' 때문에 키로 인식하지 못함
+                console.log('maxMandal : ' + maxMandal);
+                
 
                 for (var subIndex = 0; subIndex < 8; subIndex++) {
                     connection.query("insert into mandal_ultimate values(?, ?, ?, ?)",
@@ -194,3 +186,31 @@ exports.getData = function(req, res) {
         connection.release();
     });
 }
+
+
+exports.mainMandal = function(req, res) {
+    pool.getConnection(function(err, connection) {
+        var mandalCenterData;
+        var mandalData;
+
+
+        connection.query('select * from mandal_ultimate where member_Id = ? and mandal_Id = ?',
+        [req.session.passport.user.id, req.params.id], function(err, rows) {
+            mandalCenterData = JSON.stringify(rows);
+
+            connection.query('select * from mandal_detail where member_Id = ? and mandal_Id = ?',
+            [req.session.passport.user.id, req.params.id], function(err, rows) {
+                mandalData = JSON.stringify(rows);
+
+                //console.log("data : " + mandalData);
+
+                res.render('mandal_main', { center : mandalCenterData, mandal : mandalData});
+            });
+        });
+
+        connection.release();
+    });
+ 	
+	//res.render('mandal_main', {jsonObj : arr});
+}
+
