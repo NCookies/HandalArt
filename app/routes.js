@@ -28,7 +28,7 @@ module.exports = function(app, passport) {
 
 
     app.get('/auth/google',
-    passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+    passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 
     app.get('/auth/twitter', passport.authenticate('twitter'));

@@ -147,6 +147,8 @@ module.exports = function (passport) {
                         // DB에 추가
                     }
                 });
+                
+                connection.release();
             });
         }
     ));
@@ -161,9 +163,61 @@ module.exports = function (passport) {
         callbackURL: "http://localhost:3000/auth/google/callback"
     },
     function(accessToken, refreshToken, profile, done) {
-        /*User.findOrCreate({ googleId: profile.id }, function (err, user) {
-            return done(err, user);
-        });*/
+        pool.getConnection(function(err, connection) {
+                connection.query('SELECT EXISTS ( SELECT * FROM member WHERE member_AuthId = ?);',
+                ['google:' + profile.id], function(err, rows) { // 계정이 있으면 1, 없으면 0
+                    if (err) {
+                        console.error(err);
+                        connection.rollback(function () {
+                            console.error('rollback error');
+                            throw err;
+                        });
+                    }
+
+                    console.log('auth Id : ' + JSON.stringify(rows));
+
+                    var auth_Id = Number(JSON.stringify(rows[0]).split(':')[2].match(/\d+/)[0]);
+
+                    console.log('auth_Id : ' + auth_Id);
+
+
+                    if (auth_Id == 1) { // 계정이 등록된 경우
+                        var user = {
+                            'id' : profile.id,
+                            'displayName' : profile.displayName
+                        };
+
+                        console.log("이미 있음");
+
+                        return done(null, profile);
+                    }
+                    else { // 계정이 등록되지 않았던 경우
+                        connection.query('INSERT INTO member VALUES (?, ?, ?, ?)',
+                        ['google:' + profile.id, getRandomCode(45), profile.emails[0].value, profile.displayName],
+                        function(err, rows) {
+                            if (err) {
+                                console.error(err);
+                                connection.rollback(function () {
+                                    console.error('rollback error');
+                                    throw err;
+                                });
+                            }
+                        });
+
+                        var user = {
+                            'id' : profile.id,
+                            'displayName' : profile.displayName
+                        };
+
+                        console.log("DB에 추가")
+
+                        return done(null, user);
+                        // DB에 추가
+                    }
+                });
+
+                connection.release();
+            });
         console.log(profile.id);
         done(null, profile);
         }
