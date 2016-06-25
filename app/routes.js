@@ -4,6 +4,7 @@ var index = require('./routes/index');
 var bucket = require('./routes/bucket');
 var mandal = require('./routes/mandal');
 var calendar = require('./routes/calendar');
+var register = require('./routes/register');
 
 var path = require('path');
 var fs = require('fs');
@@ -77,6 +78,8 @@ module.exports = function(app, passport) {
         console.log("get login_success");
         res.redirect('/' + req.session.passport.user.id);
     });*/
+
+    app.get('/register', register.regeist);
 
 
     app.get('/logout', function(req, res) {

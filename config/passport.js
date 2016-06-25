@@ -117,7 +117,8 @@ module.exports = function (passport) {
                     if (auth_Id == 1) { // 계정이 등록된 경우
                         var user = {
                             'id' : profile.id,
-                            'displayName' : profile.displayName
+                            'displayName' : profile.displayName,
+                            'provider' : profile.provider
                         };
 
                         console.log("mysql : already exist");
@@ -136,10 +137,39 @@ module.exports = function (passport) {
                                 });
                             }
                         });
+                        
+                        connection.query('INSERT INTO bucketlist VALUES (?, ?, ?, ?, ?)',
+                        ['facebook:' + profile.id, 0, "START", "0000-00-00", "ACHIEVED"], 
+                        function(err, rows) {
+                            if (err) {
+                                console.error(err);
+                                connection.rollback(function () {
+                                    console.error('rollback error');
+                                    throw err;
+                                });
+                            }
+
+                            console.log('insert into bucketlist starting');
+                        });
+
+                        connection.query('INSERT INTO mandal VALUES (?, ?, ?, ?)',
+                        ['facebook:' + profile.id, 0, "START", null], 
+                        function(err, rows) {
+                            if (err) {
+                                console.error(err);
+                                connection.rollback(function () {
+                                    console.error('rollback error');
+                                    throw err;
+                                });
+                            }
+
+                            console.log('insert into mandal starting');
+                        });
 
                         var user = {
                             'id' : profile.id,
-                            'displayName' : profile.displayName
+                            'displayName' : profile.displayName,
+                            'provider' : profile.provider
                         };
 
                         console.log("mysql : add in database");
@@ -183,7 +213,8 @@ module.exports = function (passport) {
                     if (auth_Id == 1) { // 계정이 등록된 경우
                         var user = {
                             'id' : profile.id,
-                            'displayName' : profile.displayName
+                            'displayName' : profile.displayName,
+                            'provider' : profile.provider
                         };
 
                         console.log("mysql : already exist");
@@ -203,9 +234,38 @@ module.exports = function (passport) {
                             }
                         });
 
+                        connection.query('INSERT INTO bucketlist VALUES (?, ?, ?, ?, ?)',
+                        ['google:' + profile.id, 0, "START", "0000-00-00", "ACHIEVED"], 
+                        function(err, rows) {
+                            if (err) {
+                                console.error(err);
+                                connection.rollback(function () {
+                                    console.error('rollback error');
+                                    throw err;
+                                });
+                            }
+
+                            console.log('insert into bucketlist starting');
+                        });
+
+                        connection.query('INSERT INTO mandal VALUES (?, ?, ?, ?)',
+                        ['google:' + profile.id, 0, "START", null], 
+                        function(err, rows) {
+                            if (err) {
+                                console.error(err);
+                                connection.rollback(function () {
+                                    console.error('rollback error');
+                                    throw err;
+                                });
+                            }
+
+                            console.log('insert into mandal starting');
+                        });
+
                         var user = {
                             'id' : profile.id,
-                            'displayName' : profile.displayName
+                            'displayName' : profile.displayName,
+                            'provider' : profile.provider
                         };
 
                         console.log("mysql : add in database");
