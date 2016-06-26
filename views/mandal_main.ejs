@@ -49,10 +49,6 @@
 
 			if (mandalDetailData) {
 				$.each($(".detailGoal"), function(index, value) {
-					console.log("index : " + parseInt(index / 8));
-					console.log(index % 8 + 1);
-					//console.log("value : " + mandalDetailData[index/8]['mandalDetail_Content' + parseInt(index % 8 + 2)]);
-
 					var content = mandalDetailData[parseInt(index/8)]['mandalDetail_Content' + parseInt(index % 8 + 1)];
 
 					if (content) {
