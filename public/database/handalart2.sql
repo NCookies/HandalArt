@@ -74,7 +74,7 @@ CREATE TABLE mandalSub(
     mandalSub_Id INT UNSIGNED NOT NULL,
     INDEX(mandalSub_Id),
     
-    mandalSub_Conent VARCHAR(100) NULL,
+    mandalSub_Content VARCHAR(100) NULL,
     
     PRIMARY KEY(member_AuthId, mandal_Id, mandalSub_Id)
     

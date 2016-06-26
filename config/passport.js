@@ -286,13 +286,13 @@ module.exports = function (passport) {
 
     passport.serializeUser(function(user, done) {
         // user : LocalStrategy 객체의 인증함수에서 done(null,user)에 의해 리턴된 값이 넘어옴
-        console.log('serialize', user);
+        console.log('serialize');
         done(null, user); // session에 저장할 정보
     });
     // 로그인에 성공하면 사용자 정보를 세션에 저장
 
     passport.deserializeUser(function(user, done) {
-        console.log('deserialize', user); 
+        console.log('deserialize'); 
         /*pool.getConnection(function(err, connection) {
             connection.query("SELECT * FROM member WHERE id = ? ",[user.id], function(err, rows){
                 done(err, rows[0]);

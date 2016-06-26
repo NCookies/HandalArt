@@ -23,32 +23,46 @@
 
 	<script type='text/javascript'>
 		$(document).ready(function() {
-			var mandalCenterData = JSON.parse(<%- JSON.stringify(center) %>);
-			var mandalData = JSON.parse(<%- JSON.stringify(mandal) %>);
+			var mandalUltimateData = JSON.parse(<%- JSON.stringify(ultimate) %>);
+			var mandalSubData = JSON.parse(<%- JSON.stringify(sub) %>);
+			var mandalDetailData = JSON.parse(<%- JSON.stringify(detail) %>);
 
-			if (mandalCenterData) {
+			if (mandalUltimateData) {
+				$(".ultimateGoal")
+				.children(".text-field").text(mandalUltimateData[0].mandal_content)
+				.next(".hidden-field").val(mandalUltimateData[0].mandal_content);
+			}
+
+			if (mandalSubData) {
 				$.each($(".subGoal"), function(index, value) {
 					$(this)
-					.children(".text-field").text(mandalCenterData[index].mandal_ultimate_Sub_goal)
-					.next(".hidden-field").val(mandalCenterData[index].mandal_ultimate_Sub_goal);
+					.children(".text-field").text(mandalSubData[index].mandalSub_Content)
+					.next(".hidden-field").val(mandalSubData[index].mandalSub_Content);
 				});
-
-				$(".ultimateGoal")
-				.children(".text-field").text(mandalCenterData[8].mandal_ultimate_Sub_goal)
-				.next(".hidden-field").val(mandalCenterData[8].mandal_ultimate_Sub_goal);
 
 				$.each($(".falseSub"), function(index, value) {
 					$(this)
-					.children(".text-field").text(mandalCenterData[index].mandal_ultimate_Sub_goal)
-					.next(".hidden-field").val(mandalCenterData[index].mandal_ultimate_Sub_goal);
+					.children(".text-field").text(mandalSubData[index].mandalSub_Content)
+					.next(".hidden-field").val(mandalSubData[index].mandalSub_Content);
 				});
 			}
 
-			if (mandalData) {
+			if (mandalDetailData) {
 				$.each($(".detailGoal"), function(index, value) {
-					$(this)
-					.children(".text-field").text(mandalData[index].mandal_detail_content)
-					.next(".hidden-field").val(mandalData[index].mandal_detail_content);
+					console.log("index : " + parseInt(index / 8));
+					console.log(index % 8 + 1);
+					//console.log("value : " + mandalDetailData[index/8]['mandalDetail_Content' + parseInt(index % 8 + 2)]);
+
+					var content = mandalDetailData[parseInt(index/8)]['mandalDetail_Content' + parseInt(index % 8 + 1)];
+
+					if (content) {
+						$(this)
+						.children(".text-field").text(content)
+						.next(".hidden-field").val(content);
+					}
+					else {
+						return true;
+					}
 				});
 			}
 		});

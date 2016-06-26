@@ -21,14 +21,36 @@ var pool = mysql.createPool({
     waitForConnections : false
 });
 
+
+/* 어떤 사이트로 로그인 되어 있는지 확인(local, google 등) */
+var getProvider = function(req) {
+    var provider;
+
+    if (req.session.passport.user.provider == undefined) {
+        provider = "local:";
+        console.log("provider is local");
+    }
+    else {
+        provider = req.session.passport.user.provider + ":";
+        console.log("provider is " + provider.split(':')[0]);
+    }
+
+    return provider;
+}
+
+
+
 // =====================================
 // /mandal routes ======================
 // =====================================
 exports.makeMandal = function(req, res) {
 
-    /*pool.getConnection(function(err, connection) {
-        connection.query('select distinct mandal_Id from mandal_ultimate where member_Id = ? order by mandal_Id asc;',
-        [req.session.passport.user.id], function(err, rows) {
+    var provider = getProvider(req);
+    var authId = provider + req.session.passport.user.id;
+
+    pool.getConnection(function(err, connection) {
+        connection.query('SELECT DISTINCT mandal_Id FROM mandal where member_AuthId = ? order by mandal_Id ASC',
+        [authId], function(err, rows) {
             if (err) {
                 console.error(err);
                 connection.rollback(function () {
@@ -36,19 +58,24 @@ exports.makeMandal = function(req, res) {
                     throw err;
                 });
             }
+
             res.render('mandal_make', { mandalIndex : JSON.stringify(rows) });
         });
 
         connection.release();
-    });*/
-    res.render('mandal_make', { mandalIndex : false });
+    });
 }
 
 // =====================================
 // MAKE NEW MANDAL =====================
 // =====================================
 exports.makeNewMandal = function(req, res) {
-    res.render('mandal_main', { center : false, mandal : false});
+   res.render('mandal_main', 
+   { 
+        ultimate : false, 
+        sub : false, 
+        detail : false
+    });
 }
 
 
@@ -61,22 +88,12 @@ exports.getData = function(req, res) {
 
         var mandalId;
 
+        var provider = getProvider(req);
+        var authId = provider + req.session.passport.user.id;
+
+
         if (req.params.id == "main") { // 없으면 새로 추가
-            console.log('new mandal');
-
-            /* 어떤 사이트로 로그인 되어 있는지 확인(local, google 등) */
-            var provider;
-
-            if (req.session.passport.user.provider == undefined) {
-                provider = "local:";
-                console.log("provider is local");
-            }
-            else {
-                provider = req.session.passport.user.provider + ":";
-                console.log("provider is " + provider);
-            }
-
-            var authId = provider + req.session.passport.user.id;
+            console.log('============== new mandal ==============');
 
             /* mandal_Id 설정 */
             connection.query('SELECT MAX(mandal_Id) FROM mandal WHERE member_AuthId = ?',
@@ -86,20 +103,20 @@ exports.getData = function(req, res) {
                 // "max(mandal_Id)" : 1에서 '()' 때문에 키로 인식하지 못함
                 console.log('mandalId : ' + mandalId);
 
-                connection.query("insert into mandal values(?, ?, ?, ?)",
+                connection.query("INSERT INTO mandal VALUES (?, ?, ?, ?)",
                 [authId, mandalId, req.body.ultimateArticle, null], 
                 function(err, rows) {
-                        if (err) {
-                            console.error(err);
-                            connection.rollback(function () {
-                                console.error('rollback error');
-                                throw err;
-                            });
-                        }
+                    if (err) {
+                        console.error(err);
+                        connection.rollback(function () {
+                            console.error('rollback error');
+                            throw err;
+                        });
+                    }
                 });
 
                 for (var subIndex = 0; subIndex < 8; subIndex++) {
-                    connection.query("insert into mandalSub values(?, ?, ?, ?)",
+                    connection.query("INSERT INTO mandalSub VALUES (?, ?, ?, ?)",
                     [authId, mandalId, subIndex + 1, req.body.subArticle[subIndex]], 
                     function(err, rows) {
                         if (err) {
@@ -117,7 +134,7 @@ exports.getData = function(req, res) {
 
                     console.log(detailIndex  + ":" + detailArticle[detailIndex]);
                     
-                    connection.query("insert into mandaldetail values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    connection.query("INSERT INTO mandaldetail VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     [authId, mandalId, parseInt(detailIndex/8 + 1), detailArticle[detailIndex], 
                     detailArticle[detailIndex + 1], detailArticle[detailIndex + 2], 
                     detailArticle[detailIndex + 3], detailArticle[detailIndex + 4],
@@ -133,60 +150,16 @@ exports.getData = function(req, res) {
                         }
                     });
                 }
-                
-
-                /*for (var subIndex = 0; subIndex < 8; subIndex++) {
-                    connection.query("insert into mandal_ultimate values(?, ?, ?, ?)",
-                    [req.session.passport.user.id, mandalId, "bucket_1", req.body.subArticle[subIndex]], function(err, rows) {
-                        if (err) {
-                            console.error(err);
-                            connection.rollback(function () {
-                                console.error('rollback error');
-                                throw err;
-                            });
-                        }
-                    });
-                }
-                connection.query("insert into mandal_ultimate values(?, ?, ?, ?)",
-                [req.session.passport.user.id, mandalId, "bucket_1", req.body.ultimateArticle], function(err, rows) {
-                        if (err) {
-                            console.error(err);
-                            connection.rollback(function () {
-                                console.error('rollback error');
-                                throw err;
-                            });
-                        }
-                });
-                for (var detailIndex = 0; detailIndex < 64; detailIndex++) {
-
-                    connection.query("insert into mandal_detail values(?, ?, ?, ?, ?)",
-                    [ req.session.passport.user.id, "bucket_1", mandalId, parseInt(detailIndex/8 + 1), 
-                    req.body.detailArticle[detailIndex] ], function(err, rows) {
-                        if (err) {
-                            console.error(err);
-                            connection.rollback(function () {
-                                console.error('rollback error');
-                                throw err;
-                            });
-                        }
-                    });
-                }*/
+                /* End of SELECT MAX query */
             });
         }
-        else { // 삭제했다가 다시 추가(DB 설계 문제...)
-            connection.query('delete from mandal_ultimate where mandal_Id = ? and member_Id = ?',
-            [req.params.id, req.session.passport.user.id], function(err, rows) {
-                if (err) {
-                    console.error(err);
-                    connection.rollback(function () {
-                        console.error('rollback error');
-                        throw err;
-                    });
-                }
-            });
 
-            connection.query('delete from mandal_detail where mandal_Id = ? and member_Id = ?',
-            [req.params.id, req.session.passport.user.id], function(err, rows) {
+        else { // 업데이트
+            console.log('============== modify mandal ==============');
+
+            connection.query("UPDATE mandal SET mandal_content = ? WHERE member_AuthId = ? AND mandal_Id = ?",
+            [req.body.ultimateArticle, authId, req.params.id, null], 
+            function(err, rows) {
                 if (err) {
                     console.error(err);
                     connection.rollback(function () {
@@ -197,8 +170,9 @@ exports.getData = function(req, res) {
             });
 
             for (var subIndex = 0; subIndex < 8; subIndex++) {
-                connection.query("insert into mandal_ultimate values(?, ?, ?, ?)",
-                [req.session.passport.user.id, req.params.id, "bucket_1", req.body.subArticle[subIndex]], function(err, rows) {
+                connection.query("UPDATE mandalSub SET mandalSub_Content = ? WHERE member_AuthId = ? AND mandal_Id = ? AND mandalSub_Id = ?",
+                [req.body.subArticle[subIndex], authId, req.params.id, subIndex + 1], 
+                function(err, rows) {
                     if (err) {
                         console.error(err);
                         connection.rollback(function () {
@@ -208,21 +182,24 @@ exports.getData = function(req, res) {
                     }
                 });
             }
-            connection.query("insert into mandal_ultimate values(?, ?, ?, ?)",
-            [req.session.passport.user.id, req.params.id, "bucket_1", req.body.ultimateArticle], function(err, rows) {
-                    if (err) {
-                        console.error(err);
-                        connection.rollback(function () {
-                            console.error('rollback error');
-                            throw err;
-                        });
-                    }
-            });
-            for (var detailIndex = 0; detailIndex < 64; detailIndex++) {
 
-                connection.query("insert into mandal_detail values(?, ?, ?, ?, ?)",
-                [ req.session.passport.user.id, "bucket_1", mandalId, parseInt(detailIndex/8 + 1), 
-                req.body.detailArticle[detailIndex] ], function(err, rows) {
+            for (var detailIndex = 0; detailIndex < 64; detailIndex += 8) {
+                var detailArticle = req.body.detailArticle;
+
+                console.log(detailIndex  + ":" + detailArticle[detailIndex]);
+                
+                connection.query("UPDATE mandalDetail SET mandalDetail_Content1 = ?, mandalDetail_Content2 = ?, " +
+                " mandalDetail_Content3 = ?, mandalDetail_Content4 = ?, mandalDetail_Content5 = ?, " + 
+                "mandalDetail_Content6 = ?, mandalDetail_Content7 = ?, mandalDetail_Content8 = ?" + 
+                "WHERE member_AuthId = ? AND mandal_Id = ? AND mandalSub_Id = ?"
+                [
+                detailArticle[detailIndex], detailArticle[detailIndex + 1], 
+                detailArticle[detailIndex + 2], detailArticle[detailIndex + 3], 
+                detailArticle[detailIndex + 4], detailArticle[detailIndex + 5], 
+                detailArticle[detailIndex + 6], detailArticle[detailIndex + 7],
+                authId, mandalId, parseInt(detailIndex/8 + 1)
+                ], 
+                function(err, rows) {
                     if (err) {
                         console.error(err);
                         connection.rollback(function () {
@@ -241,21 +218,58 @@ exports.getData = function(req, res) {
 
 exports.mainMandal = function(req, res) {
     pool.getConnection(function(err, connection) {
-        var mandalCenterData;
-        var mandalData;
+        var mandalUltimateData;
+        var mandalSubData;
+        var mandalDetailData;
 
+        var provider = getProvider(req);
+        var authId = provider + req.session.passport.user.id;
 
-        connection.query('select * from mandal_ultimate where member_Id = ? and mandal_Id = ?',
-        [req.session.passport.user.id, req.params.id], function(err, rows) {
-            mandalCenterData = JSON.stringify(rows);
+        console.log('parms : ' + req.params.id);
 
-            connection.query('select * from mandal_detail where member_Id = ? and mandal_Id = ?',
-            [req.session.passport.user.id, req.params.id], function(err, rows) {
-                mandalData = JSON.stringify(rows);
+        connection.query('SELECT * FROM mandal where member_AuthId = ? and mandal_Id = ?',
+        [authId, req.params.id], function(err, rows) {
+            if (err) {
+                console.error(err);
+                connection.rollback(function () {
+                    console.error('rollback error');
+                    throw err;
+                });
+            }
+            mandalUltimateData = JSON.stringify(rows);
+            console.log(mandalUltimateData);
 
-                //console.log("data : " + mandalData);
+            connection.query('SELECT * FROM mandalSub where member_AuthId = ? and mandal_Id = ?',
+            [authId, req.params.id], function(err, rows) {
+                if (err) {
+                    console.error(err);
+                    connection.rollback(function () {
+                        console.error('rollback error');
+                        throw err;
+                    });
+                }
+                mandalSubData = JSON.stringify(rows);
+                console.log(mandalSubData);
 
-                res.render('mandal_main', { center : mandalCenterData, mandal : mandalData});
+                connection.query('SELECT * FROM mandalDetail where member_AuthId = ? and mandal_Id = ?',
+                [authId, req.params.id], function(err, rows) {
+                    if (err) {
+                        console.error(err);
+                        connection.rollback(function () {
+                            console.error('rollback error');
+                            throw err;
+                        });
+                    }
+                    mandalDetailData = JSON.stringify(rows);
+                    console.log("detail : " + mandalDetailData);
+
+                    res.render('mandal_main', 
+                    { 
+                        ultimate : mandalUltimateData, 
+                        sub : mandalSubData, 
+                        detail : mandalDetailData
+                    });
+                });
             });
         });
 

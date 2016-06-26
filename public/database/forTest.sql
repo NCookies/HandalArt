@@ -44,7 +44,13 @@ select * from mandalsub;
 select * from mandaldetail;
 select * from bucketlist;
 
+SELECT * FROM mandal where member_AuthId = "facebook:1736493206592283" and mandal_Id = 1;
+
 delete from member where member_DisplayName = "유승우";
 delete from bucketlist where bucketlist_Id = 0;
 delete from mandal where mandal_Id = 0;
 
+ALTER TABLE mandalsub CHANGE colname "mandalSub_Conent" "mandalSub_Content";
+alter table mandalsub change "mandalSub_Conent" "mandalSub_Content" varchar(100);
+
+update mandal set mandal_content = "뷍ㄹ" where mandal_Id = 4 and member_AuthId = "facebook:1736493206592283";

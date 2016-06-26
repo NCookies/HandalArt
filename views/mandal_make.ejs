@@ -22,18 +22,19 @@
         var index = JSON.parse(<%- JSON.stringify(mandalIndex) %>);
 
         $.each(index, function(index, val) {
-          $("section")
-          .append('<a href="/mandal/main/' + val.mandal_Id + '"><div class="preview"></div></a>');
-        });
+          if (val.mandal_Id == 0) return true;
 
-        $.each($(".preview"), function(index, val) {
-          var link = "/mandal/main/" + (index + 1)
-          console.log(link);
-          $(this).load(link + " .mandal-center")
+          $("section")
+          .append('<a href="/mandal/main/' + val.mandal_Id + '"><div class="preview">sdfsf</div></a>');
         });
 
       });
     </script>
+    <!--$.each($(".preview"), function(index, val) {
+          var link = "/mandal/main/" + (index + 1)
+          console.log(link);
+          $(this).load(link + " .mandal-center")
+        });-->
   </head>
 
   <body>
