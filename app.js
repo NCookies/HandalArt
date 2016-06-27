@@ -33,7 +33,7 @@ var connection = mysql.createConnection({
     host :'localhost',
     port : 3306,
     user : 'root',
-    password : 'mysqlhandalart3576!',
+    password : '',
     database : 'handalart'
 });
 
@@ -41,7 +41,7 @@ var pool = mysql.createPool({
     host :'localhost',
     port : 3306,
     user : 'root',
-    password : 'mysqlhandalart3576!',
+    password : '',
     database : 'handalart',
     connectionLimit : 20,
     waitForConnections : false
@@ -195,7 +195,7 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(user, done) {
     //findById(id, function (err, user) {
-    console.log('deserialize'); 
+    console.log('deserialize');
     done(null, user);
     //});
 });
@@ -234,7 +234,7 @@ app.get('/auth/facebook/callback',
 	function(req, res) {
 		var user = JSON.stringify(req.user);
 		var account = req.account;
-        
+
         console.log('sdf' + req.session.passport.user.displayName);
 
 		// Associate the Facebook account with the logged-in user.
@@ -279,7 +279,7 @@ app.get('/logout', function(req, res) {
 	req.logout();
 	res.redirect('/');
 });
- 
+
 
 
 // bucketlist

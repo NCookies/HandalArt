@@ -10,7 +10,7 @@ var pool = mysql.createPool({
     host :'localhost',
     port : 3306,
     user : 'root',
-    password : 'mysqlhandalart3576!',
+    password : '',
     database : 'handalart',
     connectionLimit : 20,
     waitForConnections : false
@@ -31,7 +31,7 @@ function getRandomCode(iLength) {
 
 
 module.exports = function (passport) {
- 
+
 
     // =====================================
 	// LOCAL AUTH ==========================
@@ -47,6 +47,8 @@ module.exports = function (passport) {
 
             var id = userid;
             var passwd = password;
+
+            console.log("id : " + "local:" + id);
 
             pool.getConnection(function(err, connection) {
                 connection.query("SELECT * FROM member WHERE member_AuthId = ?",
@@ -65,15 +67,15 @@ module.exports = function (passport) {
 
                     if (account == null) {
                         console.log("No Account");
-                        return done(null, false, 
+                        return done(null, false,
                         { message : '아이디 또는 비밀번호가 잘못되었습니다'});
                     }
 
                     if (userid == account[0].member_AuthId.split(':')[1] &&
                     password == account[0].member_Password) {
-                        var user = { 
+                        var user = {
                             'id' : account[0].member_AuthId,
-                            'displayName': account[0].member_DisplayName 
+                            'displayName': account[0].member_DisplayName
                         }
                         //'id': rows[0].member_AuthId };
                         return done(null, user);
@@ -137,9 +139,9 @@ module.exports = function (passport) {
                                 });
                             }
                         });
-                        
+
                         connection.query('INSERT INTO bucketlist VALUES (?, ?, ?, ?, ?)',
-                        ['facebook:' + profile.id, 0, "START", "0000-00-00", "ACHIEVED"], 
+                        ['facebook:' + profile.id, 0, "START", "0000-00-00", "ACHIEVED"],
                         function(err, rows) {
                             if (err) {
                                 console.error(err);
@@ -153,7 +155,7 @@ module.exports = function (passport) {
                         });
 
                         connection.query('INSERT INTO mandal VALUES (?, ?, ?, ?)',
-                        ['facebook:' + profile.id, 0, "START", null], 
+                        ['facebook:' + profile.id, 0, "START", null],
                         function(err, rows) {
                             if (err) {
                                 console.error(err);
@@ -235,7 +237,7 @@ module.exports = function (passport) {
                         });
 
                         connection.query('INSERT INTO bucketlist VALUES (?, ?, ?, ?, ?)',
-                        ['google:' + profile.id, 0, "START", "0000-00-00", "ACHIEVED"], 
+                        ['google:' + profile.id, 0, "START", "0000-00-00", "ACHIEVED"],
                         function(err, rows) {
                             if (err) {
                                 console.error(err);
@@ -249,7 +251,7 @@ module.exports = function (passport) {
                         });
 
                         connection.query('INSERT INTO mandal VALUES (?, ?, ?, ?)',
-                        ['google:' + profile.id, 0, "START", null], 
+                        ['google:' + profile.id, 0, "START", null],
                         function(err, rows) {
                             if (err) {
                                 console.error(err);
@@ -292,7 +294,7 @@ module.exports = function (passport) {
     // 로그인에 성공하면 사용자 정보를 세션에 저장
 
     passport.deserializeUser(function(user, done) {
-        console.log('deserialize'); 
+        console.log('deserialize');
         /*pool.getConnection(function(err, connection) {
             connection.query("SELECT * FROM member WHERE id = ? ",[user.id], function(err, rows){
                 done(err, rows[0]);
@@ -300,7 +302,7 @@ module.exports = function (passport) {
 
             connection.release();
         })*/
-        
+
         done(null, user);
     });
     // node.js의 모든 페이지에 접속할 때마다 호출, 사용자 정보를 세션에서 읽어옴
