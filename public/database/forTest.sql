@@ -20,13 +20,18 @@ desc bucketlist;
 desc mandal;
 desc mandalsub;
 desc mandaldetail;
+desc calendar;
+
+ALTER TABLE calendar MODIFY calendar_AllDay boolean;
 
 SET SQL_SAFE_UPDATES =0;
 
+delete from member;
 delete from mandal;
 delete from bucketlist;
 
 select max(mandal_Id) from mandal where member_AuthId = "local:jung";
+SELECT EXISTS (SELECT * FROM member where member_AuthId = "local:jung");
 
 insert into mandal values ("local:jung", 1, "dsf", null);
 INSERT INTO bucketlist VALUES ('local:jung' , 0, "START", "0000-00-00", "ACHIEVED");
@@ -38,7 +43,10 @@ SELECT MAX(mandal_Id) FROM mandal WHERE member_AuthId = "facebook:17364932065922
 
 delete from mandal where member_AuthId = "local:jung";
 
+SELECT EXISTS (SELECT * FROM member where member_AuthId = "local:aa");
+
 select * from member;
+
 select * from mandal;
 select * from mandalsub;
 select * from mandaldetail;
@@ -46,9 +54,12 @@ select * from bucketlist;
 
 SELECT * FROM mandal where member_AuthId = "facebook:1736493206592283" and mandal_Id = 1;
 
+SELECT distinct * FROM mandal where member_AuthId = "facebook:1736493206592283" order by mandal_Id ASC;
+SELECT DISTINCT * FROM mandalSub where member_AuthId = "facebook:1736493206592283" order by mandal_Id ASC;
+
 delete from member where member_DisplayName = "유승우";
 delete from bucketlist where bucketlist_Id = 0;
-delete from mandal where mandal_Id = 0;
+delete from mandal where mandal_Id = 1;
 
 ALTER TABLE mandalsub CHANGE colname "mandalSub_Conent" "mandalSub_Content";
 alter table mandalsub change "mandalSub_Conent" "mandalSub_Content" varchar(100);

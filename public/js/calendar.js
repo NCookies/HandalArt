@@ -1,7 +1,7 @@
 /*
 	jQuery document ready
 */
-
+ 
 $(document).ready(function()
 {
 	/*
@@ -38,7 +38,7 @@ $(document).ready(function()
 			right: 'month,agendaWeek,agendaDay',
 			
 		},
-
+ 
 		titleFormat: {
 			month: "yyyy년 MMMM",
 			week: "[yyyy] MMM d일 - { [yyyy] MMM d일}",		// {}이거 왜있어 승우야?
@@ -98,14 +98,14 @@ $(document).ready(function()
 		select: function(start, end, allDay)		// dayClick 함수는 클릭이벤트만 있는 반면, select 함수는 드래그이벤트도 있음
 		{
 			//var dragging;
-			$('#view_eventadd').modal
+			$('#addModal').modal
 			({
   					title: event.title,
    					content: event.content
 			});
-			$("#add").off('click').one("click", function() 
+			$("#add").one("click", function() 
 			{
-				var title = $('#title').val();
+				var title = $('#addTitle').val();
 				/*if (title)		// 이벤트 추가 다른방법 (원래예제)
 				{
 					calendar.fullCalendar('renderEvent',
@@ -123,7 +123,6 @@ $(document).ready(function()
 				});*/
 				//var newEvent = null;
 				//dragging = true;
-				console.log(start);
 				var newEvent = {
 	   		        title: title,
 	   	    	    start: start,
@@ -132,36 +131,36 @@ $(document).ready(function()
 	    	    };
 	    	    console.log(newEvent);
 				$('#calendar').fullCalendar('renderEvent', newEvent, 'stick');
-				$('#view_eventadd').modal('hide');
+				$('#addModal').modal('hide');
 				// title = $('#title').val('');		// 앞에 썼던 title 내용 초기화, 나중에 썼던 title 내용이 맨 처음 클릭했던 날에만 들어감, 다른 날에는 빈칸으로 들어감
 			});
-			title = $('#title').val('');		// 앞에 썼던 title 내용 초기화, 나중에 썼던 title 내용이 지금까지 클릭했던 모든 날에 들어감
+			title = $('#addTitle').val('');		// 앞에 썼던 title 내용 초기화, 나중에 썼던 title 내용이 지금까지 클릭했던 모든 날에 들어감
 		},
 		
 		eventClick: function(event, calEvent, jsEvent, view, element) 
 		{
 			//var title = $('#title').val();
-  			$('#view_event').modal
+  			$('#editModal').modal
   			({
     				title: event.title,
    					content: event.content
    			});
   			$("#edit").off('click').on("click", function() 
   			{
-  				var title = $('#changetitle').val();
+  				var title = $('#editTitle').val();
   				event.title = title;
    				//event.title = event.changetitle;
 				$('#calendar').fullCalendar('updateEvent', event);
-				$('#view_event').modal('hide');
+				$('#editModal').modal('hide');
    			});
    			$("#remove").off('click').one("click", function()
   			{
   				var title = event._id;
     			$('#calendar').fullCalendar('removeEvents', title);
  				//$('#calendar').fullCalendar('addEventSource', newEvent);		// 사용할 경우 function()에 (newEvent)를 해주어야함
-				$('#view_event').modal('hide');
+				$('#editModal').modal('hide');
  			});
- 			title = $('#changetitle').val(event.title);			// title란에 기존에 입력했던 event의 이름이 나옴
+ 			title = $('#editTitle').val(event.title);			// title란에 기존에 입력했던 event의 이름이 나옴
 		},
 		/*
 			editable: true allow user to edit events.
@@ -183,11 +182,13 @@ $(document).ready(function()
 				end: new Date(y, m, d-2)
 			},
 			{
+				id: 999,
 				title: 'Repeating Event',
 				start: new Date(y, m, d-3, 16, 0),
 				allDay: false
 			},
 			{
+				id: 999,
 				title: 'Repeating Event',
 				start: new Date(y, m, d+4, 16, 0),
 				allDay: false
@@ -217,24 +218,59 @@ $(document).ready(function()
 			}
 		]
  	});
-
+ 
 	$(".fc-button-agendaDay").on('click', function() {
+		var eventsArray = JSON.stringify((calendar.fullCalendar('clientEvents').map(function(e) {
+			return {
+				start: e.start,
+				end: e.end,
+				title: e.title
+			};
+		})));
+ 
+		$.ajax({
+			url: '/calendar/day',
+			type: 'POST',
+			data: { events: eventsArray },
+			complete: function(response, textStatus) {
+                   console.log("complete");
+            },	/*
+			success: function(data) {
+				if (data.success) {
+					console.log('데이터 전송 성공!!');
+				} else {
+					console.log('오류 발생!!');
+				}
+			},*/
+			error: function() {
+				console.log('오류 발생2!!');
+			},
+		});
+ 
+		//var renderedData = new EJS({url:'/calendar/day'}).render({data: eventsArray});
+		$(".fc-view-agendaDay").load("/calendar/day");
+	});
+
+	$("#add, #save").on('click', function() {
 		var eventsArray = JSON.stringify((calendar.fullCalendar('clientEvents').map(function(e) {
 			return {
 				id: e._id,
 				start: e.start,
 				end: e.end,
 				title: e.title,
-				allDay: e.allDay
+				allday: e.allDay
 			};
 		})));
 
 		console.log(eventsArray);
-
+ 
 		$.ajax({
-			url: '/calendar/day',
+			url: '/calendar',
 			type: 'POST',
-			data: { events: eventsArray },
+			data: { events: JSON.stringify(eventsArray) },
+			complete: function(response, textStatus) {
+                   console.log("complete");
+            },	
 			success: function(data) {
 				if (data.success) {
 					console.log('데이터 전송 성공!!');
@@ -244,12 +280,7 @@ $(document).ready(function()
 			},
 			error: function() {
 				console.log('오류 발생2!!');
-			}
+			},
 		});
-		
-
-		//var renderedData = new EJS({url:'/calendar/day'}).render({data: eventsArray});
-		$(".fc-view-agendaDay").load("/calendar/day");
-		//$(".fc-view-agendaDay").load("/calendar/day")
 	});
 });

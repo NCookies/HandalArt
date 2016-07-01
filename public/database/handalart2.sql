@@ -124,7 +124,7 @@ CREATE TABLE calendar(
 	ON UPDATE CASCADE
     ON DELETE CASCADE, 
     
-    calendar_Id INT UNSIGNED NOT NULL,
+    calendar_Id VARCHAR(100) NOT NULL,
     
     calendar_Start VARCHAR(100) NOT NULL,
     
@@ -132,7 +132,7 @@ CREATE TABLE calendar(
     
     calendar_Title VARCHAR(100) NOT NULL,
     
-    calendar_AllDay VARCHAR(100) NOT NULL,
+    calendar_AllDay BOOLEAN NOT NULL,
     
     PRIMARY KEY(member_AuthId, calendar_Id)
     

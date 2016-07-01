@@ -9611,7 +9611,6 @@ function Calendar_constructor(element, overrides) {
 		}
 	}
 	
-	
 	function elementVisible() {
 		return element.is(':visible');
 	}

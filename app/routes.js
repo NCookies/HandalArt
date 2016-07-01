@@ -9,6 +9,8 @@ var register = require('./routes/register');
 var path = require('path');
 var fs = require('fs');
 
+var flash = require('connect-flash');
+
 
 // route middleware to make sure
 function isLoggedIn(req, res, next) {
@@ -64,13 +66,22 @@ module.exports = function(app, passport) {
 
 
     app.post('/auth/login',
-        passport.authenticate('local', { failureRedirect: '/', failureFlash: true }),
+        passport.authenticate('local', 
+        { 
+            failureRedirect: '/',
+            //badRequestMessage : 'Missing username or password.', 
+            failureFlash: true 
+        }),
         function(req, res) {
-        //'아이디나 비밀번호가 바르지 않습니다.'
-        /*console.log('login post');*/
+        req.session.save(function(){
+            res.redirect('/');
+        });
+    });
 
-        res.redirect('/');
-        //res.redirect('/login_success');
+
+    app.get('/login_fail', function(req, res) {
+        console.log('fck');
+        res.render('index', { message: req.flash('아이디 또는 비밀번호가 잘못되었습니다') });
     });
 
 
@@ -79,7 +90,8 @@ module.exports = function(app, passport) {
         res.redirect('/' + req.session.passport.user.id);
     });*/
 
-    app.get('/register', register.regeist);
+    app.post('/auth/regist', register.regeist);
+    // 왜 POST 요청이 두 번이나 들어올까?
 
 
     app.get('/logout', function(req, res) {
@@ -112,7 +124,7 @@ module.exports = function(app, passport) {
     // calendar
     app.route('/calendar')
     .get(isLoggedIn, calendar.fullCalendar)
-    .post(isLoggedIn, calendar.dayCalendarGetData)
+    .post(isLoggedIn, calendar.CalendarGetData)
 
 
     app.route('/calendar/day')

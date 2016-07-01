@@ -6,11 +6,13 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 var mysql = require('mysql');
 
+var flash = require('connect-flash');
+
 var pool = mysql.createPool({
     host :'localhost',
     port : 3306,
     user : 'root',
-    password : '',
+    password : 'mysqlhandalart3576!',
     database : 'handalart',
     connectionLimit : 20,
     waitForConnections : false
@@ -30,7 +32,7 @@ function getRandomCode(iLength) {
 }
 
 
-module.exports = function (passport) {
+module.exports = function (app, passport) {
 
 
     // =====================================
@@ -61,15 +63,15 @@ module.exports = function (passport) {
                         });
                     }
 
-                    account = JSON.parse(JSON.stringify(rows));
-
-                    console.log('account : ' + account);
-
-                    if (account == null) {
+                    if (JSON.stringify(rows) == "[]") {
                         console.log("No Account");
                         return done(null, false,
                         { message : '아이디 또는 비밀번호가 잘못되었습니다'});
+                        /*res.render('index', { message: req.flash('아이디 또는 비밀번호가 잘못되었습니다') });*/
                     }
+
+                    account = JSON.parse(JSON.stringify(rows));
+
 
                     if (userid == account[0].member_AuthId.split(':')[1] &&
                     password == account[0].member_Password) {

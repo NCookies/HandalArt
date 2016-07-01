@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="/vendor/jquery-1.10.2.min.js"></script>
+    <script src="/vendor/jquery-ui.js"></script>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/index_session.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <script type="text/javascript" src="js/nav.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/nav.js"></script>
+    <script type="text/javascript" src="js/vendor/bootstrap.min.js"></script>
+    <title>만다라트</title>
+    <script>
+      console.log(JSON.stringify('<%- message %>'));
+    </script>
+  </head>
+  <body>
+    <div id="else-container">
+    <header id="header">
+      <nav id="navupdown" class ="navbar navbar-transparent navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-target">
+              <span class="sr-only">navigation of toggle</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+        <div id="navbar-target" class="navbar-collapse in">
+          <ul id="navbar-logo" class="nav navbar-nav navbar-left">
+            <li><a href="/"><img src="/imgs/logo" class="index_nav"/></a></li>
+          </ul>
+        <!-- <li><a href="/login"><img src="/imgs/login" id="login"/></a><li/> -->
+          <ul id="navbar" class="nav navbar-nav navbar-right">
+            <li><a href="/bucket"><img src="/imgs/bucket" class="index_nav"/></a></li>
+            <li><a href="/mandal"><img src="/imgs/mandal" class="index_nav"/></a></li>
+            <li><a href="/calendar"><img src="/imgs/calendar" class="index_nav"/></a></li>
+          </ul>
+        </div>
+     </div>
+     </nav>
+    </header>
+
+
+    <div class="content">
+      <div class="subscribe">
+        <!-- <div class="row"> -->
+          <div id="form-container" class="col-md-4 col-md-offset-4 col-sm6-6 col-sm-offset-3">
+            <div class="logged" id="log_form">
+                <p id="welcome"></p>
+                <a href="/logout">
+                    <button id="logout" class="btn btn-danger">로그아웃</button>
+                </a>
+            </div>
+          </div>
+        <!-- </div> -->
+      </div>
+      </div>
+      <div class="wise">
+        <h4 id="wise">
+          '미래를 예측하는 방법은 미래를 창조하는 것이다.'
+        </h4>
+      </div>
+
+    <footer>
+      <small>by- daidai</small>
+    </footer>
+    </div>
+    <div id="black-cover"></div>
+    <div id="bg">
+  </body>
+</html>

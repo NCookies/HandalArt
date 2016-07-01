@@ -36,3 +36,26 @@ exports.dayCalendarGetData = function(req, res) {
 
     res.render('day_calendar', { events : req.body });
 }
+
+exports.CalendarGetData = function(req, res) {
+
+    
+
+    pool.getConnection(function(err, connection) {
+        var events = JSON.parse(JSON.stringify(req.body)); 
+
+        for (var i in events) {
+            console.log("events : " + events[i]);
+        }
+        /*for (var i = 0; i < events.length; i++) {
+            connection.query("INSERT INTO calendar VALUES (?, ?, ?, ?, ?, ?) "
+            + "ON DUPLICATE KEY UPDATE member_AuthId = ?, calendar_Id = ?, calendar_Start = ?, "
+            + "calendar_End = ?, calendar_Title = ?, calendar_AllDay = ?", 
+            [], function(err, rows) {
+
+            });
+        }    */
+    });
+
+    res.render('fullcalendar');
+}

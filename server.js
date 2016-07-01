@@ -21,7 +21,7 @@ var app = express();
 // configuration ================================================
 
 
-require('./config/passport')(passport);
+require('./config/passport')(app, passport);
 
 
 app.set('view engine', 'ejs');
@@ -37,7 +37,8 @@ app.use(cookieParser());
 app.use(session({
 	resave: false,
 	saveUninitialized: false,
-	secret: 'keyboard cat'
+	secret: 'session secret key',
+	secure: true
 }));
 
 app.use(passport.initialize());

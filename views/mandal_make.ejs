@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/mandal_make.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" href="/css/mandal_main.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
     <script src="vendor/jquery-1.10.2.min.js"></script>
@@ -20,13 +21,23 @@
     <script type='text/javascript'>
       $(document).ready(function() {
         var index = JSON.parse(<%- JSON.stringify(mandalIndex) %>);
+        var mandalUltimateData = JSON.parse(<%- JSON.stringify(ultimate) %>);
+        var mandalSubData = JSON.parse(<%- JSON.stringify(sub) %>);
+
+        console.log(mandalUltimateData[0].mandal_content);
 
         $.each(index, function(index, val) {
           if (val.mandal_Id == 0) return true;
 
           $("section")
-          .append('<a href="/mandal/main/' + val.mandal_Id + '"><div class="preview">sdfsf</div></a>');
+          .append('<a href="/mandal/main/' + val.mandal_Id + '">' + '<% include mandal_preview %>' + '</a>');
         });
+
+        $.each($(".ultimateGoal"), function(index) {
+          $(this).children(".text-field")
+          .text(mandalUltimateData[index + 1].mandal_content);
+        });
+        
 
       });
     </script>
@@ -78,7 +89,6 @@
 
 <!-- 게시물의 개수를 받아 for문을 돌려 이미지를 출력해준다. -->
     <section>
-      
     </section>
 
     <footer>

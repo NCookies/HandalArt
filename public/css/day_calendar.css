@@ -1,42 +1,38 @@
 svg {
-	  width: 600px;
-    height: 600px;
+	  width: 1000px;
+    height: 1000px;
 		stroke: #000;
-		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
 }
-
-.fc-content{
-	min-width: 600px;
-}
-
+ 
 #graph path {
-  fill: white;
   stroke: white;
 }
-
-#graph path.filling {
-  fill: lightgrey;
-}
-
+ 
 #percentage {
   font-size: 3.5em;
+	color: white;
+	opacity: 0.5;
 }
-
+ 
 .hour-hand{
 	stroke-width:6;
 	stroke-linecap:round;
+	stroke: white;
 }
-
+ 
 .minute-hand{
 	stroke-width:3;
 	stroke-linecap:round;
+	stroke: white;
 }
-
+ 
 .hands-cover{
 	stroke-width:3;
 	fill:#fff;
 }
-
+ 
 .hour-label{
 	font-size: 24px;
+	color: white;
 }
