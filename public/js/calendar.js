@@ -366,11 +366,11 @@ $(document).ready(function()
 	$(".fc-button-agendaDay").on('click', function() {
 		var eventsArray = JSON.stringify((calendar.fullCalendar('clientEvents').map(function(e) {
 			return {
+				id: e._id,
 				start: e.start,
 				end: e.end,
 				title: e.title,
-				allDay: e.allDay,
-				id: e._id
+				allDay: e.allDay
 			};
 		})));
 
