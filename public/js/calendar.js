@@ -84,7 +84,6 @@ $(document).ready(function()
 			left: 'prev,next today',
 			center: 'title',
 			right: 'month,agendaWeek,agendaDay',
-			
 		},
 
 		titleFormat: {
@@ -263,6 +262,52 @@ $(document).ready(function()
 				}
 			});
 		},
+		// dayClick: function (date, allDay, jsEvent, view) {
+		// 	$('#fullCalendar').fullCalendar('changeView', 'agendaDay').fullCalendar('gotoDate', date.getFullYear(), date.getMonth(), date.getDate());
+		// },
+		// eventRender: function (event, element, view) {
+        //         element.qtip({
+        //            content: event.QText,
+
+        //            position: {
+        //                my: 'CenterBottom',
+        //                    at:'TopCenter'
+
+        //            },
+        //            style: {
+        //                tip: 'bottomMiddle'
+
+        //            }
+        //        });
+        //        $(element).removeClass('MaxHeight');
+        //        if (view.name == 'month') {
+
+        //                $(element).addClass('MaxHeight');
+        //            var year = event.start.getFullYear(), month = event.start.getMonth() + 1, date = event.start.getDate();
+        //            var result = year + '-' + (month < 10 ? '0' + month : month) + '-' + (date < 10 ? '0' + date : date);
+        //            $(element).addClass(result);
+        //            var ele = $('td[data-date="' + result + '"]'),count=$('.' + result).length;
+        //            $(ele).find('.viewMore').remove();
+        //            if ( count> 3) {
+        //                $('.' + result + ':gt(2)').remove();                          
+        //                $(ele).find('.fc-day-number').after('<a class="viewMore"> More</a>');
+
+        //            } 
+        //        }
+
+        //    },
+        //    eventAfterAllRender: function (view) {
+        //         var allevents = $('#calendar').fullCalendar('clientEvents');
+        //             var countevents = 0;
+        //             if( allevents.length ) {
+        //                 countevents = countevents + allevents.length;
+        //             }
+        //             if(!countevents) {
+        //                 // alert('event count is'+countevents);
+        //                 console.log('event count is',countevents);
+        //             }
+        //        },
+           
 		/*
 			editable: true allow user to edit events.
 		*/
