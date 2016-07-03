@@ -49,7 +49,7 @@ $(document).ready(function(){
 		    console.log($(this).serialize());
 
         $.ajax({
-            url: '/login',
+            url: '/auth/login',
             type: 'POST',
             data: $(this).serialize(),
             success: function(data, err) {
