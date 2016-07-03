@@ -67,7 +67,7 @@ $(document).ready(function(){
         });
     });
 
-    $("#regist").on('submit', function() {
+    $("#regist").one('submit', function() {
 
 		if ($("#modal_password").val() != $("#modal_pwck").val()) {
 			console.log("비밀번호가 같지 않음");

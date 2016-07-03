@@ -19,7 +19,7 @@ var getProvider = function(req) {
     var provider;
 
     if (req.session.passport.user.provider == undefined) {
-        provider = "local:";
+        provider = "";
         console.log("provider is local");
     }
     else {
@@ -119,6 +119,7 @@ exports.getData = function(req, res) {
         var provider = getProvider(req);
         var authId = provider + req.session.passport.user.id;
 
+        console.log("authId : " + authId);
 
         if (req.params.id == "main") { // 없으면 새로 추가
             console.log('============== new mandal ==============');
@@ -126,6 +127,12 @@ exports.getData = function(req, res) {
             /* mandal_Id 설정 */
             connection.query('SELECT MAX(mandal_Id) FROM mandal WHERE member_AuthId = ?',
             [authId], function(err, rows) {
+
+               /* if (JSON.stringify(rows[0]).split(":")[1] == "null}") {
+                    console.log("rows : " + JSON.stringify(rows[0]).split(":")[1] == "null");
+                }*/
+
+                console.log(JSON.stringify(rows[0]).split(":")[1]);
 
                 mandalId = Number(JSON.stringify(rows[0]).match(/\d+/)[0]) + 1;
                 // "max(mandal_Id)" : 1에서 '()' 때문에 키로 인식하지 못함

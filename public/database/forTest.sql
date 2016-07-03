@@ -67,3 +67,6 @@ alter table mandalsub change "mandalSub_Conent" "mandalSub_Content" varchar(100)
 update mandal set mandal_content = "뷍ㄹ" where mandal_Id = 4 and member_AuthId = "facebook:1736493206592283";
 
 UPDATE mandalDetail SET mandalDetail_Content3 = "제발", mandalDetail_Content2 = "날 좀 살려줘" where mandal_Id = 6 and member_AuthId = "facebook:1736493206592283" and mandalsub_Id = 1;
+
+
+SELECT MAX(mandal_Id) FROM mandal WHERE member_AuthId = "local:yy";

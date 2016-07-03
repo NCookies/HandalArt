@@ -24,8 +24,7 @@
         var mandalUltimateData = JSON.parse(<%- JSON.stringify(ultimate) %>);
         var mandalSubData = JSON.parse(<%- JSON.stringify(sub) %>);
 
-        console.log(mandalUltimateData[0].mandal_content);
-
+       
         $.each(index, function(index, val) {
           if (val.mandal_Id == 0) return true;
 

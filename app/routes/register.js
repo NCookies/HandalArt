@@ -92,7 +92,6 @@ exports.regeist = function(req, res) {
                         req.login(user, function(err) {
                             if (err) { return next(err); }
                             req.session.save(function() {
-                                res.redirect('/');
                                 loginCallback(null, 'success regist and login!!');
                             });
                         });
