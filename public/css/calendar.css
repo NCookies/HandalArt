@@ -53,3 +53,13 @@ td {
 }
 
 span {padding-left: 3px; }
+
+.MaxHeight {
+	height:16px;
+}
+
+.viewMore {
+	float: right;
+	color: rgb(219, 104, 28);
+	cursor:pointer;
+}
