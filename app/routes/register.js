@@ -82,7 +82,7 @@ exports.regeist = function(req, res) {
                                 insertMandalCallback(null, rows);
                             }
                         });
-                    },
+                    }/*,
                     function login(loginCallback) {
                         var user = {
                             'id' : req.body.id,
@@ -95,7 +95,7 @@ exports.regeist = function(req, res) {
                                 loginCallback(null, 'success regist and login!!');
                             });
                         });
-                    }
+                    }*/
                     ],
                     function(err) {
                         if (err) {
