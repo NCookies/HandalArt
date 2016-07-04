@@ -329,37 +329,34 @@ exports.mainMandal = function(req, res) {
 
         console.log('params : ' + req.params.id);
 
-        connection.query('SELECT * FROM mandal where member_AuthId = ? and mandal_Id = ?',
-        [authId, req.params.id], function(err, rows) {
-            if (err) {
-                console.error(err);
-                connection.rollback(function () {
-                    console.error('rollback error');
-                    throw err;
+        async.waterfall([
+            function selectMandal(selectMandalCallback) {
+                connection.query('SELECT * FROM mandal where member_AuthId = ? and mandal_Id = ?',
+                [authId, req.params.id], function(err, rows) {
+                    mandalUltimateData = JSON.stringify(rows);
+
+                    if (err) {
+                        selectMandalCallback(err);
+                    } else {
+                        selectMandalCallback(null, mandalUltimateData);
+                    }
                 });
-            }
-            mandalUltimateData = JSON.stringify(rows);
+            },
+            function selectMandalSub(mandalUltimateData, selectMandalSubCallback) {
+                connection.query('SELECT * FROM mandalSub where member_AuthId = ? and mandal_Id = ?',
+                [authId, req.params.id], function(err, rows) {
+                    mandalSubData = JSON.stringify(rows);
 
-            connection.query('SELECT * FROM mandalSub where member_AuthId = ? and mandal_Id = ?',
-            [authId, req.params.id], function(err, rows) {
-                if (err) {
-                    console.error(err);
-                    connection.rollback(function () {
-                        console.error('rollback error');
-                        throw err;
-                    });
-                }
-                mandalSubData = JSON.stringify(rows);
-
+                    if (err) {
+                        selectMandalSubCallback(err);
+                    } else {
+                        selectMandalSubCallback(null, mandalUltimateData, mandalSubData);
+                    }
+                });
+            },
+            function selectMandalDetail(mandalUltimateData, mandalSubData, selectMandalDetailCallback) {
                 connection.query('SELECT * FROM mandalDetail where member_AuthId = ? and mandal_Id = ?',
                 [authId, req.params.id], function(err, rows) {
-                    if (err) {
-                        console.error(err);
-                        connection.rollback(function () {
-                            console.error('rollback error');
-                            throw err;
-                        });
-                    }
                     mandalDetailData = JSON.stringify(rows);
 
                     res.render('mandal_main', 
@@ -368,11 +365,29 @@ exports.mainMandal = function(req, res) {
                         sub : mandalSubData, 
                         detail : mandalDetailData
                     });
-                });
-            });
-        });
 
-        connection.release();
+                    if (err) {
+                        selectMandalDetailCallback(err);
+                    } else {
+                        selectMandalDetailCallback(null, 'done');
+                    }
+                });
+            }
+            ], 
+            function(err, result) {
+                if (err) {
+                    console.log(err);
+                    connection.release();
+                    res.render('mandal_make', 
+                    { 
+                        mandalIndex : false,
+                        ultimate : false,
+                        sub : false
+                    });
+                }
+                console.log("result : " + result);
+            }
+        );
+
     });
 }
-
