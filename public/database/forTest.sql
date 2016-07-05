@@ -75,3 +75,5 @@ UPDATE mandalDetail SET mandalDetail_Content3 = "제발", mandalDetail_Content2 
 
 
 SELECT MAX(mandal_Id) FROM mandal WHERE member_AuthId = "local:yy";
+
+SET SQL_SAFE_UPDATES = 0;

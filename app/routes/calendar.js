@@ -120,6 +120,7 @@ exports.CalendarGetData = function(req, res) {
 
 
 exports.removeEvents = function(req, res) {
+    console.log("remove events!!");
 
     pool.getConnection(function(err, connection) {
         var provider = getProvider(req);
@@ -127,9 +128,16 @@ exports.removeEvents = function(req, res) {
 
         var query = 'DELETE FROM calendar WHERE member_AuthId = ? AND calendar_Id = ?';
 
-        var id = JSON.parse(JSON.stringify(req.body))[0].events;
-        console.log('id : ' + id);
+        connection.query(query, [authId, req.body.events],
+        function(err, rows) {
+            if (err) {
+                console.log(err);
+                connection.release();
+                res.render('fullcalendar');
+            }
+            console.log('delete calendar ' + req.body.events);
+        });
 
-        connection.query(query, [authId, req.body])
+        connection.release();
     });
 }

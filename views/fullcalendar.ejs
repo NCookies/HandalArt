@@ -39,6 +39,8 @@
 	$(document).ready(function() {
 		var events = JSON.parse(<%- JSON.stringify(events) %>);
 
+		console.log(<%- JSON.stringify(events) %>);
+
 		console.log(events[0]);
 		console.log(events.length);
 

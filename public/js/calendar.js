@@ -39,6 +39,7 @@ var insertOrUpdateCalendar = function(calendar) {
 
 	console.log(eventsArray);
 
+
 	$.ajax({
 		url: '/calendar',
 		type: 'POST',
@@ -144,22 +145,23 @@ $(document).ready(function()
 						text: '일정 이름을 입력해주세요!!',
 						how: 'append'
 					});
-
-					return false;
 				}
+                else {
+                    var newEvent = {
+                        title: title,
+                        start: start,
+                        end: end,
+                        allDay: allDay,		// 시간인식
+                        _id: Math.floor(Math.random() * 100000) + 1
+                    };
+                    console.log(newEvent);
+                    $('#calendar').fullCalendar('renderEvent', newEvent, 'stick');
+
+                    insertOrUpdateCalendar($('#calendar')); // DB 저장
+
+                    $('#addModal').modal('hide');
+                }
 				
-				var newEvent = {
-	   		        title: title,
-	   	    	    start: start,
-		   	        end: end,
-		   	        allDay: allDay		// 시간인식
-	    	    };
-	    	    console.log(newEvent);
-				$('#calendar').fullCalendar('renderEvent', newEvent, 'stick');
-
-				insertOrUpdateCalendar($('#calendar')); // DB 저장
-
-				$('#addModal').modal('hide');
 				// title = $('#title').val('');		// 앞에 썼던 title 내용 초기화, 나중에 썼던 title 내용이 맨 처음 클릭했던 날에만 들어감, 다른 날에는 빈칸으로 들어감
 			});
 			title = $('#addTitle').val('');		// 앞에 썼던 title 내용 초기화, 나중에 썼던 title 내용이 지금까지 클릭했던 모든 날에 들어감
@@ -176,18 +178,54 @@ $(document).ready(function()
   			$("#edit").off('click').on("click", function() 
   			{
   				var title = $('#editTitle').val();
-  				event.title = title;
-				$('#calendar').fullCalendar('updateEvent', event);
+
+                /*//while(true) {
+                    if (title == "") {
+                        $('#status-area').flash_message({
+                            text: '일정 이름을 입력해주세요!!',
+                            how: 'append'
+                        });
+
+                        $('#editModal').modal('hide');
+                    } else {
+                        event.title = title;
+                        $('#calendar').fullCalendar('updateEvent', event);
+
+                        insertOrUpdateCalendar($('#calendar'));
+
+                        $('#editModal').modal('hide');
+                    }
+                //}*/
+
+                /*event.title = title;
+                $('#calendar').fullCalendar('updateEvent', event);
 
                 insertOrUpdateCalendar($('#calendar'));
 
-				$('#editModal').modal('hide');
+                $('#editModal').modal('hide');*/
+
+                if (title == "") {
+					$('#status-area').flash_message({
+						text: '일정 이름을 입력해주세요!!',
+						how: 'append'
+					});
+
+                    $('#editModal').modal('hide');
+				} else {
+                    event.title = title;
+                    $('#calendar').fullCalendar('updateEvent', event);
+
+                    insertOrUpdateCalendar($('#calendar'));
+
+                    $('#editModal').modal('hide');
+                }
+  				
    			});
    			$("#remove").off('click').one("click", function()
   			{
   				var calendarId = event._id;
 
-                $('#calendar').fullCalendar('removeEvents', title);
+                $('#calendar').fullCalendar('removeEvents', calendarId);
 				$('#editModal').modal('hide');
 
                 $.ajax({
@@ -359,7 +397,7 @@ function buildDayPie() {
     }
 
     function mouseover(d) {
-/* 마우스컨트롤 / 모달뜨고 아무것도안눌렀을때 해결하면 같이될듯. 
+          /* 마우스컨트롤 / 모달뜨고 아무것도안눌렀을때 해결하면 같이될듯. 
           //over할 때마다 실행되서 leave가 여러번 호출됨.
             //modal안띄우고 데이터 초기화 & mouseup
             //千載一遇*/
@@ -525,6 +563,8 @@ function buildDayPie() {
 
         //sumIndex의 index를 가진 path.value = 30
         $("#remove").off('click').on('click', function() {
+            console.log('sdfsd');
+
             if(targetPath.attr("sumIndex") == undefined) { //path를 1개만 선택했으면
                 var time = calcTime(target);
                 d.data.label = time;
