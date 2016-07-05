@@ -19,25 +19,6 @@ exports.regeist = function(req, res) {
 
 
     pool.getConnection(function(err, connection) {
-        /*async.waterfall([
-            function(callback) {
-                console.log('callback 1');
-
-                callback(null, 'callback1');
-            },
-            function(arg1, callback) {
-                console.log('callback 2 : ' + arg1);
-
-                callback(null, 'callback2');
-            }
-            ],
-            function(err) {
-                if (err) {
-                    console.log(err);
-                    res.render('index', { user : false, message : req.flash('error')});
-                }
-            }
-        );*/
         connection.query('SELECT EXISTS (SELECT * FROM member where member_AuthId = ?)', 
         ["local:" + req.body.id], function(err, rows) {
             userExists = Number(JSON.stringify(rows[0]).split(':')[2].match(/\d+/)[0]);
@@ -100,7 +81,7 @@ exports.regeist = function(req, res) {
                         if (err) {
                             console.log(err);
                             connection.release();
-                            res.render('index', { user : false, message : req.flash('error')});
+                            res.render('index', { user : false, message : '에러가 발생했습니다' });
                         }
                     }
                 );
@@ -110,12 +91,10 @@ exports.regeist = function(req, res) {
             else {
                 console.log("query : exists");
                 connection.release();
-                //res.render('index', { message : '이미 존재하는 아이디입니다. 다시 한 번 입력해주세요.'});
-                res.redirect('/');
+                res.render('index', { message : '이미 존재하는 아이디입니다. 다시 한 번 입력해주세요.' });
             }
         });
 
     });
 
-    //res.redirect('/');
 }

@@ -10,6 +10,23 @@ body{
   margin: 0px;
 }
 
+
+
+#flash {
+    background: rgba(245, 245, 245, 0.8);
+    display: none;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px;
+    position: fixed;
+    top: 0;
+    text-align: center;
+    width: 100%;
+}
+
+/* flash message */
+
+
 /*header{
   background-color: #B2EBF4;
 }

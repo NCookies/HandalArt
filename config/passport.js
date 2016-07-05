@@ -66,23 +66,27 @@ module.exports = function (app, passport) {
                     if (JSON.stringify(rows) == "[]") {
                         console.log("No Account");
                         return done(null, false,
-                        { message : '아이디 또는 비밀번호가 잘못되었습니다'});
-                        /*res.render('index', { message: req.flash('아이디 또는 비밀번호가 잘못되었습니다') });*/
+                        { message : '존재하지 않는 계정입니다.'});
                     }
 
                     account = JSON.parse(JSON.stringify(rows));
 
 
-                    if (userid == account[0].member_AuthId.split(':')[1] &&
-                    password == account[0].member_Password) {
+                    if (userid != account[0].member_AuthId.split(':')[1]) {
+                        return done(null, false,
+                        { message : '잘못된 아이디입니다.'});
+                    } 
+                    
+                    if (password != account[0].member_Password) {
+                        return done(null, false, { message : '잘못된 비밀번호입니다.'});
+                    } else {
                         var user = {
                             'id' : account[0].member_AuthId,
-                            'displayName': account[0].member_DisplayName
+                            'displayName': account[0].member_DisplayName,
+                            'provider' : 'local'
                         }
                         //'id': rows[0].member_AuthId };
                         return done(null, user);
-                    } else {
-                        return done(null, false);
                     }
                 });
 
@@ -99,7 +103,8 @@ module.exports = function (app, passport) {
             clientID: '594228160736253',
             clientSecret: '1cd92a04f2aa948c175013002f00341e',
             callbackURL: "http://localhost:3000/auth/facebook/callback",
-            profileFields:['id', 'email', 'displayName']
+            profileFields:['id', 'email', 'displayName'],
+            enableProof: true
         },
         function(accessToken, refreshToken, profile, done) {
             pool.getConnection(function(err, connection) {

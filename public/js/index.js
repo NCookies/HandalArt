@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    
   var random = Math.floor((Math.random()*10+1)/2);
   switch(random){
       case 0:
@@ -65,6 +66,8 @@ $(document).ready(function(){
                 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             }
         });
+
+        
     });
 
     $("#regist").one('submit', function() {
@@ -84,10 +87,10 @@ $(document).ready(function(){
             success: function(data, err) {
                 if (data.success) {
                     console.log('데이터 전송 성공!!');
-					          location.reload();
+					          //location.reload();
                 } else {
                     console.log('오류 발생!!');
-					          location.reload();
+					          //location.reload();
                 }
             },
             error:function(request, status, error) {

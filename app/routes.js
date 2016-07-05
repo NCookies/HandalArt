@@ -52,6 +52,14 @@ module.exports = function(app, passport) {
     passport.authenticate('google', { failureRedirect: '/' }),
     function(req, res) {
         res.redirect('/');
+    },
+    function(err,req,res,next) {
+        res.redirect('/auth/facebook/');
+
+        if (err) {
+            res.status(500);
+            res.render('error', {message : err.message});
+        }
     });
 
     app.get('/auth/twitter/callback',
@@ -69,26 +77,13 @@ module.exports = function(app, passport) {
         passport.authenticate('local', 
         { 
             failureRedirect: '/',
-            //badRequestMessage : 'Missing username or password.', 
             failureFlash: true 
         }),
         function(req, res) {
-        req.session.save(function(){
+        req.session.save(function() {
             res.redirect('/');
         });
     });
-
-
-    app.get('/login_fail', function(req, res) {
-        console.log('fck');
-        res.render('index', { message: req.flash('아이디 또는 비밀번호가 잘못되었습니다') });
-    });
-
-
-    /*app.get('/login_success', ensureAuthenticated, function(req, res) {
-        console.log("get login_success");
-        res.redirect('/' + req.session.passport.user.id);
-    });*/
 
     app.post('/auth/regist', register.regeist);
     // 왜 POST 요청이 두 번이나 들어올까?
