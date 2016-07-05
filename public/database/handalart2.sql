@@ -128,9 +128,9 @@ CREATE TABLE calendar(
     
     calendar_Start VARCHAR(100) NOT NULL,
     
-    calendar_End  VARCHAR(100) NOT NULL,
+    calendar_End  VARCHAR(100) NULL,
     
-    calendar_Title VARCHAR(100) NOT NULL,
+    calendar_Title VARCHAR(100) NULL,
     
     calendar_AllDay BOOLEAN NOT NULL,
     

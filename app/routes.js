@@ -127,9 +127,9 @@ module.exports = function(app, passport) {
     .post(isLoggedIn, calendar.CalendarGetData)
 
 
-    app.route('/calendar/day')
+    /*app.route('/calendar/day')
     .get(isLoggedIn, calendar.dayCalendar)
-    .post(isLoggedIn, calendar.dayCalendarGetData);
+    .post(isLoggedIn, calendar.dayCalendarGetData);*/
 
 
 

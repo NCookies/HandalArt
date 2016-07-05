@@ -13,10 +13,9 @@
 	<script src='/vendor/jquery-ui-1.10.2.custom.min.js'></script>
 	<script src = '/js/calendar.js'></script>
 	
-
 	<!-- Bootstrap-->
 	<link href = "/css/bootstrap.min.css" rel="stylesheet" media="screen">
-  <script src="//d3js.org/d3.v3.min.js"></script>
+  	<script src="//d3js.org/d3.v3.min.js"></script>
 	<script src = '/vendor/bootstrap.min.js'></script>
 	<script src = '/vendor/modal.js'></script>
 	<link href='/css/modals.less' rel = 'stylesheet' type = 'text/less'>
@@ -39,13 +38,28 @@
   <script type="text/javascript" src="js/nav.js"></script>
 
 
-	<!--<script type='text/javascript'>
+	<script type='text/javascript'>
 		$(document).ready(function() {
-			$(".fc-button-agendaDay").on('click', function() {
-				<% include ./day_calendar.ejs %>
-			});
+			var events = JSON.parse(<%- JSON.stringify(events) %>);
+
+			console.log(events[0]);
+			console.log(events.length);
+
+			if (events) {
+				for (var renderCalendarIndex = 0; renderCalendarIndex < events.length; renderCalendarIndex++) {
+					var renderEvent = {
+						title : events[renderCalendarIndex].calendar_Title,
+						start : events[renderCalendarIndex].calendar_Start,
+						end : events[renderCalendarIndex].calendar_End,
+						allDay : events[renderCalendarIndex].calendar_AllDay,
+						_id : events[renderCalendarIndex].calendar_Id
+					}
+
+					$('#calendar').fullCalendar('renderEvent', renderEvent, 'stick');
+				}
+			}
 		});
-	</script>-->
+	</script>
 </head>
 <body>
     <div id="else-container">
@@ -74,7 +88,7 @@
      </nav>
 			</header>
 
-<div id='calendar'>
+		<div id='calendar'>
 			<div id='hide-scrollbar'>
 				<div id='calendar-inner'>
  
@@ -88,7 +102,7 @@
 								<div class="modal-body">
 									<p>
 										<label>일정 이름</label><br/>
-										<input type = "text" id = "addTitle" class = "span10" maxlength="100">
+										<input type = "text" id = "addTitle" class = "span10" maxlength="80">
 									</p>
  
 									<!--<p>
@@ -114,14 +128,35 @@
 								<div class="modal-body">
 									<p>
 										<label>일정 이름</label><br/>
-										<input type = "text" id = "editTitle" class = "span10" maxlength="100">
+										<input type = "text" id = "editTitle" class = "span10" maxlength="80">
 									</p>
 								</div>
 								<div class="modal-footer">
 									<button type = "button" class = "btn btn-danger" data-dismiss = "modal" id = "remove">삭제</button>
-									<!--button type = "button" class = "btn btn-primary" data-option = "detail" id = "detail">detail</button
-									자세히 모달 추가해야함-->
-									<button type = "button" class = "btn btn-primary" data-dismiss="modal" id = "save">수정</button>
+									<button type = "button" class = "btn btn-primary" data-option = "detail" id = "detail">자세히</button>
+									<button type = "button" class = "btn btn-primary edit" data-option="edit" id = "edit">수정</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal fade" id="detailModal">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">&times;</button>
+									<h4 class="modal-title" id="event_title">일정</h4>
+								</div>
+								<div class="modal-body">
+									<p>
+										<label>일정 이름</label><br/>
+										<input type = "text" id = "detailTitle" class = "span10" maxlength="80"><br/>
+										<label>색깔</label><br/>
+										<label>반복</label><br/>
+										<label>알람</label><br/>
+									</p>
+								</div>
+								<div class="modal-footer">
+									<button type = "button" class = "btn btn-primary" data-option = "edit" id = "editDetail">저장</button>
 								</div>
 							</div>
 						</div>
@@ -129,7 +164,7 @@
 				</div>
 			</div>
 		</div>
-
+		
 	</div>
   <div id="black-cover"></div>
   <div id="bg"></div>

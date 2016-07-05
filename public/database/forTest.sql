@@ -29,6 +29,7 @@ SET SQL_SAFE_UPDATES =0;
 delete from member;
 delete from mandal;
 delete from bucketlist;
+delete from calendar;
 
 select max(mandal_Id) from mandal where member_AuthId = "local:jung";
 SELECT EXISTS (SELECT * FROM member where member_AuthId = "local:jung");
@@ -51,6 +52,9 @@ select * from mandal;
 select * from mandalsub;
 select * from mandaldetail;
 select * from bucketlist;
+select * from calendar;
+
+select calendar_Id, calendar_Start, calendar_End, calendar_Title, calendar_AllDay from calendar;
 
 SELECT * FROM mandal where member_AuthId = "facebook:1736493206592283" and mandal_Id = 1;
 
