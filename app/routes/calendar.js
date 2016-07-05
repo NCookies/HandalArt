@@ -117,3 +117,19 @@ exports.CalendarGetData = function(req, res) {
 
     //res.render('fullcalendar', {events : false});
 }
+
+
+exports.removeEvents = function(req, res) {
+
+    pool.getConnection(function(err, connection) {
+        var provider = getProvider(req);
+        var authId = provider + req.session.passport.user.id;
+
+        var query = 'DELETE FROM calendar WHERE member_AuthId = ? AND calendar_Id = ?';
+
+        var id = JSON.parse(JSON.stringify(req.body))[0].events;
+        console.log('id : ' + id);
+
+        connection.query(query, [authId, req.body])
+    });
+}

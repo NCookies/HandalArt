@@ -268,7 +268,7 @@ function Calendar(element, options, eventSources) {
 		if (options.theme) {
 			element.addClass('ui-widget');
 		}
-		content = $("<div class='fc-content' style='position:relative'/>")
+		content = $("<div id='fc-content' style='position:relative'/>")
 			.prependTo(element);
 		header = new Header(t, options);
 		headerElement = header.render();
@@ -344,7 +344,7 @@ function Calendar(element, options, eventSources) {
 			}else{
 				currentView = viewInstances[newViewName] = new fcViews[newViewName](
 					newViewElement = absoluteViewElement =
-						$("<div class='fc-view fc-view-" + newViewName + "' style='position:absolute'/>")
+						$("<div id='fc-view fc-view-" + newViewName + "' style='position:absolute' class = " + newViewName + "/>")
 							.appendTo(content),
 					t // the calendar object
 				);
@@ -2857,7 +2857,6 @@ function AgendaView(element, calendar, viewName) {
 
 
 	disableTextSelection(element.addClass('fc-agenda'));
-
 
 	function renderAgenda(c) {
 		colCnt = c;

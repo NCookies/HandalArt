@@ -124,7 +124,10 @@ module.exports = function(app, passport) {
     // calendar
     app.route('/calendar')
     .get(isLoggedIn, calendar.fullCalendar)
-    .post(isLoggedIn, calendar.CalendarGetData)
+    .post(isLoggedIn, calendar.CalendarGetData);
+
+    app.post('/calendar/remove', calendar.removeEvents);
+    
 
 
     /*app.route('/calendar/day')

@@ -45,7 +45,6 @@ exports.regeist = function(req, res) {
 
             /* 중복되는 아이디가 없을 때 */
             if (userExists == 0) {
-
                 async.series([
                     function insertMember(insertMemberCallback) {
                         connection.query('INSERT INTO member VALUES (?, ?, ?, ?)',

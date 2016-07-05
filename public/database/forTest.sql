@@ -43,6 +43,7 @@ SELECT MAX(mandal_Id) FROM mandal WHERE member_AuthId = "facebook:17364932065922
 
 
 delete from mandal where member_AuthId = "local:jung";
+DELETE FROM calendar WHERE member_AuthId = "google:106952517117419350743" AND calendar_Id = "_fc1";
 
 SELECT EXISTS (SELECT * FROM member where member_AuthId = "local:aa");
 

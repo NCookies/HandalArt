@@ -46,7 +46,7 @@ $(document).ready(function(){
         evt.preventDefault();
         var action = $(this).attr('action');
 
-		    console.log($(this).serialize());
+        console.log($(this).serialize());
 
         $.ajax({
             url: '/auth/login',
