@@ -23,49 +23,9 @@ function isLoggedIn(req, res, next) {
 	res.redirect('/');
 }
 
-var getIPAddress = function(req, res, next) {
-    var interfaces = require('os').networkInterfaces();
-
-	for (var devName in interfaces) {
-
-		var iface = interfaces[devName];
-		for (var i = 0; i < iface.length; i++) {
-
-			var alias = iface[i];
-
-			if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal)
-				console.log("[Running IP Address] : " + alias.address);
-                return next();
-			}
-	}
-
-	console.log("[Running IP Address] : 0.0.0.0");
-    return next();
-}
-
 
 module.exports = function(app, passport) {
 
-    var getIPAddress = function(req, res, next) {
-        var interfaces = require('os').networkInterfaces();
-
-        for (var devName in interfaces) {
-
-            var iface = interfaces[devName];
-            for (var i = 0; i < iface.length; i++) {
-
-                var alias = iface[i];
-
-                if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal)
-                    console.log("[Running IP Address] : " + alias.address);
-                    //next();
-                }
-        }
-
-        next();
-    }
-
-    //app.use('/', getIPAddress);
 	
     app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email'}));
 
@@ -92,14 +52,6 @@ module.exports = function(app, passport) {
     passport.authenticate('google', { failureRedirect: '/' }),
     function(req, res) {
         res.redirect('/');
-    },
-    function(err,req,res,next) {
-        res.redirect('/auth/facebook/');
-
-        if (err) {
-            res.status(500);
-            res.render('error', {message : err.message});
-        }
     });
 
     app.get('/auth/twitter/callback',
@@ -117,13 +69,26 @@ module.exports = function(app, passport) {
         passport.authenticate('local', 
         { 
             failureRedirect: '/',
+            //badRequestMessage : 'Missing username or password.', 
             failureFlash: true 
         }),
         function(req, res) {
-        req.session.save(function() {
+        req.session.save(function(){
             res.redirect('/');
         });
     });
+
+
+    app.get('/login_fail', function(req, res) {
+        console.log('fck');
+        res.render('index', { message: req.flash('아이디 또는 비밀번호가 잘못되었습니다') });
+    });
+
+
+    /*app.get('/login_success', ensureAuthenticated, function(req, res) {
+        console.log("get login_success");
+        res.redirect('/' + req.session.passport.user.id);
+    });*/
 
     app.post('/auth/regist', register.regeist);
     // 왜 POST 요청이 두 번이나 들어올까?
@@ -160,6 +125,8 @@ module.exports = function(app, passport) {
     app.route('/calendar')
     .get(isLoggedIn, calendar.fullCalendar)
     .post(isLoggedIn, calendar.CalendarGetData);
+
+    app.post('/calendar/day', calendar.dayCalendarGetData);
 
     app.post('/calendar/remove', calendar.removeEvents);
     
@@ -203,35 +170,6 @@ module.exports = function(app, passport) {
             res.writeHead(200, { 'Content-Type' : 'text/html' });
             res.end(data);
         });
-    });
-
-
-    // =====================================
-    // ERROR HANDLER =======================
-    // =====================================
-
-    app.use(function(req, res, next){
-        res.status(404);
-
-        // respond with html page
-        if (req.accepts('html')) {
-            res.render('404', { url: req.url });
-            return;
-        }
-
-        // respond with json
-        if (req.accepts('json')) {
-            res.send({ error: 'Not found' });
-            return;
-        }
-
-        // default to plain-text. send()
-        res.type('txt').send('Not found');
-    });
-    
-    app.use(function(err, req, res, next){
-        res.status(err.status || 500);
-        res.render('500', { error: err });
     });
 
 };

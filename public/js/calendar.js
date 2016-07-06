@@ -39,7 +39,6 @@ var insertOrUpdateCalendar = function(calendar) {
 
 	console.log(eventsArray);
 
-
 	$.ajax({
 		url: '/calendar',
 		type: 'POST',
@@ -145,23 +144,22 @@ $(document).ready(function()
 						text: '일정 이름을 입력해주세요!!',
 						how: 'append'
 					});
+
+					return false;
 				}
-                else {
-                    var newEvent = {
-                        title: title,
-                        start: start,
-                        end: end,
-                        allDay: allDay,		// 시간인식
-                        _id: Math.floor(Math.random() * 100000) + 1
-                    };
-                    console.log(newEvent);
-                    $('#calendar').fullCalendar('renderEvent', newEvent, 'stick');
+				var newEvent = {
+	   		        title: title,
+	   	    	    start: start,
+		   	        end: end,
+		   	        allDay: allDay,		// 시간인식
+                    _id: Math.floor(Math.random() * 100000) + 1
+	    	    };
+	    	    console.log(newEvent);
+				$('#calendar').fullCalendar('renderEvent', newEvent, 'stick');
 
-                    insertOrUpdateCalendar($('#calendar')); // DB 저장
+				insertOrUpdateCalendar($('#calendar')); // DB 저장
 
-                    $('#addModal').modal('hide');
-                }
-				
+				$('#addModal').modal('hide');
 				// title = $('#title').val('');		// 앞에 썼던 title 내용 초기화, 나중에 썼던 title 내용이 맨 처음 클릭했던 날에만 들어감, 다른 날에는 빈칸으로 들어감
 			});
 			title = $('#addTitle').val('');		// 앞에 썼던 title 내용 초기화, 나중에 썼던 title 내용이 지금까지 클릭했던 모든 날에 들어감
@@ -178,54 +176,18 @@ $(document).ready(function()
   			$("#edit").off('click').on("click", function() 
   			{
   				var title = $('#editTitle').val();
-
-                /*//while(true) {
-                    if (title == "") {
-                        $('#status-area').flash_message({
-                            text: '일정 이름을 입력해주세요!!',
-                            how: 'append'
-                        });
-
-                        $('#editModal').modal('hide');
-                    } else {
-                        event.title = title;
-                        $('#calendar').fullCalendar('updateEvent', event);
-
-                        insertOrUpdateCalendar($('#calendar'));
-
-                        $('#editModal').modal('hide');
-                    }
-                //}*/
-
-                /*event.title = title;
-                $('#calendar').fullCalendar('updateEvent', event);
+  				event.title = title;
+				$('#calendar').fullCalendar('updateEvent', event);
 
                 insertOrUpdateCalendar($('#calendar'));
 
-                $('#editModal').modal('hide');*/
-
-                if (title == "") {
-					$('#status-area').flash_message({
-						text: '일정 이름을 입력해주세요!!',
-						how: 'append'
-					});
-
-                    $('#editModal').modal('hide');
-				} else {
-                    event.title = title;
-                    $('#calendar').fullCalendar('updateEvent', event);
-
-                    insertOrUpdateCalendar($('#calendar'));
-
-                    $('#editModal').modal('hide');
-                }
-  				
+				$('#editModal').modal('hide');
    			});
    			$("#remove").off('click').one("click", function()
   			{
   				var calendarId = event._id;
 
-                $('#calendar').fullCalendar('removeEvents', calendarId);
+                $('#calendar').fullCalendar('removeEvents', title);
 				$('#editModal').modal('hide');
 
                 $.ajax({
@@ -257,18 +219,23 @@ $(document).ready(function()
  	});
 
 $(".fc-button-agendaWeek").on("click", function() {
-    $("#fc-view-agendaDay").remove(); //d3 제거	
-})
+    $(".fc-view-agendaDay").remove(); //d3 제거	
+});
+
+$(".fc-button-month").on("click", function() {
+    $(".fc-view-agendaDay").remove(); //d3 제거	
+});
 
 $(".fc-button-agendaDay").on("click", function() {
     buildDayPie();
 });
 
 function buildDayPie() {
-    buildDayHtml();
+    //if(needAppend)
+        buildDayHtml();
 	//day_calendar.js
-	var Gw = 800;
-    var Gh = 800;
+	var Gw = 600;
+    var Gh = 600;
     var Gr = Gh/2;
 
     var data = [{"label":"00:00", "value":30}, 
@@ -309,7 +276,7 @@ function buildDayPie() {
                 .append("g")
                 .attr("transform", "translate(" + Gr + "," + Gr + ")"); //원의 중심 지정
                 
-    var arc = d3.svg.arc().outerRadius(Gr).innerRadius(Gr-180);
+    var arc = d3.svg.arc().outerRadius(Gr).innerRadius(Gr-130);
                 
     var pie = d3.layout.pie()
                 .value(function(d){ return d.value; })
@@ -328,6 +295,8 @@ function buildDayPie() {
                 .on("mouseover", mouseover)
                 .on("mouseup", mouseup);
 
+    $("#graph").on("mouseleave", mouseleave);
+
     paths.transition().duration(500)
     .attr("d", arc)
     .each(function(d) { this._current = d; });
@@ -342,7 +311,7 @@ function buildDayPie() {
     var infoJsonArray = new Array();
     
     var radians = 0.0174532925, 
-	clockRadius = 200,
+	clockRadius = 190,
 	margin = 50,
 	Cw = (clockRadius+margin)*2,
     Ch = (clockRadius+margin)*2,
@@ -386,7 +355,18 @@ function buildDayPie() {
         }
         return arr;
     }
-    
+
+    function mouseleave(d) {
+        d3.selectAll("path").on("mouseover", null);
+        d3.selectAll("path")
+            .transition()
+            .duration(1000)
+            .style("opacity", 1)
+            .each("end", function() {
+                    d3.select(this).on("mouseover", mouseover);
+                    });            
+    }
+
     // 클릭할때마다 값이 초기화되서 주의
     function mousedown(d) {
         dragging = true;
@@ -397,20 +377,20 @@ function buildDayPie() {
     }
 
     function mouseover(d) {
-          /* 마우스컨트롤 / 모달뜨고 아무것도안눌렀을때 해결하면 같이될듯. 
+/* 마우스컨트롤 / 모달뜨고 아무것도안눌렀을때 해결하면 같이될듯. 
           //over할 때마다 실행되서 leave가 여러번 호출됨.
             //modal안띄우고 데이터 초기화 & mouseup
             //千載一遇*/
             $("#graph").one("mouseleave", function() {
-                console.log("leave");
-                dragging = false;
+                
+               dragging = false;
                 //$("path").removeAttr("class").removeClass(); //색깔 없앰
                 //드래그 한 path들도 없어져야 함. 색깔뿐만아니라
                 return;
             });
 
             $("#clock-face").one("mouseenter", function() {
-                console.log("upup");
+
                 $("path").off("mouseover");
                 return;
             });
@@ -422,18 +402,20 @@ function buildDayPie() {
             if( $(this).attr("index") > startIndex ){
                 $('path').filter(function() {
                 return $(this).attr('index') == startIndex;
-                //}).addClass("smallerFilling"); //mouseup path //addClass안됨ㅜㅜ
-                }).attr("sort", "smaller").css("fill", "#bfbfbf");
-                $(this).attr("sort", "smaller")
-                        .css("fill", "#bfbfbf");
-                //$(this).addClass("smallerFilling"); //red
+                }).attr("class", "smallerFilling");
+                //}).attr("sort", "smaller").css("fill", "#bfbfbf");
+                //$(this).attr("sort", "smaller")
+                //        .css("fill", "#bfbfbf");
+                $(this).attr("class", "smallerFilling");
             }
             else if( $(this).attr("index") < startIndex ){
                 $('path').filter(function() {
                 return $(this).attr('index') == startIndex;
-                 }).attr("sort", "bigger").css("fill", "#bfbfbf");
-                $(this).attr("sort", "bigger")
-                       .css("fill", "#bfbfbf");
+                }).attr("class", "biggerFilling");
+                 //}).attr("sort", "bigger").css("fill", "#bfbfbf");
+                //$(this).attr("sort", "bigger")
+                 //      .css("fill", "#bfbfbf");
+                 $(this).attr("class", "biggerFilling");
             }
             sumValue += d.value;
             d.data.value = 0;
@@ -448,17 +430,17 @@ function buildDayPie() {
         d3.select("#percentage")
         .text(d.data.label); 
         
-        $("path").css("stroke", "white").attr("opacity", "0.5");
+        $("path").css("stroke", "black").attr("opacity", "0.5");
         $("path").filter(function() {
-            return $(this).attr("sort") == "smaller";
+            return $(this).attr("class") == "biggerFilling" || $(this).attr("class") == "smallerFilling";
         }).attr("opacity", "1");
     }
     
     //mouse 관련 효과
     $("g").on("mouseout", function() {        
-        $("path").css("stroke", "black").attr("opacity", "0.5");
+        $("path").css("stroke", "white").attr("opacity", "0.5");
         $("path").filter(function() {
-            return $(this).attr("sort") == "smaller";
+            return $(this).attr("class") == "biggerFilling" || $(this).attr("class") == "smallerFilling";
         }).attr("opacity", "1");
         
     });
@@ -483,12 +465,17 @@ function buildDayPie() {
         editModal(d); //처음에 일정이름 추가
     }
 
-    // yyyymmdd 형태로 포매팅된 날짜 반환
+    // yyyymmdd 형태로 포매팅된 날짜 반환 
+    // 2016-07-06T06:00:00.000Z
     Date.prototype.yyyymmdd = function() {
         var yyyy = this.getFullYear().toString();
         var mm = (this.getMonth() + 1).toString();
         var dd = this.getDate().toString();
-        return yyyy + "-" + (mm[1] ? mm : '0'+mm[0]) + "-" + (dd[1] ? dd : '0'+dd[0]);
+        var hh = this.getHours().toString();
+        var nn = this.getMinutes().toString();
+        var ss =  this.getSeconds().toString();
+        return yyyy + "-" + (mm[1] ? mm : '0'+mm[0]) + "-" + (dd[1] ? dd : '0'+dd[0] + 
+                "T" + (hh[1]? hh : '0'+hh[0])) + ":" + (nn[1]? nn : '0'+nn[0]) + ":" + (ss[1]? ss : '0'+ss[0]) + "Z";
     }
 
     function change(target) {
@@ -531,8 +518,9 @@ function buildDayPie() {
             back = temp;
        }
        var start_ = calcTime(front);
-       var end_ = calcTime(back);       
-
+       var end_ = calcTime(back);    
+       var idadd="";
+          
        //use enter key
        $("#editModal").off("keydown").on("keydown", function(evt) {
            var keyCode = evt.keyCode || evt.which;
@@ -547,28 +535,35 @@ function buildDayPie() {
             $('#editTitle').val(''); //reset textbox
             setJsonAdd(targetPath);
 
+            console.log('day calendar : ' + JSON.stringify(infoJsonArray));
+
             $.ajax({
-                url: "/calendar/day",
-                type: "POST",
-                data: JSON.stringify(infoJsonArray),
-                dataType: "json",
-                /*complete: function(response, textStatus) {
-                     console.log("complete");
+                url: '/calendar/day',
+                type: 'POST',
+                data: { events: JSON.stringify(infoJsonArray) },
+                dataType: "json",            
+                complete: function(response, textStatus) {
+                    console.log("complete");
+                },	
+                success: function(data) {
+                    if (data.success) {
+                        console.log('데이터 전송 성공!!');
+                    } else {
+                        console.log('오류 발생!!');
+                    }
                 },
-                error:function(request,status,error){
-                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                }*/
-            });
+                error: function() {
+                    console.log('오류 발생2!!');
+                },
+            });            
         });   
 
         //sumIndex의 index를 가진 path.value = 30
         $("#remove").off('click').on('click', function() {
-            console.log('sdfsd');
-
             if(targetPath.attr("sumIndex") == undefined) { //path를 1개만 선택했으면
                 var time = calcTime(target);
                 d.data.label = time;
-                targetPath.css("fill", "white");
+                targetPath.attr("class", "");
                 return;
             }
             var sumIndex = $('path').filter(function() {
@@ -579,22 +574,19 @@ function buildDayPie() {
             seperIndex.sort(function(left, right) { //오름차순정렬
                  return left-right;
             });
-            var lastnum=parseInt(seperIndex[length-1]); //문자열로인식하지않게하기위해            
-
-//            if(targetPath.hasClass("smalallerFilling")){
-            if(targetPath.attr("sort") == "smaller"){
+            var lastnum=parseInt(seperIndex[length-1]); //문자열로인식하지않게하기위해      
+            if(targetPath.hasClass("smallerFilling")){
                 console.log("smlaller");
                 for(var i=seperIndex[1]-1; i<=lastnum; i++)
                     calcPath(i);
             }
-//            else if(targetPath.hasClass("biggerFilling")){
-            else if(targetPath.attr("sort") == "bigger"){
+            
+            else if(targetPath.hasClass("biggerFilling")){
+                console.log("biggler");                
                 for(var i=seperIndex[1]; i<lastnum+2; i++)
                     calcPath(i);       
             }
             setJsonRemove(target);
-
-
         }); 
 
         function calcTime(i) {
@@ -618,7 +610,7 @@ function buildDayPie() {
                  .attrTween("d", arcTween); 
             $('path').filter(function() {
                  return $(this).attr('index') == i;
-            }).removeAttr('style').removeClass()
+            }).removeAttr('style').attr("class","")
               .attr("sumIndex", " "); 
         }         
 
@@ -629,13 +621,17 @@ function buildDayPie() {
                 setJsonEdit(targetPath, start_, end_);
                 return;
             }  
+            for (var i=0; i<3; i++)
+                    idadd += targetPath.attr("index");
+            idadd += (Math.floor(Math.random() * 1000000) + 1).toString();
             var targetDate = targetPath.attr("date");
             var newEvent = {
-                start: targetDate+"F"+start_+"Z",
-                end: targetDate+"F"+end_+"Z",
-                title: d.data.label
-            };
-            /* 데이터 추가 파트 */
+                    id: idadd,
+	   		        title: d.data.label,
+	   	    	    start: targetDate+start_,
+		   	        end: targetDate+end_,
+		   	        allDay: false	
+	    	};
             infoJsonArray.push(newEvent); //배열에 object 넣기  
             targetPath.attr("add", "true");
         }
@@ -652,24 +648,37 @@ function buildDayPie() {
         }
 
         function setJsonRemove(target) {
-            //check removing path's array index
-            //바로 삭제안되고 후에 추가나 삭제를 해야 업데이트 됨.
-            var x;
-            for (i=0; i<infoJsonArray.length; i++) {
-                if(infoJsonArray[i].calendar_Start_time == start_ && infoJsonArray[i].calendar_End_time == end_)
-                    x = i;
-            }         
-            infoJsonArray.splice(x,1); //x번째 요소를 1개 없앰
+            //삭제한 id를 DB에 전송
+            console.log("delete");
+            $.ajax({
+                url: '/calendar/remove',
+                type: 'POST',
+                data: { events: JSON.stringify(idadd) },
+                dataType: "json",            
+                complete: function(response, textStatus) {
+                    console.log("complete");
+                },	
+                success: function(data) {
+                    if (data.success) {
+                        console.log('데이터 전송 성공!!');
+                    } else {
+                        console.log('오류 발생!!');
+                    }
+                },
+                error: function() {
+                    console.log('오류 발생2!!');
+                },
+            });    
         }    
     }
 
     function drawClock() { //create all the clock elements
         updateClock();	//draw them in the correct starting position
         var svg = d3.select("#graph").append("svg")
-            .attr("width", Cw+50)
-            .attr("height", Ch+50)
-            .attr("x", 150)
-            .attr("y", 150)
+            .attr("width", Cw+30)
+            .attr("height", Ch+30)
+            .attr("x", 60)
+            .attr("y", 60)
             .style("fill", "white")
             .style("opacity", "0.8");
 
@@ -743,18 +752,15 @@ function buildDayPie() {
       }, 1000);
 
       d3.select(self.frameElement).style("height", Ch + "px");
-
-      /* using Text */
-      $( "#percentage" ).dblclick(function() {
-          alert("clickl");
-      });      
 	}
-});
 
-function buildDayHtml() {
-    //엔터 활성화, 시계 위치수정, 마우스, 데이터
-   $(".agendaDay").remove(); //기존의 테이블 제거
-   $('#fc-content').append("<div id = " + "'fc-view-agendaDay'>"+
-   "<svg id = 'graph' xmls= 'http://www.w3.org/2000/svg'> <foreignobject id= 'percentage'"+
-    "x='350' y='400'></foreignobject></svg></div>"); 
-}
+    $("#percentage").on('click', function() {
+        alert("clickllll");
+    });
+
+    function buildDayHtml() {
+        $(".agendaDay").remove(); //기존의 테이블 제거
+        $('#fc-content').append("<div class = " + "'fc-view-agendaDay'>"+ "<svg id = " + "'graph' xmls=" + "'http://www.w3.org/2000/svg'> <foreignobject id=" + "'percentage' x="+
+        "'250' y=" + "'250'>" + "</foreignobject></svg></div>"); 
+    }
+});

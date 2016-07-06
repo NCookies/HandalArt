@@ -39,12 +39,10 @@
 	$(document).ready(function() {
 		var events = JSON.parse(<%- JSON.stringify(events) %>);
 
-		console.log(<%- JSON.stringify(events) %>);
-
-		console.log(events[0]);
-		console.log(events.length);
-
 		if (events) {
+			console.log(events);
+			console.log(events.length);
+			
 			for (var renderCalendarIndex = 0; renderCalendarIndex < events.length; renderCalendarIndex++) {
 				var renderEvent = {
 					title : events[renderCalendarIndex].calendar_Title,
@@ -53,6 +51,8 @@
 					allDay : events[renderCalendarIndex].calendar_AllDay,
 					_id : events[renderCalendarIndex].calendar_Id
 				}
+
+				console.log(renderEvent);
 
 				$('#calendar').fullCalendar('renderEvent', renderEvent, 'stick');
 			}

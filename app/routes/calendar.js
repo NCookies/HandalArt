@@ -1,13 +1,13 @@
 var mysql = require('mysql');
 
 var pool = mysql.createPool({
-    host    :'localhost',
+    host :'localhost',
     port : 3306,
     user : 'root',
-    password : 'password',
-    database:'handalart',
-    connectionLimit:20,
-    waitForConnections:false
+    password : 'mysqlhandalart3576!',
+    database : 'handalart',
+    connectionLimit : 20,
+    waitForConnections : false
 });
 
 var async = require('async');
@@ -40,11 +40,6 @@ exports.fullCalendarGetData = function(req, res) {
 	}
 
     //res.render('day_calendar', { events : req.body });
-}
-
-
-exports.dayCalendar = function(req, res) {
-    res.render('day_calendar');
 }
 
 
@@ -91,6 +86,7 @@ exports.dayCalendarGetData = function(req, res) {
                         connection.release();
                         res.render('fullcalendar', { events : false });
                     }
+                    console.log('day calendar success!!');
                 });
             }());
         }
