@@ -53,7 +53,7 @@ select * from mandal;
 select * from mandalsub;
 select * from mandaldetail;
 select * from bucketlist;
-select * from calendar;
+select * from calendar;	
 
 select calendar_Id, calendar_Start, calendar_End, calendar_Title, calendar_AllDay from calendar;
 

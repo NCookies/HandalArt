@@ -16,6 +16,79 @@
     <title>만다라트</title>
     <script type='text/javascript'>
       $(document).ready(function() {
+
+          var message = '<%= user %>' + '님 환영합니다!! 좋은 하루 보내세요';
+
+          //console.log("message : " + message);
+
+          var flash = {
+
+              exists: function() {
+                  return ($('#flash').length > 0);
+              },
+
+              show: function(msg) {
+                  var message;
+
+                  // Create the flash div if it does not exist
+                  if (!flash.exists()) {
+                      message = $('<div id="flash"></div>').prependTo('body');
+                  } else {
+                      message = $('#flash');
+                  }
+
+                  // Hide message when it's clicked on
+                  $('body').delegate('#flash', 'click', function() {
+                      flash.hide();
+                  });
+
+                  // Set the message if one was specified
+                  if (msg) {
+                      message.html(msg);
+                  }
+
+                  // Display the flash
+                  
+                  $('#flash').css('z-index', '1')
+                  .slideDown(1000);
+
+                  // Clear the timeout if one is set
+                  clearTimeout(flash.timeout);
+
+                  // Hide the message after 5 seconds
+                  flash.timeout = setTimeout(function() {
+                      flash.hide();
+                  }, 5000);
+              },
+
+              hide: function() {
+                  // Hide the flash
+                  $('#flash').slideUp();
+
+                  // Clear the timeout if it exists
+                  if (flash.timeout) {
+                      clearTimeout(flash.timeout);
+                  }
+              },
+
+              // Flash message timeout
+              timeout: null
+          };
+
+          if ( message.length ) {
+              if (message == 'Missing credentials') {
+                  console.log('what is missing');
+                  message = '아이디 또는 비밀번호를 입력해주세요';
+              }
+
+              flash.show(message);
+          }
+          else {
+              message = '안녕하세요 한다라트입니다';
+
+              flash.show(message);
+          }
+        
         var userId = $.parseJSON('<%- JSON.stringify(user) %>');
 
         if (userId) {

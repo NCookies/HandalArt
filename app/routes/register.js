@@ -15,7 +15,8 @@ var async = require('async');
 
 exports.regeist = function(req, res) {
     console.log("id : " + req.body.id);
-    console.log('url : ' + req.url + req.method);
+    console.log('url : ' + req.url);
+    console.log('method : ' + req.method);
 
 
     pool.getConnection(function(err, connection) {
@@ -23,7 +24,7 @@ exports.regeist = function(req, res) {
         ["local:" + req.body.id], function(err, rows) {
             userExists = Number(JSON.stringify(rows[0]).split(':')[2].match(/\d+/)[0]);
             console.log(userExists);
-
+ 
             /* 중복되는 아이디가 없을 때 */
             if (userExists == 0) {
                 async.series([
@@ -77,12 +78,13 @@ exports.regeist = function(req, res) {
                         });
                     }*/
                     ],
-                    function(err) {
+                    function(err, result) {
                         if (err) {
                             console.log(err);
                             connection.release();
                             res.render('index', { user : false, message : '에러가 발생했습니다' });
                         }
+                        console.log("result : " + result);
                     }
                 );
 

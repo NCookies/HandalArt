@@ -18,6 +18,7 @@ var pool = mysql.createPool({
     waitForConnections : false
 });
 
+
 function getRandomCode(iLength) {
     var arr="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~`!@#$%^&*()-+|_=\[]{}<>?/.;";
     var randomstring = '';

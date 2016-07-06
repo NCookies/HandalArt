@@ -537,11 +537,11 @@ function buildDayPie() {
        $("#editModal").off("keydown").on("keydown", function(evt) {
            var keyCode = evt.keyCode || evt.which;
             if( evt.keyCode == 13 ) {
-                $("#save").trigger("click");
+                $("#edit").trigger("click");
             }
        });
 
-        $("#save").off('click').on('click', function() { 
+        $("#edit").off('click').on('click', function() { 
             d.data.label = $('#editTitle').val(); // change label  
             change(target);  // redraw path
             $('#editTitle').val(''); //reset textbox
@@ -593,6 +593,8 @@ function buildDayPie() {
                     calcPath(i);       
             }
             setJsonRemove(target);
+
+
         }); 
 
         function calcTime(i) {
@@ -633,6 +635,7 @@ function buildDayPie() {
                 end: targetDate+"F"+end_+"Z",
                 title: d.data.label
             };
+            /* 데이터 추가 파트 */
             infoJsonArray.push(newEvent); //배열에 object 넣기  
             targetPath.attr("add", "true");
         }
@@ -740,17 +743,18 @@ function buildDayPie() {
       }, 1000);
 
       d3.select(self.frameElement).style("height", Ch + "px");
+
+      /* using Text */
+      $( "#percentage" ).dblclick(function() {
+          alert("clickl");
+      });      
 	}
 });
-
-/*<svg id="graph" xmls="http://www.w3.org/2000/svg">
-<foreignobject id="percentage" x="240" y="340"></foreignobject>
-</svg>
-*/
 
 function buildDayHtml() {
     //엔터 활성화, 시계 위치수정, 마우스, 데이터
    $(".agendaDay").remove(); //기존의 테이블 제거
-   $('#fc-content').append("<div id = " + "'fc-view-agendaDay'>"+"<svg id = " + "'graph' xmls=" + "'http://www.w3.org/2000/svg'> <foreignobject id=" + "'percentage' x="+
-   "'350' y=" + "'400'></foreignobject></svg></div>"); 
+   $('#fc-content').append("<div id = " + "'fc-view-agendaDay'>"+
+   "<svg id = 'graph' xmls= 'http://www.w3.org/2000/svg'> <foreignobject id= 'percentage'"+
+    "x='350' y='400'></foreignobject></svg></div>"); 
 }

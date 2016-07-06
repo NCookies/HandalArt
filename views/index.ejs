@@ -20,7 +20,7 @@
 
             var message = '<%= message %>';
 
-            console.log("message : " + message);
+            //console.log("message : " + message);
 
             var flash = {
 
@@ -85,22 +85,10 @@
                 flash.show(message);
             }
             else {
-                message = '한다라트';
+                message = '안녕하세요 한다라트입니다';
 
                 flash.show(message);
             }
-
-            // Display the flash message if one exists
-            /*if (flash.exists()) {
-                flash.show(message);
-            }*/
-
-            /*$('#login').click(function() {
-                flash.show('sdfsdf');
-                return false;
-            });*/
-
-            console.log(message);
         });
     </script>
 </head>

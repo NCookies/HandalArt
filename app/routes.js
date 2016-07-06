@@ -23,9 +23,49 @@ function isLoggedIn(req, res, next) {
 	res.redirect('/');
 }
 
+var getIPAddress = function(req, res, next) {
+    var interfaces = require('os').networkInterfaces();
+
+	for (var devName in interfaces) {
+
+		var iface = interfaces[devName];
+		for (var i = 0; i < iface.length; i++) {
+
+			var alias = iface[i];
+
+			if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal)
+				console.log("[Running IP Address] : " + alias.address);
+                return next();
+			}
+	}
+
+	console.log("[Running IP Address] : 0.0.0.0");
+    return next();
+}
+
 
 module.exports = function(app, passport) {
 
+    var getIPAddress = function(req, res, next) {
+        var interfaces = require('os').networkInterfaces();
+
+        for (var devName in interfaces) {
+
+            var iface = interfaces[devName];
+            for (var i = 0; i < iface.length; i++) {
+
+                var alias = iface[i];
+
+                if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal)
+                    console.log("[Running IP Address] : " + alias.address);
+                    //next();
+                }
+        }
+
+        next();
+    }
+
+    //app.use('/', getIPAddress);
 	
     app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email'}));
 
@@ -163,6 +203,35 @@ module.exports = function(app, passport) {
             res.writeHead(200, { 'Content-Type' : 'text/html' });
             res.end(data);
         });
+    });
+
+
+    // =====================================
+    // ERROR HANDLER =======================
+    // =====================================
+
+    app.use(function(req, res, next){
+        res.status(404);
+
+        // respond with html page
+        if (req.accepts('html')) {
+            res.render('404', { url: req.url });
+            return;
+        }
+
+        // respond with json
+        if (req.accepts('json')) {
+            res.send({ error: 'Not found' });
+            return;
+        }
+
+        // default to plain-text. send()
+        res.type('txt').send('Not found');
+    });
+    
+    app.use(function(err, req, res, next){
+        res.status(err.status || 500);
+        res.render('500', { error: err });
     });
 
 };
