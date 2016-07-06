@@ -20,7 +20,8 @@ function isLoggedIn(req, res, next) {
 		return next();
 
 	// if they aren't redirect them to the home page
-	res.redirect('/');
+	//res.redirect('/');
+    res.render('index', { user : false, message : '로그인 후 이용해주세요.' });
 }
 
 

@@ -70,7 +70,11 @@ $(document).ready(function(){
         
     });
 
-    $("#regist").one('submit', function() {
+    var send = false; // ajax only once
+
+    $("#modal_submit").one('click', function() {
+
+        if (send) return;
 
 		if ($("#modal_password").val() != $("#modal_pwck").val()) {
 			console.log("비밀번호가 같지 않음");
@@ -87,15 +91,17 @@ $(document).ready(function(){
             success: function(data, err) {
                 if (data.success) {
                     console.log('데이터 전송 성공!!');
-					          //location.reload();
+					          location.reload();
                 } else {
                     console.log('오류 발생!!');
-					          //location.reload();
+					          location.reload();
                 }
             },
             error:function(request, status, error) {
                 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             }
         });
+
+        send = true;
     });
 });

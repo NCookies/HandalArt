@@ -63,7 +63,7 @@ exports.regeist = function(req, res) {
                                 insertMandalCallback(null, rows);
                             }
                         });
-                    }/*,
+                    },
                     function login(loginCallback) {
                         var user = {
                             'id' : req.body.id,
@@ -76,7 +76,7 @@ exports.regeist = function(req, res) {
                                 loginCallback(null, 'success regist and login!!');
                             });
                         });
-                    }*/
+                    }
                     ],
                     function(err, result) {
                         if (err) {
@@ -85,6 +85,7 @@ exports.regeist = function(req, res) {
                             res.render('index', { user : false, message : '에러가 발생했습니다' });
                         }
                         console.log("result : " + result);
+                        res.render('index', { user : false, message : '회원가입이 성공적으로 되었습니다.' });
                     }
                 );
 
