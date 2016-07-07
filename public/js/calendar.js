@@ -115,15 +115,7 @@ $(document).ready(function()
 			week: "주별",
 			day: "일별"
 		},
-		/*
-			defaultView option used to define which view to show by default,
-			for example we have used agendaWeek.
-		*/
 		defaultView: 'month',			// 첫 화면
-		/*
-			selectable:true will enable user to select datetime slot
-			selectHelper will add helpers for selectable.
-		*/
 		selectable: true,
 		selectHelper: true,
 			// 모달 띄우기
@@ -211,19 +203,18 @@ $(document).ready(function()
  			});
  			title = $('#editTitle').val(event.title);			// title란에 기존에 입력했던 event의 이름이 나옴
 		},
-		/*
-			editable: true allow user to edit events.
-		*/
 		editable: true,		// 드래그로 일정 위치 및 크기 수정
 		eventLimit: true
  	});
 
 $(".fc-button-agendaWeek").on("click", function() {
-    $(".fc-view-agendaDay").remove(); //d3 제거	
+    $(".fc-view-agendaDay").remove(); //d3 제거
+    $("#sequence").remove(); //라디오버튼 제거	
 });
 
 $(".fc-button-month").on("click", function() {
     $(".fc-view-agendaDay").remove(); //d3 제거	
+    $("#sequence").remove(); //라디오버튼 제거	    
 });
 
 $(".fc-button-agendaDay").on("click", function() {
@@ -231,7 +222,6 @@ $(".fc-button-agendaDay").on("click", function() {
 });
 
 function buildDayPie() {
-    //if(needAppend)
         buildDayHtml();
 	//day_calendar.js
 	var Gw = 600;
@@ -345,6 +335,7 @@ function buildDayPie() {
     var sumIndex=" ";
     var startIndex = 0;
     var overLast;
+    var time;
 
     function sumData(data) { // 퍼센트 구할 때 필요
         var arr = 0;
@@ -361,6 +352,7 @@ function buildDayPie() {
         startIndex = $(this).attr("index");
         sumValue += d.value;
         d.data.value = 0;
+        time = d.data.label;
     }
 
     function mouseover(d) {
@@ -376,7 +368,7 @@ function buildDayPie() {
 
             $("#clock-face").on("mouseenter", function() {
                 d3.select("#percentage")
-                .text("편집")
+                .text("EDIT")
                 .on("dblclick", dblclick);
             });
 
@@ -387,14 +379,14 @@ function buildDayPie() {
             if( $(this).attr("index") > startIndex ){
                 $('path').filter(function() {
                 return $(this).attr('index') == startIndex;
-                }).attr("class", "smallerFilling");
-                $(this).attr("class", "smallerFilling");
+                }).addClass("smallerFilling"); 
+                $(this).addClass("smallerFilling");
             }
             else if( $(this).attr("index") < startIndex ){
                 $('path').filter(function() {
                 return $(this).attr('index') == startIndex;
-                }).attr("class", "biggerFilling");
-                 $(this).attr("class", "biggerFilling");
+                }).addClass("biggerFilling");
+                 $(this).addClass("biggerFilling");
             }
             sumValue += d.value;
             d.data.value = 0;
@@ -409,7 +401,7 @@ function buildDayPie() {
         d3.select("#percentage")
         .text(d.data.label); 
         
-        $("path").css("stroke", "black").attr("opacity", "0.5");
+        $("path").css("stroke", "black").attr("opacity", "1");
         $("path").filter(function() {
             return $(this).attr("class") == "biggerFilling" || $(this).attr("class") == "smallerFilling";
         }).attr("opacity", "1");
@@ -417,7 +409,7 @@ function buildDayPie() {
     
     //mouse 관련 효과
     $("g").on("mouseout", function() {        
-        $("path").css("stroke", "white").attr("opacity", "0.5");
+        $("path").css("stroke", "rgba(0,0,0,0)").css("fill", "rgba(0,0,0,0);");
         $("path").filter(function() {
             return $(this).attr("class") == "biggerFilling" || $(this).attr("class") == "smallerFilling";
         }).attr("opacity", "1");
@@ -439,23 +431,55 @@ function buildDayPie() {
         }
 
         target = $(this).attr("index"); //추가 된 파이 식별하기 위해 필요 
-        $(this).attr("date", (new Date()).yyyymmdd());
-
+        var strDate = $('#date').text().match(/\d+/g); //만들어진 날짜 파싱
+        thatDate(d, $(this).attr("class"), strDate, target);
         editModal(d); //처음에 일정이름 추가
     }
 
-    // yyyymmdd 형태로 포매팅된 날짜 반환 
-    // 2016-07-06T06:00:00.000Z
-    Date.prototype.yyyymmdd = function() {
-        var yyyy = this.getFullYear().toString();
-        var mm = (this.getMonth() + 1).toString();
-        var dd = this.getDate().toString();
-        var hh = this.getHours().toString();
-        var nn = this.getMinutes().toString();
-        var ss =  this.getSeconds().toString();
-        var ms = this.getUTCMilliseconds().toString();
-        return yyyy + "-" + (mm[1] ? mm : '0'+mm[0]) + "-" + (dd[1] ? dd : '0'+dd[0] + 
-                "T" + (hh[1]? hh : '0'+hh[0])) + ":" + (nn[1]? nn : '0'+nn[0]) + ":" + (ss[1]? ss : '0'+ss[0]) + "." + (ms[1]? ms : '0'+ms[0]) + "+" + "Z";
+    //이름 사용하기 위한 path, 비거인지 스몰인지 판단하는 필링클래스, 파싱한 날짜, 마지막path인덱스
+    function thatDate(d, classN, strDate, target) {
+        //path? from or end ?
+        var fromTime, endTime;
+        if(classN == "biggerFilling") { // biggerFilling의 d.data.label = starttime
+            fromTime = d.data.label;
+            endTime = time;
+        }else {
+            fromTime = time;
+            endTime = d.data.label;
+        }
+            if(fromTime.length == 1)
+                fromeTime = "0"+fromTime;
+            if(endTime.length == 1)
+                endTime = "0"+endTime;
+        // 2016-07-06T06:00:00.000Z
+        for(var i=1; i<=2; i++) { //7을 07로 만듬
+            if(strDate[i].length == 1)
+                strDate[i] = "0"+strDate[i];
+        }
+
+        //두 개의 path에 각각 date를 저장함
+        if(classN == "biggerFilling") {
+            $("path").filter(function() {
+                return $(this).attr("index") == target;
+            }).attr("fromdate", strDate[0]+"-"+strDate[1]+"-"+strDate[2]+
+                            "T"+fromTime+":00.000Z")
+              .attr("todate", strDate[0]+"-"+strDate[1]+"-"+strDate[2]+
+                            "T"+endTime+":00.000Z");
+            return;
+        }
+        else {/*
+            var startIndex = $("path").filter(function() {
+                return $(this).attr("index") == target;
+            }).attr("startindex");
+            */
+            $("path").filter(function() {
+                return $(this).attr("index") == target;
+            }).attr("fromdate", strDate[0]+"-"+strDate[1]+"-"+strDate[2]+
+                            "T"+fromTime+":00.000Z")
+              .attr("todate", strDate[0]+"-"+strDate[1]+"-"+strDate[2]+
+                            "T"+endTime+":00.000Z");
+            return;
+        }
     }
 
     function change(target) {
@@ -482,7 +506,7 @@ function buildDayPie() {
     }
 
     function editModal(d) {
-        $("#editModal").modal();    
+        $("#editModal_day").modal();    
         //remove click event before adding it.    
         //cancel했을 때 path생성 안되게
         var targetPath = $('path').filter(function() {
@@ -502,14 +526,14 @@ function buildDayPie() {
        var idadd="";
           
        //use enter key
-       $("#editModal").off("keydown").on("keydown", function(evt) {
+       $("#editModal_day").off("keydown").on("keydown", function(evt) {
            var keyCode = evt.keyCode || evt.which;
             if( evt.keyCode == 13 ) {
-                $("#edit").trigger("click");
+                $("#edit_day").trigger("click");
             }
        });
 
-        $("#edit").off('click').on('click', function() { 
+        $("#edit_day").off('click').on('click', function() { 
             d.data.label = $('#editTitle').val(); // change label  
             change(target);  // redraw path
             $('#editTitle').val(''); //reset textbox
@@ -539,10 +563,11 @@ function buildDayPie() {
         });   
 
         //sumIndex의 index를 가진 path.value = 30
-        $("#remove").off('click').on('click', function() {
+        $("#remove_day").off('click').on('click', function() {
             if(targetPath.attr("sumIndex") == undefined) { //path를 1개만 선택했으면
                 var time = calcTime(target);
                 d.data.label = time;
+                targetPath.removeClass();
                 targetPath.attr("class", "");
                 return;
             }
@@ -604,12 +629,13 @@ function buildDayPie() {
             for (var i=0; i<3; i++)
                     idadd += targetPath.attr("index");
             idadd += (Math.floor(Math.random() * 1000000) + 1).toString();
-            var targetDate = targetPath.attr("date");
+            var fromDate = targetPath.attr("fromdate");
+            var toDate = targetPath.attr("todate");
             var newEvent = {
                     id: idadd,
 	   		        title: d.data.label,
-	   	    	    start: '2016-07-06T06:00:00.000Z',
-		   	        end: '2016-07-06T06:00:00.000Z',
+	   	    	    start: fromDate,
+		   	        end: toDate,
 		   	        allDay: false	
 	    	};
             infoJsonArray.push(newEvent); //배열에 object 넣기  
@@ -748,24 +774,31 @@ function buildDayPie() {
             명시한 식대로 계산해서 path 생성
             
             취소버튼 누르면 wrap으로 묶은 모든 것들을 remove()함 */
-            alert("click"); 
-            buildEditTextHtml();
+            buildEditTextHtml(); //html만 생성
+            d3.selectAll(".slice").off("mouseover");
       }
 
       function buildEditTextHtml() {
-            var fo = document.getElementsByClassName(percentage)
-            var ta = document.createElementNS("http://www.w3.org/1999/xhtml", "textbox");
-            ta.setAttribute("class", "textbox");
-            ta.rows = 3;
-            ta.cols = 30;
-            ta.innerHTML = "world";
-            fo.appendChild(ta);
-            document.getElementById("svg").appendChild(fo);
+            alert("asdf");
+            var svgNS = 'http://www.w3.org/2000/svg'; 
+            var doc = document.getElementById("percentage");
+            var foreign = document.createElementNS(svgNS,"foreignObject");
+            var textarea = document.createElementNS("http://www.w3.org/1999/xhtml","textarea");
+            foreign.setAttribute(null,"class","textbox");
+            foreign.setAttributeNS(null,"x",40);
+            foreign.setAttributeNS(null,"y",40);
+            foreign.setAttributeNS(null,"width",500);
+            foreign.setAttributeNS(null,"height",200);
+            doc.appendChild(foreign);
+
+            textarea.setAttributeNS("http://www.w3.org/2000/xmlns/","xmlns","http://www.w3.org/2000/xmlns/");
+            textarea.textContent = "Text goes here.";
+            foreign.appendChild(textarea);
       }
 
       function div_OnOff(v,id){
           console.log(v+"+++"+id);
-          // 라디오 버튼 value 값 조건 비교
+          // 라디오 버튼 value 값 조건 비교 // 오전/오후 구별
           if(v == "1")  
               buildDayPie();
           else 
@@ -781,7 +814,7 @@ function buildDayPie() {
                 "<foreignobject id=" + "'percentage' x='250' y='250'>" +
                 "</foreignobject></svg></div>"); 
 
-            $("#sequence").append(
+            $("#sequence").append( //오전, 오후 라디오 버튼
                     "<label for='radio-am' class='radio-inline'>"+
                     "<input type='radio' value='1' name='quality' id='radio-am' onclick='div_OnOff(this.value,'graph');'> <span> 오전 </span>"+
                     "</label>"   +
