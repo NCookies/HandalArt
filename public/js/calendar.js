@@ -628,8 +628,8 @@ function buildDayPie() {
             var newEvent = {
                     id: idadd,
 	   		        title: d.data.label,
-	   	    	    start: targetDate+start_,
-		   	        end: targetDate+end_,
+	   	    	    start: '2016-07-06T06:00:00.000Z',
+		   	        end: '2016-07-06T06:00:00.000Z',
 		   	        allDay: false	
 	    	};
             infoJsonArray.push(newEvent); //배열에 object 넣기  

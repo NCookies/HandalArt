@@ -2,94 +2,97 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>bucket</title>
+    <title>new bucketList</title>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="/js/bucket.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/css/bucket.css" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body>
 
-    <link rel="stylesheet" href="../css/bucket.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
-    <script src="../js/bucket.js"></script>
-    <script type="text/javascript" src="js/vendor/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/nav.js"></script>
-
-    </head>
-    <div id="else-container">
-
-    <body>
-      <header>
-          <nav id="navupdown" class="navbar navbar-transparent navbar-fixed-top" role="navigation">
-              <div class="container">
-                  <div class="navbar-header">
-                      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-target">
-                          <span class="sr-only">navigation of toggle</span>
-                          <span class="icon-bar"></span>
-                          <span class="icon-bar"></span>
-                          <span class="icon-bar"></span>
-                      </button>
-                  </div>
-                  <div id="navbar-target" class="navbar-collapse in">
-                      <ul id="navbar" class="nav navbar-nav">
-                          <li>
-                              <!-- <a href="/"><img src="/imgs/logo" class="index_nav" /></a> -->
-                              <a href="/"><h1 id="side-logo">Handalart</h1></a>
-                              <img id="divider" src="/imgs/divider.png" alt="menu divider">
-                          </li>
-
-                          <li style="padding-top:30px">
-                              <a href="/bucket" onmouseover="hovering(this, '/imgs/bucket')" onmouseout="hoveringOut(this, '/imgs/bucket')"><img src="/imgs/bucket" class="index_nav" /></a>
-                          </li>
-                          <li>
-                              <a href="/mandal" onmouseover="hovering(this, '/imgs/mandal')" onmouseout="hoveringOut(this, '/imgs/mandal')"><img src="/imgs/mandal" class="index_nav" /></a>
-                          </li>
-                          <li>
-                              <a href="/calendar" onmouseover="hovering(this, '/imgs/calendar')" onmouseout="hoveringOut(this, '/imgs/calendar')"><img src="/imgs/calendar" class="index_nav" /></a>
-                          </li>
-                      </ul>
-                  </div>
+    <div id="main">
+      <div id="switch">
+        <button type="button" name="active" id="active">진행중</button>
+        <button type="button" name="completed" id="complete">완료</button>
+      </div>
+      <hr>
+      <button type="button" name="append" id="append" class="btn btn-info btn-lg" data-toggle="modal" data-target="#inputModal">목록 추가</button>
+      <div id="contentList">
+        <ul id="list">
+          <li>
+            <div class="content">
+              <button type="button" name="delete" class="delete">삭제</button>
+              <div class="info"><span id="snum">순번</span> <span id="sgoal">목표</span> <br> <span id="sdate">목표일시</span></div>
+              <div class="button">
+                <button type="button" name="show" class="show">▼내용보기</button>
+                <button type="button" name="edit" class="edit">수정</button>
+                <button type="button" name="complete" class="complete">완료</button>
               </div>
-          </nav>
-      </header>
-      <div id="content-wrapper">
-    <section>
+              <div class="desc" hidden>
+                <pre>
+description
+                </pre>
+              </div>
+            </div>
+          </li>
+        </ul>
 
-      <button type="button" id="delete" class="tableBtn">삭제</button>
-      <button type="button" id="editList" class="tableBtn">완료</button>
-      <button type="button"id="addList" class="tableBtn">추가</button>
 
-      <form action="/bucket" method="POST" class="bucketForm">
-        <table border="1" id="tmain" class="table-hover">
-          <thead align="center">
-            <tr>
-              <td class="checkbox">&nbsp</td>
-              <td colspan="4">
-                Bucket List!
-              </td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="checkbox"><input type="checkbox" id="allcheck"></td>
-              <td>순번</td>
-              <td>내용</td>
-              <td>목표 일자</td>
-              <td>목표 달성</td>
-            </tr>
-          </tbody>
-        </table>
-      </form>
-  <div id="dialog">
-    <p id="digcon">
 
-    </p>
-    <button type="submit" name="subIsComp" class="digBtn">예</button>
-    <button type="button" name="button">아니오</button>
-  </div>
-    </section>
-  </div>
-    <footer></footer>
+      </div>
+
     </div>
-    <div id="black-cover"></div>
-    <div id="bg"></div>
+    <!-- append Modal -->
+    <div class="modal fade" id="inputModal" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <form name="appendform" action="/append" method="post">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" data-keyboard="true">&times;</button>
+              <h4 class="modal-title">목록 추가</h4>
+            </div>
+            <div class="modal-body">
+              <input type="text" hidden name="bucketNum" value="yet">
+              <input type="text" id="goal" name="goal" placeholder="Goal" maxlength="20">
+              <input type="date" id="date" name="date">
+              <textarea name="description" id="description" rows="8" cols="40"></textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="ok" class="btn btn-default"  name="button">확인</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+        <!-- Modal -->
+        <div class="modal fade" id="editModal" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <form name="editForm" action="/edit" method="post">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" data-keyboard="true">&times;</button>
+                  <h4 class="modal-title">내용 편집</h4>
+                </div>
+                <div class="modal-body">
+                  <input type="text" hidden name="bucketNum" value="yet">
+                  <input type="text" id="editGoal" name="goal" placeholder="Goal" maxlength="20">
+                  <input type="date" id="editDate" name="date">
+                  <textarea name="description" id="edescription" rows="8" cols="40"></textarea>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" id="editok" class="btn btn-default"  name="button">확인</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
   </body>
 </html>

@@ -38,8 +38,10 @@ app.use(session({
 	resave: false,
 	saveUninitialized: false,
 	secret: 'session secret key',
-	secure: true
+	secure: true,
+	cookie: { maxAge: 60000000 }
 }));
+
 
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions

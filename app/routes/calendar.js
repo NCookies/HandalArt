@@ -17,9 +17,15 @@ var async = require('async');
 var getProvider = function(req) {
     var provider;
 
+    console.log('[provider] : ' + req.session.passport.user.provider);
+
     if (req.session.passport.user.provider == undefined) {
         provider = "";
         console.log("provider is local");
+
+        return provider;
+    } else if(req.session.passport.user.provider == "local") {
+        return "";
     }
     else {
         provider = req.session.passport.user.provider + ":";
@@ -59,6 +65,8 @@ exports.dayCalendarGetData = function(req, res) {
         var provider = getProvider(req);
         var authId = provider + req.session.passport.user.id;
 
+        console.log('[auth] : ' + authId);
+
         console.log("[day-calendar] : " + JSON.stringify(req.body));
 
         var tmp = JSON.parse(JSON.stringify(req.body));
@@ -86,7 +94,7 @@ exports.dayCalendarGetData = function(req, res) {
                         connection.release();
                         res.render('fullcalendar', { events : false });
                     }
-                    console.log('day calendar success!!');
+                    console.log('day calendar insert success!!');
                 });
             }());
         }
@@ -131,6 +139,8 @@ exports.CalendarGetData = function(req, res) {
         console.log(arr);
         console.log(arr.events);
         console.log(arr.events[0].start);*/
+
+        console.log('[provider] : ' + authId);
 
         console.log(JSON.stringify(req.body));
 

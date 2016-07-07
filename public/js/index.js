@@ -48,6 +48,7 @@ $(document).ready(function(){
         var action = $(this).attr('action');
 
         console.log($(this).serialize());
+        
 
         $.ajax({
             url: '/auth/login',
@@ -56,10 +57,10 @@ $(document).ready(function(){
             success: function(data, err) {
                 if (data.success) {
                     console.log('데이터 전송 성공!!');
-					          location.reload();
+					          //location.reload();
                 } else {
                     console.log('오류 발생!!');
-					          location.reload();
+					          //location.reload();
                 }
             },
             error:function(request, status, error) {
@@ -80,6 +81,7 @@ $(document).ready(function(){
 
     	
 		var action = $(this).attr('action');
+
 
 		$.ajax({
             url: action,

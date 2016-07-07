@@ -20,7 +20,14 @@
 
             var message = '<%= message %>';
 
-            //console.log("message : " + message);
+            console.log("message : " + message);
+
+            /*$("#login").on('click', function() {
+                console.log($("#login_id").val());
+                if ($("#login_id").val() == "" || $("#login_password").val()) {
+                    message = "아이디 또는 비밀번호를 입력해주세요";
+                }
+            });*/
 
             var flash = {
 
@@ -51,7 +58,7 @@
                     // Display the flash
                     
                     $('#flash').css('z-index', '1')
-                    .slideDown(1000);
+                    .slideDown(500);
 
                     // Clear the timeout if one is set
                     clearTimeout(flash.timeout);
@@ -59,7 +66,7 @@
                     // Hide the message after 5 seconds
                     flash.timeout = setTimeout(function() {
                         flash.hide();
-                    }, 5000);
+                    }, 2000);
                 },
 
                 hide: function() {
@@ -94,7 +101,9 @@
 </head>
 
 <body>
+    <div class="flash"></div>
     <div id="else-container">
+        
         <header>
             <nav id="navupdown" class="navbar navbar-transparent navbar-fixed-top" role="navigation">
                 <div class="container">
@@ -129,8 +138,9 @@
             </nav>
         </header>
 
-        <div class="flash"></div>
+        
         <div id="content-wrapper">
+            
             <div class="wise">
                 <h4 id="wise">
         미래를 예측하는 방법은 미래를 창조하는 것이다

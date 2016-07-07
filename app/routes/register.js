@@ -19,6 +19,8 @@ exports.regeist = function(req, res) {
     console.log('url : ' + req.url);
     console.log('method : ' + req.method);
 
+    console.log(req.body);
+
 
     pool.getConnection(function(err, connection) {
         connection.query('SELECT EXISTS (SELECT * FROM member where member_AuthId = ?)', 
@@ -98,7 +100,6 @@ exports.regeist = function(req, res) {
             else {
                 console.log("query : exists");
                 connection.release();
-
 
                 req.flash('message', '이미 존재하는 아이디입니다. 다시 한 번 입력해주세요.');
                 res.redirect('/');

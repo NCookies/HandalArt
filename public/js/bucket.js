@@ -1,102 +1,139 @@
-﻿$(document).ready(function() {
+$(function() {
+  var num = 2;
+  var nowEvent;
+  $("#append").on("click",function () {
 
-  var del_bool = true;    //list 삭제시 삭제중인가를 판별
-  var comp_bool = false;  //list 편집시 편집중인지를 판별
-
-//dialog 생성
-$('#dialog').dialog({
-  autoOpen: false,
-  title: 'Test'
-});
-
-// 추가 버튼 전에 새로운 노드를 추가
-{var num = ($('#tmain').children('tbody').children('tr').length);
-  $('tbody').children().last().after("<tr>"
-  +"<td class=\"checkbox\"><input type=\"checkbox\" class=\"check\"></td>"
-  +"<td>"+num+"</td><td><input type=\"text\"class=\'input\' id=\"content\" placeholder =\'내용\'></td>"
-  +"<td><input type=\"date\" placeholder =\'목표 일자\' class=\'input\' id=\"goal\"></td>"
-  +"<td><button type=\"button\" name=\"isComp\" id=\"isComp\">목표완료</button></td>"
-  +"</tr>");}
-  $('.checkbox').css('visibility','hidden');
-          //확인여부
-
-//새로운 리스트 생성
-  $('#addList').on('click',function() {
-    var num = $('#tmain').children('tbody').children('tr').length;
-    $('tbody').children().last().after("<tr>"
-    +"<td class=\"checkbox\"><input type=\"checkbox\" class=\"check\"></td>"
-    +"<td>"+num+"</td>"
-    +"<td><input type=\"text\"class=\'input\' id=\"content\" placeholder =\'내용\'></td>"
-    +"<td><input type=\"date\" placeholder =\'목표 일자\' class=\'input\' id=\"goal\"></td>"
-    +"<td><button type=\"button\" name=\"isComp\" id=\"isComp\">목표완료</button></td>"
-    +"</tr>");
-    $('#editList').html("완료");
-
-    $('.checkbox').css('visibility','hidden');
-    $('#delete').css('font-size','25px');
-    $('#delete').html("삭제");
-    del_bool=true;
-
-    comp_bool=false;
   });
 
-//리스트 편집 완료
-$('#editList').on('click',function () {
-  if(comp_bool==true){
-    $('input').removeAttr('readonly');
-    $('#editList').html('완료')
-    comp_bool=false;
-}else if(comp_bool==false){
-  $('input').attr('readonly','true');
-  $('#editList').css('font-size','25px');
-  $('#editList').html('내용 편집');
-  comp_bool=true;
-}
-});
+  $("#ok").on("click",function () {
+    if($("#goal").val() == ""){
+      alert("내용을 입력해주세요.");
+    }else if($("#date").val()==""){
+      alert("내용을 입력해주세요.");
+    }else if($("#description").val()==""){
+      alert("내용을 입력해주세요.");
+    }else{
+        var goal = $("#goal").val();
+        var date = $("#date").val();
+        var desc = $("#description").val();
+        $("#goal").val("");
+        $("#date").val("");
+        $("#description").val("");
+        console.log($("li").length);
+            if($("li").length == 0){
+              console.log("sibal");
+              $("#list").html("<li>"
+                +"<div class=\"content\">"
+                +  "<button type=\"button\" name=\"delete\" class=\"delete\">삭제</button>"
+                  +"<div class=\"info\"><p>"+num+" ."+goal+"<br>"+date+"</p></div>"
+                  +"<div class=\"button\">"
+                  +  "<button type=\"button\" name=\"show\" class=\"show\">▼내용보기</button>"
+                    +  "<button type=\"button\" name=\"edit\" class=\"edit\">수정</button>"
+                    +  "<button type=\"button\" name=\"complete\" class=\"complete\">완료</button>"
+                    +"</div>"
+                    +"<div class=\"desc\" hidden>"
+                    +"<pre>"+desc+"</pre>"
+                    +"</div>"
+                  +"</div>"
+              +"</li>");
+              num++;
+              $("#inputModal").modal("hide");}
+        else{
+            $("#list").children().last().after("<li>"
+              +"<div class=\"content\">"
+              +  "<button type=\"button\" name=\"delete\" class=\"delete\">삭제</button>"
+                +"<div class=\"info\"><p>"+num+" ."+goal+"<br>"+date+"</p></div>"
+                +"<div class=\"button\">"
+                +  "<button type=\"button\" name=\"show\" class=\"show\">▼내용보기</button>"
+                  +  "<button type=\"button\" name=\"edit\" class=\"edit\">수정</button>"
+                  +  "<button type=\"button\" name=\"complete\" class=\"complete\">완료</button>"
+                  +"</div>"
+                  +"<div class=\"desc\" hidden>"
+                  +"<pre>"+desc+"</pre>"
+                  +"</div>"
+                +"</div>"
+            +"</li>");
+            num++;
+            $("#inputModal").modal("hide");
+            }
+      }
+      $(".show").on("click",function(event) {
+        console.log('sdfd');
 
-//리스트 삭제
-$('#delete').on('click',function () {
-  if(del_bool===true){
-    $('.checkbox').css('visibility','visible');
-    $('button').css('transition-duration','0s');  //delete btn의 글자
-    $('#delete').css('font-size','25  px');       //내용을
-    $('#delete').html("삭제 완료");                //바꿔준다.
-    del_bool=false;
-}else{
-    $('input:checked[class=\"check\"]').parents('tr').remove();
-    $('#allcheck').prop('checked',false);
-    $('.checkbox').css('visibility','hidden');
-    $('button').css('transition-duration','0.5s');
-    $('#delete').css('font-size','25px');
-    $('#delete').html("삭제");
-    del_bool=true;
-}
-});
-//전체 선택
-$('#allcheck').on('click',function() {
-  if($('#allcheck:checked').is(":checked")){
-    $('input[type="checkbox"]').prop('checked',true);
-  }else{
-    $('input[type="checkbox"]').prop('checked',false);
+        if($(event.target).text()=="▼내용보기"){
+        console.log("hello");
+        $(event.target).text("▲내용접기");
+        $(event.target).parent().next(".desc").removeAttr("hidden");
+      }else {
+        $(event.target).text("▼내용보기");
+        $(event.target).parent().next(".desc").attr("hidden",true);
+      }
+      });
+
+      $(".edit").on("click",function(event) {
+        console.log("hello");
+        nowEvent = event.target;
+        $("#editModal").modal("show");
+        console.log(nowEvent);
+      });
+
+      $("#editok").on("click",function() {
+        var egoal = $("#editGoal").val();
+        var edate = $("#editDate").val();
+        var edesc = $("#edescription").val();
+        $("#editGoal").val("");
+        $("#editDate").val("");
+        $("#edescription").val("");
+        var now = $(nowEvent).parent(".button").prev(".info");
+        $(now).children("#sgoal").text(egoal);
+        $(now).children("#sdate").text(edate);
+        $(nowEvent).parent(".button").nextAll(".desc").children("pre").text(edesc);
+
+      });
+
+      $(".delete").on("click",function (event) {
+        console.log("hi");
+        $(event.target).parents("li").remove();
+      });
+  });
+
+  $(".show").on("click",function(event) {
+    console.log('sdfd');
+
+    if($(event.target).text()=="▼내용보기"){
+    console.log("hello");
+    $(event.target).text("▲내용접기");
+    $(event.target).parent().next(".desc").removeAttr("hidden");
+  }else {
+    $(event.target).text("▼내용보기");
+    $(event.target).parent().next(".desc").attr("hidden",true);
   }
-});
-
-
-//calendar icon hover
-$('#calendar').hover(function () {
-  $('#calendar').attr("src","imgs/calender_hover_icon.png");
-}, function () {
-  $('#calendar').attr("src","imgs/calendar_icon.png");
-});
-//mandal icon hover
-$('#mandalart').hover(function () {
-    $('#mandalart').attr("src","imgs/mandal_hover_icon.png");
-    }, function () {
-    $('#mandalart').attr("src","imgs/mandal_icon.png");
   });
 
-$('#isComp').on('click',function () {
-  $('#dialog').dialog('open');
-  $('.ui-button-text').html('×');
+  $(".edit").on("click",function(event) {
+    console.log("hello");
+    nowEvent = event.target;
+    $("#editModal").modal("show");
+    console.log(nowEvent);
   });
+
+  $("#editok").on("click",function() {
+    var egoal = $("#editGoal").val();
+    var edate = $("#editDate").val();
+    var edesc = $("#edescription").val();
+    $("#editGoal").val("");
+    $("#editDate").val("");
+    $("#edescription").val("");
+    var now = $(nowEvent).parent(".button").prev(".info");
+    $(now).children("#sgoal").text(egoal);
+    $(now).children("#sdate").text(edate);
+    $(nowEvent).parent(".button").nextAll(".desc").children("pre").text(edesc);
+
+  });
+
+  $(".delete").on("click",function (event) {
+    console.log("hi");
+    $(event.target).parents("li").remove();
+  });
+
 });

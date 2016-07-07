@@ -51,6 +51,10 @@ module.exports = function (app, passport) {
             var id = userid;
             var passwd = password;
 
+            console.log("[id] : " + id);
+            console.log("[password] : " + passwd);
+
+
             console.log("id : " + "local:" + id);
 
             pool.getConnection(function(err, connection) {

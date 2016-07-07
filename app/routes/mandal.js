@@ -17,9 +17,15 @@ var async = require('async');
 var getProvider = function(req) {
     var provider;
 
+    console.log('[provider] : ' + req.session.passport.user.provider);
+
     if (req.session.passport.user.provider == undefined) {
         provider = "";
         console.log("provider is local");
+
+        return provider;
+    } else if(req.session.passport.user.provider == "local") {
+        return "";
     }
     else {
         provider = req.session.passport.user.provider + ":";
@@ -135,6 +141,7 @@ exports.getData = function(req, res) {
         var mandalId;
 
         var provider = getProvider(req);
+        console.log('provider : ' + provider);
         var authId = provider + req.session.passport.user.id;
 
         console.log("authId : " + authId);

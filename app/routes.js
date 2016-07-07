@@ -71,8 +71,7 @@ module.exports = function(app, passport) {
     app.post('/auth/login',
         passport.authenticate('local', 
         { 
-            failureRedirect: '/',
-            //badRequestMessage : 'Missing username or password.', 
+            failureRedirect: '/login_fail', // '아이디 또는 비밀번호가 잘못되었습니다.' message 전송
             failureFlash: true 
         }),
         function(req, res) {
@@ -86,12 +85,14 @@ module.exports = function(app, passport) {
     app.post('/auth/regist', register.regeist);
 
 
-
     app.get('/logout', function(req, res) {
         console.log('logout');
         req.logout();
         res.redirect('/');
     });
+
+
+    app.get('/login_fail', index.loginFail);
     
 
 
