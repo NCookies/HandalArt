@@ -18,12 +18,21 @@ header{
   right:0;
 }
 
+p{
+  font-size:40px;
+  color:#ffffff;
+  text-shadow : 0 1px 4px rgba(0,0,0,0.33);
+  text-align: center;
+  font-family: 'NanumGothic';
+  word-break: keep-all;
+}
+
 #navupdown{
   height:100%;
   width: 100%;
   left: auto;
   right: 0;
-  background-color:rgb(255,255,255);
+  background-color:rgba(255,255,255,0.8);
   display:table;
   position:absolute;
   margin-bottom: 0;
@@ -206,3 +215,6 @@ P, .navbar, .brand{
   padding: 0 15px;
   height: 100%;
 }
+
+
+//

@@ -3388,7 +3388,6 @@ select[multiple].input-group-sm>.form-control, select[multiple].input-group-sm>.
 .nav>li>a {
     position: relative;
     display: block;
-    padding: 10px 15px
 }
 .nav>li>a:focus, .nav>li>a:hover {
     text-decoration: none;
@@ -3694,9 +3693,9 @@ select[multiple].input-group-sm>.form-control, select[multiple].input-group-sm>.
         display: none
     }
 }
-.navbar-nav {
+/*.navbar-nav {
     margin: 7.5px -15px
-}
+}*/
 .navbar-nav>li>a {
     padding-top: 10px;
     padding-bottom: 10px;

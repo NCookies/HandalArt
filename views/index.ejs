@@ -7,6 +7,7 @@
     <script src="/vendor/jquery-ui.js"></script>
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/font-awesome.min.css">
     <script type="text/javascript" src="/js/index.js"></script>
@@ -21,13 +22,6 @@
             var message = '<%= message %>';
 
             console.log("message : " + message);
-
-            /*$("#login").on('click', function() {
-                console.log($("#login_id").val());
-                if ($("#login_id").val() == "" || $("#login_password").val()) {
-                    message = "아이디 또는 비밀번호를 입력해주세요";
-                }
-            });*/
 
             var flash = {
 
@@ -56,7 +50,7 @@
                     }
 
                     // Display the flash
-                    
+
                     $('#flash').css('z-index', '1')
                     .slideDown(500);
 
@@ -92,30 +86,33 @@
                 flash.show(message);
             }
             else {
-                message = '안녕하세요 한다라트입니다';
+                message = '한다라트';
 
                 flash.show(message);
             }
+
+            // Display the flash message if one exists
+            /*if (flash.exists()) {
+                flash.show(message);
+            }*/
+
+            /*$('#login').click(function() {
+                flash.show('sdfsdf');
+                return false;
+            });*/
+
+            console.log(message);
         });
     </script>
 </head>
 
 <body>
-    <div class="flash"></div>
     <div id="else-container">
-        
         <header>
             <nav id="navupdown" class="navbar navbar-transparent navbar-fixed-top" role="navigation">
                 <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-target">
-                            <span class="sr-only">navigation of toggle</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                    </div>
-                    <div id="navbar-target" class="navbar-collapse in">
+                        
+                    <div id="navbar-target" class="in">
                         <ul id="navbar" class="nav navbar-nav">
                             <li>
                                 <!-- <a href="/"><img src="/imgs/logo" class="index_nav" /></a> -->
@@ -138,15 +135,14 @@
             </nav>
         </header>
 
-        
+        <div class="flash"></div>
         <div id="content-wrapper">
-            
             <div class="wise">
                 <h4 id="wise">
         미래를 예측하는 방법은 미래를 창조하는 것이다
                 </h4>
             </div>
-            
+
             <div class="content">
                 <div class="subscribe">
                     <!-- <div class="row"> -->
@@ -189,14 +185,21 @@
                                     <!-- <div style="width:218px; marign:0;" class="wrapper"> -->
                                     <div class="wrapper">
                                         <!-- <input type="button" id="sign-up-logo" class="btn btn-primary btn-fill fa fa-userplus login-logo" onclick="" data-target="#layerpop" data-toggle="modal" value="&#xf234"><!----><!--<input type="button" id="sign-up-login" class="btn btn-primary btn-fill fg fa fa-userplus login-content" onclick="" data-target="#layerpop" data-toggle="modal" value="회원가입"> -->
-                                        <input id="star" type="button" id="sign-up-login" class="btn btn-primary btn-fill fg fa fa-userplus" onclick="" data-target="#layerpop" data-toggle="modal" value="★회원가입☆">
+                                        <input id="star" type="button" id="sign-up-login" class="btn btn-primary btn-fill fg fa fa-userplus" onclick="" data-target
+                                        ="#layerpop" data-toggle="modal" value="★회원가입☆">
 
                                     </div>
                                 </div>
+                                <!-- <label class="sr-only" for="">로그인</label> -->
+
                             </div>
+                            <!-- <div id="div-button">
+                <button id="login" type="submit" class="btn btn-danger btn-fill">로그인</button>
+              </div> -->
+
+
                         </form>
                     </div>
-                    
                     <!-- </div> -->
                 </div>
             </div>
@@ -207,7 +210,7 @@
             <small>by- daidai</small>
         </footer>
 
-        <div class="modal fade" id="layerpop">
+        <div class="modal fade layerpop" id="layerpop">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div id="siba"></div>
@@ -220,39 +223,35 @@
                     <!-- <h3 class="modal-title">계정 생성</h3> -->
                     <!-- </div> -->
                     <!-- body -->
-
-
                     <div class="modal-body">
                         <form action="/auth/regist" class="form-inline form-login" role="form" id="regist" method="POST">
-                            <div class="signup-inner">
-                                <label for="modal_id"></label>
-                                <input type="text" name="id" id="modal_id" class="form-control transparent modal-input" placeholder="아이디">
-                            </div>
-                            <div class="signup-inner">
-                                <label for="modal_email"></label>
-                                <input type="email" name="email" id="modal_email" class="form-control transparent modal-input" placeholder="이메일">
-                            </div>
-                            <div class="signup-inner">
-                                <label for="login_password"></label>
-                                <input type="password" name="password" id="modal_password" class="form-control transparent modal-input" placeholder="비밀번호">
-                            </div>
-                            <div class="signup-inner">
-                                <label for="modal_pwck"></label>
-                                <input type="password" name="passwordck" id="modal_pwck" class="form-control transparent modal-input" placeholder="비밀번호 확인">
-                            </div>
-                            <div class="signup-inner">
-                                <label for="modal_displayName"></label>
-                                <input type="text" name="displayname" id="modal_displayName" class="form-control transparent modal-input" placeholder="닉네임">
-                            </div>
+                        <div class="signup-inner">
+                            <label for="modal_id"></label>
+                            <input type="text" name="id" id="modal_id" class="form-control transparent modal-input" placeholder="아이디">
+                        </div>
+                        <div class="signup-inner">
+                            <label for="modal_email"></label>
+                            <input type="email" name="email" id="modal_email" class="form-control transparent modal-input" placeholder="이메일">
+                        </div>
+                        <div class="signup-inner">
+                            <label for="login_password"></label>
+                            <input type="password" name="password" id="modal_password" class="form-control transparent modal-input" placeholder="비밀번호">
+                        </div>
+                        <div class="signup-inner">
+                            <label for="modal_pwck"></label>
+                            <input type="password" name="passwordck" id="modal_pwck" class="form-control transparent modal-input" placeholder="비밀번호 확인">
+                        </div>
+                        <div class="signup-inner">
+                            <label for="modal_displayName"></label>
+                            <input type="text" name="displayname" id="modal_displayName" class="form-control transparent modal-input" placeholder="닉네임">
+                        </div>
 
-                            <div class="signup-inner" id="modal_sivbal">
-                                <label for="modal_submit"></label>
-                                <input type="submit" name="submit" id="modal_submit" class="form-control transparent modal-input" value="회원가입">
-                            </div>
+                        <div class="signup-inner" id="modal_sivbal">
+                            <label for="modal_submit"></label>
+                            <input type="submit" name="submit" id="modal_submit" class="form-control transparent modal-input" value="회원가입">
+                        </div>
                         </form>
                     </div>
-
-
                     <!-- Footer -->
                     <!-- <div class="modal-footer"> -->
                     <!-- Footer -->

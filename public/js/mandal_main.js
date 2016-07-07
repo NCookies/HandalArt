@@ -95,7 +95,7 @@
                 $("#modal-article").val(prevArticle);
             }
 
-            $('#addMandal').modal();
+            $('#layerpop').modal();
 
             $("#modal-article").off("keydown").on("keydown", function(evt) {
                 var keyCode = evt.keyCode || evt.which;
@@ -211,7 +211,7 @@
                         break;
                 }
 
-                $("#addMandal").modal("hide");  // 모든 처리가 끝나면 모달을 숨김
+                $("#layerpop").modal("hide");  // 모든 처리가 끝나면 모달을 숨김
             })        
 
             return false;

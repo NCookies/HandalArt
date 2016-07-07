@@ -1,34 +1,37 @@
+.modal-header{
+    left: 168.5px;
+  	bottom: 110px;
+}
 
+#calendar{
+	margin-top: 40px;
+	width: 80%;
+	/*width: 850px;*/
+	/*height: inherit;*/
+	/*height: 735px;*/
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+	margin-bottom: 0 !important
+}
 
-/* day_calendar */
 svg {
-	width: 600px;
-    height: 600px;
-	display:block;
-	margin: auto;
-	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	  width: 800px;
+    height: 800px;
+		margin-left:auto;
+		margin-right:auto;
+		display:block;
+		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
 #graph path {
-	stroke: lightgray;
-	fill: white;
-}
-
-#graph path.smallerFilling {
-	stroke: red;
-  	fill: red;
-}
-
-#graph path.biggerFilling {
-	stroke: blue;
-  	fill: blue;
+  stroke: lightgray;
+  fill: white;
 }
 
 #percentage {
-	font-size: 3.5em;
-  	color: white;
-  	opacity: 0.5;
-	cursor: pointer;
+  font-size: 3.5em;
+	color: white;
+	opacity: 0.5;
 }
 
 .hour-hand{
@@ -58,15 +61,6 @@ svg {
 	margin-top: 40px;
 }
 
-/* fullcalendar */
-
-#calendar{
-	margin-top: 40px !important;
-	width:80% !important;
-	margin-left: 0 !important;
-	margin-right: 0 !important;
-	margin-bottom: 0 !important
-}
 
 h2{
 	font-family: 'NanumGothic' !important;
