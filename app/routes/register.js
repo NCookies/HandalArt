@@ -11,6 +11,7 @@ var pool = mysql.createPool({
 });
 
 var async = require('async');
+var flash = require('connect-flash');
 
 
 exports.regeist = function(req, res) {
@@ -85,7 +86,10 @@ exports.regeist = function(req, res) {
                             res.render('index', { user : false, message : '에러가 발생했습니다' });
                         }
                         console.log("result : " + result);
-                        res.render('index', { user : false, message : '회원가입이 성공적으로 되었습니다.' });
+                        req.flash('message', '회원가입이 성공적으로 되었습니다.');
+                        res.redirect('/');
+
+                        //res.render('index', { user : false, message : '' });
                     }
                 );
 
@@ -94,7 +98,10 @@ exports.regeist = function(req, res) {
             else {
                 console.log("query : exists");
                 connection.release();
-                res.render('index', { message : '이미 존재하는 아이디입니다. 다시 한 번 입력해주세요.' });
+
+
+                req.flash('message', '이미 존재하는 아이디입니다. 다시 한 번 입력해주세요.');
+                res.redirect('/');
             }
         });
 

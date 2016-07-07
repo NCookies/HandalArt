@@ -21,7 +21,9 @@ function isLoggedIn(req, res, next) {
 
 	// if they aren't redirect them to the home page
 	//res.redirect('/');
-    res.render('index', { user : false, message : '로그인 후 이용해주세요.' });
+
+    req.flash('message', '로그인 후 이용해주세요.');
+    res.redirect('/');
 }
 
 
@@ -80,19 +82,9 @@ module.exports = function(app, passport) {
     });
 
 
-    app.get('/login_fail', function(req, res) {
-        console.log('fck');
-        res.render('index', { message: req.flash('아이디 또는 비밀번호가 잘못되었습니다') });
-    });
-
-
-    /*app.get('/login_success', ensureAuthenticated, function(req, res) {
-        console.log("get login_success");
-        res.redirect('/' + req.session.passport.user.id);
-    });*/
 
     app.post('/auth/regist', register.regeist);
-    // 왜 POST 요청이 두 번이나 들어올까?
+
 
 
     app.get('/logout', function(req, res) {

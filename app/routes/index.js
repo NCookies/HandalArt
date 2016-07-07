@@ -6,7 +6,7 @@ exports.routeHasId = function (req, res) {
     var account = req.user;
 		
 	if (typeof account == "undefined") {
-		res.render('index', { user : false, message : req.flash('error')}); 
+		res.render('index', { user : false, message : req.flash('message')}); 
 	} // 로그인 되어 있지 않을 때
 	else {
 
