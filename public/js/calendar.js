@@ -295,8 +295,6 @@ function buildDayPie() {
                 .on("mouseover", mouseover)
                 .on("mouseup", mouseup);
 
-    $("#graph").on("mouseleave", mouseleave);
-
     paths.transition().duration(500)
     .attr("d", arc)
     .each(function(d) { this._current = d; });
@@ -356,17 +354,6 @@ function buildDayPie() {
         return arr;
     }
 
-    function mouseleave(d) {
-        d3.selectAll("path").on("mouseover", null);
-        d3.selectAll("path")
-            .transition()
-            .duration(1000)
-            .style("opacity", 1)
-            .each("end", function() {
-                    d3.select(this).on("mouseover", mouseover);
-                    });            
-    }
-
     // 클릭할때마다 값이 초기화되서 주의
     function mousedown(d) {
         dragging = true;
@@ -381,18 +368,16 @@ function buildDayPie() {
           //over할 때마다 실행되서 leave가 여러번 호출됨.
             //modal안띄우고 데이터 초기화 & mouseup
             //千載一遇*/
-            $("#graph").one("mouseleave", function() {
-                
-               dragging = false;
+            $("#graph").on("mouseleave", function() {
                 //$("path").removeAttr("class").removeClass(); //색깔 없앰
                 //드래그 한 path들도 없어져야 함. 색깔뿐만아니라
                 return;
             });
 
-            $("#clock-face").one("mouseenter", function() {
-
-                $("path").off("mouseover");
-                return;
+            $("#clock-face").on("mouseenter", function() {
+                d3.select("#percentage")
+                .text("편집")
+                .on("dblclick", dblclick);
             });
 
         if( dragging ) {
@@ -403,18 +388,12 @@ function buildDayPie() {
                 $('path').filter(function() {
                 return $(this).attr('index') == startIndex;
                 }).attr("class", "smallerFilling");
-                //}).attr("sort", "smaller").css("fill", "#bfbfbf");
-                //$(this).attr("sort", "smaller")
-                //        .css("fill", "#bfbfbf");
                 $(this).attr("class", "smallerFilling");
             }
             else if( $(this).attr("index") < startIndex ){
                 $('path').filter(function() {
                 return $(this).attr('index') == startIndex;
                 }).attr("class", "biggerFilling");
-                 //}).attr("sort", "bigger").css("fill", "#bfbfbf");
-                //$(this).attr("sort", "bigger")
-                 //      .css("fill", "#bfbfbf");
                  $(this).attr("class", "biggerFilling");
             }
             sumValue += d.value;
@@ -474,8 +453,9 @@ function buildDayPie() {
         var hh = this.getHours().toString();
         var nn = this.getMinutes().toString();
         var ss =  this.getSeconds().toString();
+        var ms = this.getUTCMilliseconds().toString();
         return yyyy + "-" + (mm[1] ? mm : '0'+mm[0]) + "-" + (dd[1] ? dd : '0'+dd[0] + 
-                "T" + (hh[1]? hh : '0'+hh[0])) + ":" + (nn[1]? nn : '0'+nn[0]) + ":" + (ss[1]? ss : '0'+ss[0]) + "Z";
+                "T" + (hh[1]? hh : '0'+hh[0])) + ":" + (nn[1]? nn : '0'+nn[0]) + ":" + (ss[1]? ss : '0'+ss[0]) + "." + (ms[1]? ms : '0'+ms[0]) + "+" + "Z";
     }
 
     function change(target) {
@@ -754,13 +734,60 @@ function buildDayPie() {
       d3.select(self.frameElement).style("height", Ch + "px");
 	}
 
-    $("#percentage").on('click', function() {
-        alert("clickllll");
-    });
+      function dblclick(){
+          /* 더블클릭하면 startText endText의 아이디를 가진 텍스트박스와
+            addText closeText의 아이디를 가진 추가 취소 버튼을 만듦
+            wrapp = editText 로 묶음
+            스타트텍스트에 시간 입력하는 폼으로 그렇게 엔드텍스트도 마찬가지
+            bootstrap timepicker
+            
+            추가버튼 누르면
+            스타트 시간을 가진 index를 찾음 
+            엔드 시간과 비교해서 start>end = addClss("smallerFilling")
+            smallerFilling이면 스타트시간을 targetpath로 비거필링이면 반대로
+            명시한 식대로 계산해서 path 생성
+            
+            취소버튼 누르면 wrap으로 묶은 모든 것들을 remove()함 */
+            alert("click"); 
+            buildEditTextHtml();
+      }
 
-    function buildDayHtml() {
-        $(".agendaDay").remove(); //기존의 테이블 제거
-        $('#fc-content').append("<div class = " + "'fc-view-agendaDay'>"+ "<svg id = " + "'graph' xmls=" + "'http://www.w3.org/2000/svg'> <foreignobject id=" + "'percentage' x="+
-        "'250' y=" + "'250'>" + "</foreignobject></svg></div>"); 
-    }
+      function buildEditTextHtml() {
+            var fo = document.getElementsByClassName(percentage)
+            var ta = document.createElementNS("http://www.w3.org/1999/xhtml", "textbox");
+            ta.setAttribute("class", "textbox");
+            ta.rows = 3;
+            ta.cols = 30;
+            ta.innerHTML = "world";
+            fo.appendChild(ta);
+            document.getElementById("svg").appendChild(fo);
+      }
+
+      function div_OnOff(v,id){
+          console.log(v+"+++"+id);
+          // 라디오 버튼 value 값 조건 비교
+          if(v == "1")  
+              buildDayPie();
+          else 
+              document.getElementsByClassName(id).style.display = "none"; // 숨김
+      }
+
+      function buildDayHtml() {
+            $(".agendaDay").remove(); //기존의 테이블 제거
+            $('#fc-content').append("<div id='sequence'></div>");
+
+            $('#fc-content').append("<div class ='fc-view-agendaDay'>"+
+                "<svg id ='graph' xmls='http://www.w3.org/2000/svg'>"+
+                "<foreignobject id=" + "'percentage' x='250' y='250'>" +
+                "</foreignobject></svg></div>"); 
+
+            $("#sequence").append(
+                    "<label for='radio-am' class='radio-inline'>"+
+                    "<input type='radio' value='1' name='quality' id='radio-am' onclick='div_OnOff(this.value,'graph');'> <span> 오전 </span>"+
+                    "</label>"   +
+                    "<label for='radio-pm' class='radio-inline'>"+
+                    "<input type='radio' value='2' name='quality' id='radio-pm' checked='true' onclick='div_OnOff(this.value,'graph');'> <span> 오후 </span>"+
+                    "</label>"               
+            );
+        }
 });
