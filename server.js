@@ -9,7 +9,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
 var passport = require('passport')
-
+    
 var flash = require('connect-flash');
 var mysql = require('mysql');
 

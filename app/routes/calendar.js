@@ -20,7 +20,7 @@ var getProvider = function(req) {
     console.log('[provider] : ' + req.session.passport.user.provider);
 
     if (req.session.passport.user.provider == undefined) {
-        provider = "";
+        provider = "local:";
         console.log("provider is local");
 
         return provider;
