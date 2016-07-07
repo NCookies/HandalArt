@@ -8,9 +8,12 @@
 	<script src="/vendor/ejs.js"></script>
 	<link href="/css/style.css" rel="stylesheet" type="text/css">
 
-	<!--jQuery-->
+	<!--jQuery--><!--
 	<script src='/vendor/jquery-1.10.2.min.js'></script>
 	<script src='/vendor/jquery-ui-1.10.2.custom.min.js'></script>
+	<script src = '/js/calendar.js'></script>-->
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>	
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
 	<script src = '/js/calendar.js'></script>
 
 
@@ -30,7 +33,6 @@
 
 	<link href='/css/fullcalendar.css' rel='stylesheet' type="text/css">
 	<link href='/css/fullcalendar.print.css' rel='stylesheet' media='print' type="text/css">
-	<link rel="stylesheet" href="/css/modal.css">
 
 	<script src='/vendor/moment.min.js'></script>
 	<script src='/vendor/jquery-ui.js'></script>
@@ -149,6 +151,52 @@
 									<!--button type = "button" class = "btn btn-primary" data-option = "detail" id = "detail">detail</button
 									detailModal 모달구현해야함-->
 									<button type = "button" class = "btn btn-primary" data-dismiss="modal" id = "edit">수정</button>
+								</div>
+							</div>
+						</div>
+					</div>
+<!--일간 모달-->
+				<div class="modal fade" id="addModal_day">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+										<h4 class="modal-title">일정</h4>
+								</div>
+								<div class="modal-body">
+									<p>
+										<label>일정 이름</label><br/>
+										<input type = "text" id = "addTitle" class = "span10" maxlength="30">
+									</p>
+								</div>
+								<div class="modal-footer">
+									<div id="status-area"></div>
+									<button type = "button" class="btn btn-primary" data-option="add" id="add_day">추가</button>
+									<!-- <button type = "button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="modal fade" id="editModal_day">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">&times;</button>
+									<h4 class="modal-title" id="event_title">일정</h4>
+								</div>
+								<div class="modal-body">
+									<p>
+										<label>일정 이름</label><br/>
+										<input type = "text" id = "editTitle" class = "span10" maxlength="8">
+									</p>
+								</div>
+								<div class="modal-footer">
+									<div id="status-area"></div>
+									<button type = "button" class = "btn btn-danger" data-dismiss = "modal" id = "remove_day">삭제</button>
+									<!--button type = "button" class = "btn btn-primary" data-option = "detail" id = "detail">detail</button
+									detailModal 모달구현해야함-->
+									<button type = "button" class = "btn btn-primary" data-dismiss="modal" id = "edit_day">수정</button>
 								</div>
 							</div>
 						</div>
