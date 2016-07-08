@@ -165,6 +165,7 @@ $(document).ready(function()
     				title: event.title,
    					content: event.content
    			});
+               
   			$("#edit").off('click').on("click", function() 
   			{
   				var title = $('#editTitle').val();
@@ -175,17 +176,20 @@ $(document).ready(function()
 
 				$('#editModal').modal('hide');
    			});
+
    			$("#remove").off('click').one("click", function()
   			{
   				var calendarId = event._id;
 
-                $('#calendar').fullCalendar('removeEvents', title);
+                console.log('id : ' + calendarId);
+
+                $('#calendar').fullCalendar('removeEvents', calendarId);
 				$('#editModal').modal('hide');
 
                 $.ajax({
                     url: '/calendar/remove',
                     type: 'POST',
-                    data: { events: calendarId },
+                    data: { events: JSON.stringify(calendarId) },
                     complete: function(response, textStatus) {
                         console.log("complete");
                     },	
@@ -283,11 +287,22 @@ function buildDayPie() {
                 })
                 .on("mousedown", mousedown)
                 .on("mouseover", mouseover)
-                .on("mouseup", mouseup);
+                .on("mouseup", mouseup)
+                .on("mousemove", mousemove)
+                .on("mouseout", mouseout);
 
-    paths.transition().duration(500)
-    .attr("d", arc)
-    .each(function(d) { this._current = d; });
+    var tooltip = d3.selectAll(".slice")         
+    .append('div')                          
+    .attr('class', 'tooltip');           
+
+    tooltip.append('div')                    
+    .attr('class', 'label');                     
+
+    tooltip.append('div')                   
+    .attr('class', 'percent');            
+        paths.transition().duration(500)
+        .attr("d", arc)
+        .each(function(d) { this._current = d; });
 
     // api.jqueryui.com/draggable/#event-drag
     // containment: ".slice", //limit area
@@ -345,6 +360,15 @@ function buildDayPie() {
         return arr;
     }
 
+   function mouseout(d) {
+        tooltip.style('display', 'none');      
+   }
+
+   function mousemove(d) {
+    tooltip.style('top', (d3.event.layerY + 10) + 'px')
+        .style('left', (d3.event.layerX + 10) + 'px');
+    }
+
     // 클릭할때마다 값이 초기화되서 주의
     function mousedown(d) {
         dragging = true;
@@ -400,6 +424,9 @@ function buildDayPie() {
         if (percentage < 0.1) { percentageString = "< 0.1%"; }     
         d3.select("#percentage")
         .text(d.data.label); 
+        tooltip.select('.label').html(d.data.label);
+        tooltip.select('.percent').html(percentageString);
+        tooltip.style('display', 'block'); 
         
         $("path").css("stroke", "black").attr("opacity", "1");
         $("path").filter(function() {
@@ -453,7 +480,7 @@ function buildDayPie() {
                 endTime = "0"+endTime;
         // 2016-07-06T06:00:00.000Z
         for(var i=1; i<=2; i++) { //7을 07로 만듬
-            if(strDate[i].length == 1)
+            if(strDate[i].length == '1')
                 strDate[i] = "0"+strDate[i];
         }
 
@@ -533,10 +560,11 @@ function buildDayPie() {
             }
        });
 
-        $("#edit_day").off('click').on('click', function() { 
-            d.data.label = $('#editTitle').val(); // change label  
+        $("#edit_day").off('click').on('click', function() {
+            d.data.label = $('#editTitle_day').val(); // change label  
             change(target);  // redraw path
-            $('#editTitle').val(''); //reset textbox
+            //edit 하고 배열에서 안바뀜
+            $('#editTitle_day').val(''); //reset textbox
             setJsonAdd(targetPath);
 
             console.log('day calendar : ' + JSON.stringify(infoJsonArray));
@@ -602,7 +630,7 @@ function buildDayPie() {
                 time = Math.floor(i/2)+":30";        
             return time;
         }
-
+        
         //path의 이름, 크기를 계산하고 다시그림
         function calcPath(i){
             if(i%2 == 0) //2의 배수이면
@@ -621,16 +649,16 @@ function buildDayPie() {
 
         // 데이터 json 추가
         function setJsonAdd(targetPath) {
+            var fromDate = targetPath.attr("fromdate");
+            var toDate = targetPath.attr("todate");
             if( targetPath.attr("add") == "true" ) {
                 //만들어진 일정이 있어서 수정으로 
-                setJsonEdit(targetPath, start_, end_);
+                setJsonEdit(targetPath, fromDate, toDate);
                 return;
             }  
             for (var i=0; i<3; i++)
                     idadd += targetPath.attr("index");
             idadd += (Math.floor(Math.random() * 1000000) + 1).toString();
-            var fromDate = targetPath.attr("fromdate");
-            var toDate = targetPath.attr("todate");
             var newEvent = {
                     id: idadd,
 	   		        title: d.data.label,
@@ -638,19 +666,20 @@ function buildDayPie() {
 		   	        end: toDate,
 		   	        allDay: false	
 	    	};
+            targetPath.attr("id", idadd);
             infoJsonArray.push(newEvent); //배열에 object 넣기  
             targetPath.attr("add", "true");
         }
 
-        function setJsonEdit(targetPath, start_, end_) {
-            console.log(start_+"+"+end_);
+        function setJsonEdit(targetPath, fromDate, toDate) {
             //start, end 똑같은 path 찾아서 title 수정
             //중복일정 시 수정 필요 x : 똑같은 시간으로 만들지 않을 것이기 때문
             for (var i=0; i<infoJsonArray.length; i++) {
-                if(infoJsonArray[i].calendar_start == targetDate+"F"+start_+"Z" && infoJsonArray[i].end == targetDate+"F"+end+"Z" ){
+                if( idadd = infoJsonArray[i].id ) {
+                    console.log("in");
                     infoJsonArray[i].title = d.data.label;
                 }       
-            }     
+            }   
         }
 
         function setJsonRemove(target) {

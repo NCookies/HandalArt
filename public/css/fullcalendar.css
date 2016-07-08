@@ -16,7 +16,7 @@ svg {
 
 #graph path {
 	stroke: lightgray;
-	fill: white;
+	fill: rgba(0, 0, 0, 0);
 }
 
 #graph path.smallerFilling {

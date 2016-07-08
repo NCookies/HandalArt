@@ -6,6 +6,8 @@
     padding: 0;
     position: absolute;
     /* left와 bottom을 각 css파일에 추가해 위치를 조정하도록 한다. */
+    left: 168.5px;
+    bottom: 110px;
 }
 .modal-header p{
   font-size: 30px;

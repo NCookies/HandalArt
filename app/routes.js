@@ -41,7 +41,7 @@ module.exports = function(app, passport) {
 
 
     app.get('/auth/facebook/callback',
-        passport.authenticate('facebook', { failureRedirect: '/' }),
+        passport.authenticate('facebook', { failureRedirect: '/auth/facebook' }),
         function(req, res) {
             var user = JSON.stringify(req.user);
             var account = req.account;
@@ -52,7 +52,7 @@ module.exports = function(app, passport) {
         });
 
     app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/' }),
+    passport.authenticate('google', { failureRedirect: '/auth/google' }),
     function(req, res) {
         res.redirect('/');
     });

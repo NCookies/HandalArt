@@ -1,11 +1,8 @@
 $(function() {
-  var num = 2;
   var nowEvent;
-  $("#append").on("click",function () {
-
-  });
-
-  $("#ok").on("click",function () {
+/****************Append List*******************/
+  $(document).on("click","#ok",function () {
+    num = $("li").length+1;
     if($("#goal").val() == ""){
       alert("내용을 입력해주세요.");
     }else if($("#date").val()==""){
@@ -19,13 +16,12 @@ $(function() {
         $("#goal").val("");
         $("#date").val("");
         $("#description").val("");
-        console.log($("li").length);
+        /*************ul 내부에 li가 하나도 존재하지 않을경우********/
             if($("li").length == 0){
-              console.log("sibal");
               $("#list").html("<li>"
                 +"<div class=\"content\">"
                 +  "<button type=\"button\" name=\"delete\" class=\"delete\">삭제</button>"
-                  +"<div class=\"info\"><p>"+num+" ."+goal+"<br>"+date+"</p></div>"
+                  +"<div class=\"info\"><span id=\"scomp\" hidden>yet</span><span id=\"snum\">1</span> <span id=\"sgoal\">목표</span> <br> <span id=\"sdate\">목표일시</span></div>"
                   +"<div class=\"button\">"
                   +  "<button type=\"button\" name=\"show\" class=\"show\">▼내용보기</button>"
                     +  "<button type=\"button\" name=\"edit\" class=\"edit\">수정</button>"
@@ -36,13 +32,14 @@ $(function() {
                     +"</div>"
                   +"</div>"
               +"</li>");
-              num++;
               $("#inputModal").modal("hide");}
+              /*************End ul 내부에 li가 하나도 존재하지 않을경우********/
+              /*************Modal에서 값을 받아 List 생성**************/
         else{
             $("#list").children().last().after("<li>"
               +"<div class=\"content\">"
               +  "<button type=\"button\" name=\"delete\" class=\"delete\">삭제</button>"
-                +"<div class=\"info\"><p>"+num+" ."+goal+"<br>"+date+"</p></div>"
+                +"<div class=\"info\"><span id=\"scomp\" hidden>yet</span><span id=\"snum\">1</span> <span id=\"sgoal\">목표</span> <br> <span id=\"sdate\">목표일시</span></div>"
                 +"<div class=\"button\">"
                 +  "<button type=\"button\" name=\"show\" class=\"show\">▼내용보기</button>"
                   +  "<button type=\"button\" name=\"edit\" class=\"edit\">수정</button>"
@@ -53,71 +50,51 @@ $(function() {
                   +"</div>"
                 +"</div>"
             +"</li>");
-            num++;
             $("#inputModal").modal("hide");
             }
       }
-      $(".show").on("click",function(event) {
-        console.log('sdfd');
-
-        if($(event.target).text()=="▼내용보기"){
-        console.log("hello");
-        $(event.target).text("▲내용접기");
-        $(event.target).parent().next(".desc").removeAttr("hidden");
-      }else {
-        $(event.target).text("▼내용보기");
-        $(event.target).parent().next(".desc").attr("hidden",true);
-      }
-      });
-
-      $(".edit").on("click",function(event) {
-        console.log("hello");
-        nowEvent = event.target;
-        $("#editModal").modal("show");
-        console.log(nowEvent);
-      });
-
-      $("#editok").on("click",function() {
-        var egoal = $("#editGoal").val();
-        var edate = $("#editDate").val();
-        var edesc = $("#edescription").val();
-        $("#editGoal").val("");
-        $("#editDate").val("");
-        $("#edescription").val("");
-        var now = $(nowEvent).parent(".button").prev(".info");
-        $(now).children("#sgoal").text(egoal);
-        $(now).children("#sdate").text(edate);
-        $(nowEvent).parent(".button").nextAll(".desc").children("pre").text(edesc);
-
-      });
-
-      $(".delete").on("click",function (event) {
-        console.log("hi");
-        $(event.target).parents("li").remove();
-      });
+      /*************End Modal에서 값을 받아 List 생성**************/
   });
-
-  $(".show").on("click",function(event) {
-    console.log('sdfd');
-
+/****************End Append List****************/
+  $(document).on("click",".show",function(event) {
     if($(event.target).text()=="▼내용보기"){
-    console.log("hello");
     $(event.target).text("▲내용접기");
     $(event.target).parent().next(".desc").removeAttr("hidden");
+    console.log($(event.target).parent().prev(".info").children("#snum").text());
+    console.log("hidden off");
   }else {
     $(event.target).text("▼내용보기");
     $(event.target).parent().next(".desc").attr("hidden",true);
   }
   });
 
-  $(".edit").on("click",function(event) {
+  $(document).on("click",".edit",function(event) {
     console.log("hello");
     nowEvent = event.target;
     $("#editModal").modal("show");
     console.log(nowEvent);
   });
 
-  $("#editok").on("click",function() {
+  $(document).on("click","#editok",function() {
+    if($("#editGoal").val() == ""){
+      alert("내용을 입력해주세요.");
+    }else if($("#editDate").val()==""){
+      alert("내용을 입력해주세요.");
+    }else if($("#edescription").val()==""){
+      alert("내용을 입력해주세요.");
+    }else{
+    $.ajax({
+      url: '/bucketEdit',
+      dataType:'json.stringify()',
+      type: 'POST',
+      data: $("form[name=editForm]").serialize(),
+      success: function (result) {
+        console.log('success');
+      },
+      error: function (err) {
+        console.log(err);
+      }
+    });
     var egoal = $("#editGoal").val();
     var edate = $("#editDate").val();
     var edesc = $("#edescription").val();
@@ -128,12 +105,31 @@ $(function() {
     $(now).children("#sgoal").text(egoal);
     $(now).children("#sdate").text(edate);
     $(nowEvent).parent(".button").nextAll(".desc").children("pre").text(edesc);
-
+    $("#editModal").modal("hide");
+    }
+  });
+  $(document).on("click",".delete",function(event) {
+    nowEvent = event.target;
+    $("#deleModal").modal("show");
   });
 
-  $(".delete").on("click",function (event) {
-    console.log("hi");
-    $(event.target).parents("li").remove();
+  $(document).on("click","#deleOk",function (event) {
+    $(nowEvent).parents("li").remove();
+    console.log($("#list").children("li").children());
+    console.log($("#list").children("li").eq(0).children("#snum").text());
+    $("#deleModal").modal("hide");
   });
+
+  $(document).on("click",".complete",function(event) {
+    nowEvent = event.target;
+    $("#compModal").modal("show");
+  });
+
+  $(document).on("click","#compOk",function () {
+    $(nowEvent).parents().prev(".info").children("#scomp").text("complete");
+    $("#compModal").modal("hide");
+    console.log($(nowEvent).parents().prev(".info").children("#scomp").text());
+  });
+
 
 });

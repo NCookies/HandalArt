@@ -189,7 +189,8 @@ exports.removeEvents = function(req, res) {
 
         var query = 'DELETE FROM calendar WHERE member_AuthId = ? AND calendar_Id = ?';
 
-        var id = JSON.stringify(req.body.event)
+        var id = JSON.stringify(req.body).match(/\d+/)[0];
+        console.log(authId);
 
         connection.query(query, [authId, id],
         function(err, rows) {

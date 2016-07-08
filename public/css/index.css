@@ -20,8 +20,9 @@ body{
     padding: 12px;
     position: fixed;
     top: 0;
+    left: 0;
     text-align: center;
-    width: 100%;
+    width: 80%;
 }
 
 /* flash message */

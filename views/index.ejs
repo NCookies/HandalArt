@@ -34,7 +34,7 @@
 
                     // Create the flash div if it does not exist
                     if (!flash.exists()) {
-                        message = $('<div id="flash"></div>').prependTo('body');
+                        message = $('<div id="flash"></div>').prependTo('#content-wrapper');
                     } else {
                         message = $('#flash');
                     }
