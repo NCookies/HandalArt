@@ -1,14 +1,31 @@
 .form-control.transparent{
-  background-color: rgba(255, 255, 255, 0.13);
+  background-color: rgba(255, 255, 255, 0.43);
   border: 1px solid rgba(238, 238, 238, 0);
   border-bottom-color: rgba(238,238,238, 0.07);
-  color: #FDFCFD;
+  color: #000000;
   margin-bottom: 3px;
 }
 
 body{
   margin: 0px;
 }
+
+
+
+#flash {
+    background: rgba(245, 245, 245, 0.8);
+    display: none;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px;
+    position: fixed;
+    top: 0;
+    text-align: center;
+    width: 100%;
+}
+
+/* flash message */
+
 
 /*header{
   background-color: #B2EBF4;
@@ -21,16 +38,13 @@ body{
 /****************************************/
 
 /*****************section*****************/
-@media(max-width: 768px){
+/*@media(max-width: 768px){
   .content{
     position:relative;
     top:200px;
   }
   .form-login{
     text-align: webkit-center;
-  }
-  #login{
-    margin: 0;
   }
   .form-group{
     width:auto !important;
@@ -47,15 +61,66 @@ body{
   .form-login{
     text-align: -webkit-center;
   }
+}*/
+
+.fg{
+  border-style: none !important;
+  -webkit-transition: background-color 0.6s;
+  transition: background-color 0.6s;
+  height: 50px;
 }
 
+.login-content{
+  width: 70% !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+#star{
+  width: 80% !important;
+  background-color:#4ABA51;
+}
+.login-logo{
+  width:10% !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  cursor: default !important;
+}
+#google-logo:hover{
+  background-color: #d9534f !important;
+}
+#facebook-logo:hover{
+  background-color: #337ab7 !important;
+}
+
+
 #login{
-  width: 440px;
+  margin-top:5px;
+  width: 80%;
   height: 40px;
+  text-align: center;
+}
+#first-input{
+  margin-top:2px;
+}
+#second-input{
+  margin-top:0;
+}
+.input-group{
+  width: 440px;
 }
 .input-group label{
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
+  width: 10%;
+  /*text-align: center;*/
+  display: inline-block;
+  float: none !important;
+}
+.input-group input{
+  width: 70% !important;
+  /*text-align: center;*/
+  display: inline-block;
+  float: none !important;
 }
 .fa{
     height: 40px;
@@ -66,23 +131,18 @@ body{
     padding: 1rem;
     cursor: default;
     float:left;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.5);
     border: 1px solid rgba(238, 238, 238, 0);
     color: #FDFCFD;
     /*border-bottom-color: rgba(238,238,238, 0.07);*/
     /*box-shadow: inset 0 5px 10px rgba(0,0,0,.075);*/
 }
 
-
-
-.fg{
-  margin-top:4px;
-  width:218px;
-}
-
 .wrapper input[type="button"] {
     position: relative;
     font-family: 'FontAwesome';
+    margin-top: 4px;
+    border-color: rgba(0,0,0,0);
 }
 
 #devider{
@@ -90,6 +150,7 @@ body{
   min-width:440px;
   height: 20px;
   margin:auto;
+  margin-bottom: 4px;
 }
 #devider>ul{
   width:440px;
@@ -107,8 +168,14 @@ body{
   color:#ffffff;
   text-shadow : 0 1px 4px rgba(0,0,0,0.33);
 }
+#sign-up-logo{
+  background-color: #4ABA51;
+}
+#sign-up-login{
+  background-color: #4ABA51;
+}
 
-#div-exbutton{
+#div-ex{
   width: 440px;
   margin:auto
 }
@@ -121,11 +188,12 @@ body{
     color: #444444;
     height: 40px !important;
     padding: 6px 16px;
-    width: 400px !important;
+    margin-top: 2px;
+    /*width: 400px !important;*/
 }
 
 .subscribe{
-  margin-top:250px;
+  margin-top:100px;
   text-align: -webkit-center;
 }
 
@@ -151,8 +219,13 @@ body{
   color:#ffffff;
   text-shadow : 0 1px 4px rgba(0,0,0,0.33);
   text-align: center;
-  margin-top: 140px;
+  margin-top: 100px;
   font-family: 'NanumGothic';
+  word-break: keep-all;
+}
+.wise{
+  width:50%;
+  margin: auto;
 }
 
 .btn-danger.btn-fill {
@@ -164,12 +237,96 @@ body{
     opacity: 1;
 }
 
+#join-title{
+  color: #87613d;
+}
+
+.modal-title{
+  color: white;
+}
+.modal-header{
+  border-bottom: 0 !important;
+}
+
+#layerpop input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    /*color:     #E3392B;*/
+    color: white;
+}
+#layerpop input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   /*color:     #E3392B;*/
+   color: white;
+   opacity:  1;
+}
+#layerpop input::-moz-placeholder { /* Mozilla Firefox 19+ */
+   /*color:     #E3392B;*/
+   color: white;
+   opacity:  1;
+}
+#layerpop input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   /*color:     #E3392B;*/
+   color: white;
+}
+
+#layerpop>.modal-dialog{
+  width: 350px;
+  height: auto;
+  padding-top:100px;
+}
+#layerpop .modal-content{
+  height: inherit;
+  background-color:#2B2D42;
+}
+#siba{
+  background: url(/imgs/background.jpg);
+  background-size:cover;
+  border: 3px solid #EDF2F4;
+  width: 7em;
+  height: 7em;
+  margin: 0 auto;
+  -webkit-transform: translateY(-30px);
+  transform: translateY(-50px);
+  border-radius: 100%;
+}
+.signup-inner{
+  border-bottom: 1px solid #504d4d;
+}
+.modal-body{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  text-align:center;
+}
+.modal-footer{
+  border-top: 0 !important;
+}
+#modal_sivbal{
+  margin-top: 55px;
+  border-bottom: none;
+  background-color: #e19851
+}
+#layerpop input{
+  color: white;
+  width: 344px !important;
+  background-color: rgba(0,0,0,0);
+  box-shadow:none;
+  border: none;
+  /*border-bottom: 2px solid white;*/
+  border-radius:0px;
+  /*text-align: center;*/
+  font-size: 15px;
+  font-weight: 500;
+  font-family: 'NanumGothic';
+  margin-top:5px;
+}
+#layerpop label{
+  color: white !important;
+  font-family: 'NanumGothic';
+}
 /*****************************************/
 
 /*****************footer*****************/
 footer{                         /*footer에 있는 txt 오른쪽으로 정렬*/
   text-align: right;
-  height: 100px ;
   vertical-align: bottom;
   /*background-color: #B2EBF4;*/
 }

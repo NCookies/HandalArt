@@ -1,16 +1,58 @@
-body{
-	margin-top: 40px;
-	font-size: 14px;
-	font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+
+
+#calendar{
+	margin-top: 40px !important;
+	width:80% !important;
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+	margin-bottom: 0 !important
+}
+
+svg {
+	  width: 800px;
+    height: 800px;
+		margin-left:auto;
+		margin-right:auto;
+		display:block;
+		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
+
+#graph path {
+  stroke: lightgray;
+  fill: white;
+}
+
+#percentage {
+  font-size: 3.5em;
+	color: white;
+	opacity: 0.5;
+}
+
+.hour-hand{
+	stroke-width:6;
+	stroke-linecap:round;
+	stroke: white;
+}
+
+.minute-hand{
+	stroke-width:3;
+	stroke-linecap:round;
+	stroke: white;
+}
+
+.hands-cover{
+	stroke-width:3;
+	fill:#fff;
+}
+
+.hour-label{
+	font-size: 24px;
+	color: white;
 }
 
 .fc-view{
 	text-align: center;
 	margin-top: 40px;
-}
-
-.hour-hand, .minute-hand{
-	/*color: #ffffff !important;*/
 }
 
 #calendar
@@ -323,6 +365,8 @@ a.fc-event,
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 	}
 
 .fc-event-time{
@@ -331,10 +375,13 @@ a.fc-event,
 
 .fc-event-time,
 .fc-event-title {
-		padding-right: 1px;
-		padding-left: 3px;
-		font-family: 'NanumGothic'
-	}
+	padding-right: 1px;
+	padding-left: 3px;
+	font-family: 'NanumGothic';
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
 
 .fc .ui-resizable-handle {
 	display: block;

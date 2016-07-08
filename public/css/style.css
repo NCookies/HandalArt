@@ -1,14 +1,41 @@
+html, body{
+  height: 100%;
+  min-height: 100%;
+}
+
 /****************jselement****************/
 .nav-up{
   top: -90px !important;
   transition: 0.5s;
 }
 /*****************************************/
-#header{
-  position: fixed;
+
+header{
+  width: 20%;
+  min-width: 173px;
+  height: 100%;
+  position: absolute;
+  right:0;
 }
 
-@media (max-width: 768px){
+#navupdown{
+  height:100%;
+  width: 100%;
+  left: auto;
+  right: 0;
+  background-color:rgb(255,255,255);
+  display:table;
+  position:absolute;
+  margin-bottom: 0;
+  top: 0;
+  transition: top 0.5s;
+}
+
+.nav>li>a>img{
+}
+
+
+/*@media (max-width: 768px){
     .navbar-transparent{
         padding-top: 0px;
         background-color: rgba(0, 0, 0, 0.75);
@@ -36,17 +63,18 @@
     .navbar-transparent .dropdown-menu .divider{
         background-color: #434343;
     }
-}
+}*/
 
-@media (max-width: 768px){}
+/*@media (max-width: 768px){}
+
 .else-container {
     margin-bottom: 50px;
-}
+}*/
 
 @font-face{
 font-family: 'NanumGothic';
-src: url('css/NanumBarunGothic.eot')format('eot');
-src: url('css/NanumBarunGothic.woff') format('woff');
+src: url('/css/NanumBarunGothic.eot')format('eot');
+src: url('/css/NanumBarunGothic.woff')format('woff');
 }
 
 .navbar-fixed-top .navbar-collapse{
@@ -58,8 +86,9 @@ src: url('css/NanumBarunGothic.woff') format('woff');
   padding-bottom: 10px;
 }
 
-#navbar, #navbar-logo{
-  width:auto;
+#navbar{
+  width:100%;
+  text-align: center;
 }
 
 /*#logo{
@@ -72,21 +101,41 @@ src: url('css/NanumBarunGothic.woff') format('woff');
   width: 60px;
   height: 60px;
 }
+#side-logo{
+  color: black;
+  font-family:fantasy;
+}
+#divider{
+  width: 117px;
+}
 
+#content-wrapper{
+  width: 80%;
+}
+
+#navbar>li>i{
+  color:black !important;
+  padding:0;
+  width:auto;
+  height:auto;
+}
 /*.navbar-transparent{
   padding-top: 0px;
   background-color: rgba(0,0,0,0.75);
 }*/
-
+#navbar-target{
+  margin: auto;
+  width:inherit;
+  display:inline-block;
+}
+#navbar-target>ul>li{
+  text-align: center;
+  width: inherit;
+}
 #navbar-target>ul>li>a{
-  vertical-align: middle;
   color: #D4D4D4;
 }
 
-#navbar-target>ul>li{
-  text-align: center;
-  vertical-align: middle;
-}
 
 .navbar-toggle .icon-bar{
   background-color: #FFFFFF;
@@ -112,10 +161,14 @@ P, .navbar, .brand{
   z-index: 3000;
 }*/
 
-
+.container{
+  width:100% !important;
+  display: table-cell;
+  vertical-align: middle;
+}
 
 #black-cover{
-  background-color: rgba(0,0,0,0.6);
+  background-color: rgba(0,0,0,0.2);
   position:fixed;
   opacity:1;
   left:0;
@@ -151,4 +204,5 @@ P, .navbar, .brand{
   left:0;
   z-index:1000;
   padding: 0 15px;
+  height: 100%;
 }

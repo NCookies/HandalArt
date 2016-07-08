@@ -23,32 +23,42 @@
 
 	<script type='text/javascript'>
 		$(document).ready(function() {
-			var mandalCenterData = JSON.parse(<%- JSON.stringify(center) %>);
-			var mandalData = JSON.parse(<%- JSON.stringify(mandal) %>);
+			var mandalUltimateData = JSON.parse(<%- JSON.stringify(ultimate) %>);
+			var mandalSubData = JSON.parse(<%- JSON.stringify(sub) %>);
+			var mandalDetailData = JSON.parse(<%- JSON.stringify(detail) %>);
 
-			if (mandalCenterData) {
+			if (mandalUltimateData) {
+				$(".ultimateGoal")
+				.children(".text-field").text(mandalUltimateData[0].mandal_content)
+				.next(".hidden-field").val(mandalUltimateData[0].mandal_content);
+			}
+
+			if (mandalSubData) {
 				$.each($(".subGoal"), function(index, value) {
 					$(this)
-					.children(".text-field").text(mandalCenterData[index].mandal_ultimate_Sub_goal)
-					.next(".hidden-field").val(mandalCenterData[index].mandal_ultimate_Sub_goal);
+					.children(".text-field").text(mandalSubData[index].mandalSub_Content)
+					.next(".hidden-field").val(mandalSubData[index].mandalSub_Content);
 				});
-
-				$(".ultimateGoal")
-				.children(".text-field").text(mandalCenterData[8].mandal_ultimate_Sub_goal)
-				.next(".hidden-field").val(mandalCenterData[8].mandal_ultimate_Sub_goal);
 
 				$.each($(".falseSub"), function(index, value) {
 					$(this)
-					.children(".text-field").text(mandalCenterData[index].mandal_ultimate_Sub_goal)
-					.next(".hidden-field").val(mandalCenterData[index].mandal_ultimate_Sub_goal);
+					.children(".text-field").text(mandalSubData[index].mandalSub_Content)
+					.next(".hidden-field").val(mandalSubData[index].mandalSub_Content);
 				});
 			}
 
-			if (mandalData) {
+			if (mandalDetailData) {
 				$.each($(".detailGoal"), function(index, value) {
-					$(this)
-					.children(".text-field").text(mandalData[index].mandal_detail_content)
-					.next(".hidden-field").val(mandalData[index].mandal_detail_content);
+					var content = mandalDetailData[parseInt(index/8)]['mandalDetail_Content' + parseInt(index % 8 + 1)];
+
+					if (content) {
+						$(this)
+						.children(".text-field").text(content)
+						.next(".hidden-field").val(content);
+					}
+					else {
+						return true;
+					}
 				});
 			}
 		});
@@ -58,30 +68,39 @@
 <body>
 	<div id="else-container">
 		<header>
-			<nav id="navupdown" class ="navbar navbar-transparent navbar-fixed-top" role="navigation">
-        <div class="container">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-target">
-              <span class="sr-only">navigation of toggle</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-          </div>
-        <div id="navbar-target" class="navbar-collapse in">
-          <ul id="navbar-logo" class="nav navbar-nav navbar-left">
-            <li><a href="/"><img src="/imgs/logo" class="index_nav"/></a></li>
-          </ul>
-        <!-- <li><a href="/login"><img src="/imgs/login" id="login"/></a><li/> -->
-          <ul id="navbar" class="nav navbar-nav navbar-right">
-            <li><a href="/bucket"><img src="/imgs/bucket" class="index_nav"/></a></li>
-            <li><a href="/mandal"><img src="/imgs/mandal" class="index_nav"/></a></li>
-            <li><a href="/calendar"><img src="/imgs/calendar" class="index_nav"/></a></li>
-          </ul>
-        </div>
-     </div>
-     </nav>
+				<nav id="navupdown" class="navbar navbar-transparent navbar-fixed-top" role="navigation">
+						<div class="container">
+								<div class="navbar-header">
+										<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-target">
+												<span class="sr-only">navigation of toggle</span>
+												<span class="icon-bar"></span>
+												<span class="icon-bar"></span>
+												<span class="icon-bar"></span>
+										</button>
+								</div>
+								<div id="navbar-target" class="navbar-collapse in">
+										<ul id="navbar" class="nav navbar-nav">
+												<li>
+														<!-- <a href="/"><img src="/imgs/logo" class="index_nav" /></a> -->
+														<a href="/"><h1 id="side-logo">Handalart</h1></a>
+														<img id="divider" src="/imgs/divider.png" alt="menu divider">
+												</li>
+
+												<li style="padding-top:30px">
+														<a href="/bucket" onmouseover="hovering(this, '/imgs/bucket')" onmouseout="hoveringOut(this, '/imgs/bucket')"><img src="/imgs/bucket" class="index_nav" /></a>
+												</li>
+												<li>
+														<a href="/mandal" onmouseover="hovering(this, '/imgs/mandal')" onmouseout="hoveringOut(this, '/imgs/mandal')"><img src="/imgs/mandal" class="index_nav" /></a>
+												</li>
+												<li>
+														<a href="/calendar" onmouseover="hovering(this, '/imgs/calendar')" onmouseout="hoveringOut(this, '/imgs/calendar')"><img src="/imgs/calendar" class="index_nav" /></a>
+												</li>
+										</ul>
+								</div>
+						</div>
+				</nav>
 		</header>
+		<div id="content-wrapper">
 		<section>
 			<div class="formContainer">
 				<form action="/mandal/main" method="POST" class="mandalForm">
@@ -290,11 +309,11 @@
 						</div>
 					</div>
 
-					<input type="button" class="ts btn btn-danger" value='테스트' id='sendData'>
 					<input type="submit" class="ts btn btn-danger" value="저장" id='getData'>
 				</form>
 			</div>
 		</section>
+	</div>
 
 		<footer>
 
