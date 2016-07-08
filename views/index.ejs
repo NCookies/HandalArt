@@ -7,6 +7,7 @@
     <script src="/vendor/jquery-ui.js"></script>
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/font-awesome.min.css">
     <script type="text/javascript" src="/js/index.js"></script>
@@ -33,7 +34,7 @@
 
                     // Create the flash div if it does not exist
                     if (!flash.exists()) {
-                        message = $('<div id="flash"></div>').prependTo('body');
+                        message = $('<div id="flash"></div>').prependTo('#content-wrapper');
                     } else {
                         message = $('#flash');
                     }
@@ -49,9 +50,9 @@
                     }
 
                     // Display the flash
-                    
+
                     $('#flash').css('z-index', '1')
-                    .slideDown(1000);
+                    .slideDown(500);
 
                     // Clear the timeout if one is set
                     clearTimeout(flash.timeout);
@@ -59,7 +60,7 @@
                     // Hide the message after 5 seconds
                     flash.timeout = setTimeout(function() {
                         flash.hide();
-                    }, 5000);
+                    }, 2000);
                 },
 
                 hide: function() {
@@ -110,15 +111,8 @@
         <header>
             <nav id="navupdown" class="navbar navbar-transparent navbar-fixed-top" role="navigation">
                 <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-target">
-                            <span class="sr-only">navigation of toggle</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                    </div>
-                    <div id="navbar-target" class="navbar-collapse in">
+                        
+                    <div id="navbar-target" class="in">
                         <ul id="navbar" class="nav navbar-nav">
                             <li>
                                 <!-- <a href="/"><img src="/imgs/logo" class="index_nav" /></a> -->
@@ -148,7 +142,7 @@
         미래를 예측하는 방법은 미래를 창조하는 것이다
                 </h4>
             </div>
-            
+
             <div class="content">
                 <div class="subscribe">
                     <!-- <div class="row"> -->
@@ -191,7 +185,8 @@
                                     <!-- <div style="width:218px; marign:0;" class="wrapper"> -->
                                     <div class="wrapper">
                                         <!-- <input type="button" id="sign-up-logo" class="btn btn-primary btn-fill fa fa-userplus login-logo" onclick="" data-target="#layerpop" data-toggle="modal" value="&#xf234"><!----><!--<input type="button" id="sign-up-login" class="btn btn-primary btn-fill fg fa fa-userplus login-content" onclick="" data-target="#layerpop" data-toggle="modal" value="회원가입"> -->
-                                        <input id="star" type="button" id="sign-up-login" class="btn btn-primary btn-fill fg fa fa-userplus" onclick="" data-target="#layerpop" data-toggle="modal" value="★회원가입☆">
+                                        <input id="star" type="button" id="sign-up-login" class="btn btn-primary btn-fill fg fa fa-userplus" onclick="" data-target
+                                        ="#layerpop" data-toggle="modal" value="★회원가입☆">
 
                                     </div>
                                 </div>
@@ -215,7 +210,7 @@
             <small>by- daidai</small>
         </footer>
 
-        <div class="modal fade" id="layerpop">
+        <div class="modal fade layerpop" id="layerpop">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div id="siba"></div>
@@ -271,3 +266,4 @@
 </body>
 
 </html>
+    

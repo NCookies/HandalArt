@@ -46,13 +46,10 @@ p{
 ul{
   margin: 0px;
   padding: 0px;
-  height: 200px;
   display: inline-block;
-}
-li{
-  height: 64px;
   list-style: none;
 }
+
 .selector{
   height: 64px;
   width: 64px;

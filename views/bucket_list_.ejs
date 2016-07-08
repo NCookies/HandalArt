@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>new bucketList</title>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="/js/bucket.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="/css/bucket.css" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body>
+
+    <div id="main">
+      <div id="switch">
+        <button type="button" name="active" id="active">진행중</button>
+        <button type="button" name="completed" id="complete">완료</button>
+      </div>
+      <hr>
+      <button type="button" name="append" id="append" class="btn btn-info btn-lg" data-toggle="modal" data-target="#inputModal">목록 추가</button>
+      <div id="contentList">
+        <ul id="list">
+          <li>
+            <div class="content">
+              <button type="button" name="delete" class="delete">삭제</button>
+              <div class="info"><span id="snum">순번</span> <span id="sgoal">목표</span> <br> <span id="sdate">목표일시</span></div>
+              <div class="button">
+                <button type="button" name="show" class="show">▼내용보기</button>
+                <button type="button" name="edit" class="edit">수정</button>
+                <button type="button" name="complete" class="complete">완료</button>
+              </div>
+              <div class="desc" hidden>
+                <pre>
+description
+                </pre>
+              </div>
+            </div>
+          </li>
+        </ul>
+
+
+
+      </div>
+
+    </div>
+    <!-- append Modal -->
+    <div class="modal fade" id="inputModal" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <form name="appendform" action="/append" method="post">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" data-keyboard="true">&times;</button>
+              <h4 class="modal-title">목록 추가</h4>
+            </div>
+            <div class="modal-body">
+              <input type="text" hidden name="bucketNum" value="yet">
+              <input type="text" id="goal" name="goal" placeholder="Goal" maxlength="20">
+              <input type="date" id="date" name="date">
+              <textarea name="description" id="description" rows="8" cols="40"></textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="ok" class="btn btn-default"  name="button">확인</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+        <!-- Modal -->
+        <div class="modal fade" id="editModal" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <form name="editForm" action="/edit" method="post">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" data-keyboard="true">&times;</button>
+                  <h4 class="modal-title">내용 편집</h4>
+                </div>
+                <div class="modal-body">
+                  <input type="text" hidden name="bucketNum" value="yet">
+                  <input type="text" id="editGoal" name="goal" placeholder="Goal" maxlength="20">
+                  <input type="date" id="editDate" name="date">
+                  <textarea name="description" id="edescription" rows="8" cols="40"></textarea>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" id="editok" class="btn btn-default"  name="button">확인</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+  </body>
+</html>

@@ -53,7 +53,7 @@ select * from mandal;
 select * from mandalsub;
 select * from mandaldetail;
 select * from bucketlist;
-select * from calendar;
+select * from calendar;	
 
 select calendar_Id, calendar_Start, calendar_End, calendar_Title, calendar_AllDay from calendar;
 
@@ -73,7 +73,7 @@ update mandal set mandal_content = "뷍ㄹ" where mandal_Id = 4 and member_AuthI
 
 UPDATE mandalDetail SET mandalDetail_Content3 = "제발", mandalDetail_Content2 = "날 좀 살려줘" where mandal_Id = 6 and member_AuthId = "facebook:1736493206592283" and mandalsub_Id = 1;
 
-
+SELECT MAX(mandal_Id) FROM mandal WHERE member_AuthId = 'local:aa';
 SELECT MAX(mandal_Id) FROM mandal WHERE member_AuthId = "local:yy";
 
 SET SQL_SAFE_UPDATES = 0;

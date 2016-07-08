@@ -20,7 +20,10 @@ function isLoggedIn(req, res, next) {
 		return next();
 
 	// if they aren't redirect them to the home page
-	res.redirect('/');
+	//res.redirect('/');
+
+    req.flash('message', '로그인 후 이용해주세요.');
+    res.redirect('/');
 }
 
 
@@ -38,7 +41,7 @@ module.exports = function(app, passport) {
 
 
     app.get('/auth/facebook/callback',
-        passport.authenticate('facebook', { failureRedirect: '/' }),
+        passport.authenticate('facebook', { failureRedirect: '/auth/facebook' }),
         function(req, res) {
             var user = JSON.stringify(req.user);
             var account = req.account;
@@ -49,17 +52,9 @@ module.exports = function(app, passport) {
         });
 
     app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/' }),
+    passport.authenticate('google', { failureRedirect: '/auth/google' }),
     function(req, res) {
         res.redirect('/');
-    },
-    function(err,req,res,next) {
-        res.redirect('/auth/facebook/');
-
-        if (err) {
-            res.status(500);
-            res.render('error', {message : err.message});
-        }
     });
 
     app.get('/auth/twitter/callback',
@@ -76,17 +71,18 @@ module.exports = function(app, passport) {
     app.post('/auth/login',
         passport.authenticate('local', 
         { 
-            failureRedirect: '/',
+            failureRedirect: '/login_fail', // '아이디 또는 비밀번호가 잘못되었습니다.' message 전송
             failureFlash: true 
         }),
         function(req, res) {
-        req.session.save(function() {
+        req.session.save(function(){
             res.redirect('/');
         });
     });
 
+
+
     app.post('/auth/regist', register.regeist);
-    // 왜 POST 요청이 두 번이나 들어올까?
 
 
     app.get('/logout', function(req, res) {
@@ -94,6 +90,9 @@ module.exports = function(app, passport) {
         req.logout();
         res.redirect('/');
     });
+
+
+    app.get('/login_fail', index.loginFail);
     
 
 
@@ -120,6 +119,8 @@ module.exports = function(app, passport) {
     app.route('/calendar')
     .get(isLoggedIn, calendar.fullCalendar)
     .post(isLoggedIn, calendar.CalendarGetData);
+
+    app.post('/calendar/day', calendar.dayCalendarGetData);
 
     app.post('/calendar/remove', calendar.removeEvents);
     

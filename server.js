@@ -9,7 +9,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
 var passport = require('passport')
-
+    
 var flash = require('connect-flash');
 var mysql = require('mysql');
 
@@ -38,12 +38,29 @@ app.use(session({
 	resave: false,
 	saveUninitialized: false,
 	secret: 'session secret key',
-	secure: true
+	secure: true,
+	cookie: { maxAge: 60000000 }
 }));
+
 
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
+
+
+/*app.all('/express-flash', function( req, res ) {
+    req.flash('success', 'This is a flash message using the express-flash module.');
+    res.redirect(301, '/');
+});
+
+// Route that creates a flash message using custom middleware
+app.all('/session-flash', function( req, res ) {
+    req.session.sessionFlash = {
+        type: 'success',
+        message: 'This is a flash message using custom middleware and express-session.'
+    }
+    res.redirect(301, '/');
+})*/
 
 
 require('./app/routes.js')(app, passport);

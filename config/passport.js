@@ -18,6 +18,7 @@ var pool = mysql.createPool({
     waitForConnections : false
 });
 
+
 function getRandomCode(iLength) {
     var arr="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ~`!@#$%^&*()-+|_=\[]{}<>?/.;";
     var randomstring = '';
@@ -49,6 +50,10 @@ module.exports = function (app, passport) {
 
             var id = userid;
             var passwd = password;
+
+            console.log("[id] : " + id);
+            console.log("[password] : " + passwd);
+
 
             console.log("id : " + "local:" + id);
 

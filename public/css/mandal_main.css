@@ -28,6 +28,11 @@
     float: left;
 }
 
+.table-article>p{
+  text-shadow : 0 1px 0.1px rgba(0,0,0,0.33);
+  color:#000000 !important;
+}
+
 .mandal-table {
     /*border-collapse:collapse;*/
     border-spacing: 1px;
@@ -93,6 +98,10 @@
     position: absolute;
 }
 
+.modal-header{
+    left: 168.5px;
+  	bottom: 110px;
+}
 #modal-article {
     width: 100%;
 }

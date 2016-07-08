@@ -3,25 +3,25 @@ $(document).ready(function(){
   var random = Math.floor((Math.random()*10+1)/2);
   switch(random){
       case 0:
-        $('h4').text('\'시간을 도구로 사용할 뿐, 시간에 의존해서는 안된다.\'');
+        $('h4').text('시간을 도구로 사용할 뿐, 시간에 의존해서는 안된다.');
         break;
       case 1:
-        $('h4').text('\'무엇을 잘 하는 것은 시간낭비일 때가 많다.\'');
+        $('h4').text('무엇을 잘 하는 것은 시간낭비일 때가 많다.');
         break;
       case 2:
-        $('h4').text('\'미래는 현재 우리가 무엇을 하는가에 달려 있다.\'');
+        $('h4').text('미래는 현재 우리가 무엇을 하는가에 달려 있다.');
         break;
       case 3:
-        $('h4').text('\'나는 미래에 대해 생각하는 법이 없다. 어차피 곧 닥치니까.\'');
+        $('h4').text('나는 미래에 대해 생각하는 법이 없다. 어차피 곧 닥치니까.');
         break;
       case 4:
-        $('h4').text('\'순간들을 소중히 여기다 보면, 긴 세월은 저절로 흘러간다.\'');
+        $('h4').text('미래를 예측하는 방법은 미래를 창조하는 것이다.');
         break;
       case 5:
-        $('h4').text('\'예측은 매우 어려우며, 미래에 대해서는 특히 그렇다\'');
+        $('h4').text('예측은 매우 어려우며, 미래에 대해서는 특히 그렇다');
         break;
       default:
-        $('h4').text('\'미래를 예측하는 방법은 미래를 창조하는 것이다.\'');
+        $('h4').text('순간들을 소중히 여기다 보면, 긴 세월은 저절로 흘러간다.');
         break;
   }
 
@@ -48,6 +48,7 @@ $(document).ready(function(){
         var action = $(this).attr('action');
 
         console.log($(this).serialize());
+        
 
         $.ajax({
             url: '/auth/login',
@@ -56,10 +57,10 @@ $(document).ready(function(){
             success: function(data, err) {
                 if (data.success) {
                     console.log('데이터 전송 성공!!');
-					          location.reload();
+					          //location.reload();
                 } else {
                     console.log('오류 발생!!');
-					          location.reload();
+					          //location.reload();
                 }
             },
             error:function(request, status, error) {
@@ -70,7 +71,8 @@ $(document).ready(function(){
         
     });
 
-    $("#regist").one('submit', function() {
+
+    $("#modal_submit").one('click', function() {
 
 		if ($("#modal_password").val() != $("#modal_pwck").val()) {
 			console.log("비밀번호가 같지 않음");
@@ -79,6 +81,7 @@ $(document).ready(function(){
 
     	
 		var action = $(this).attr('action');
+
 
 		$.ajax({
             url: action,
@@ -97,5 +100,9 @@ $(document).ready(function(){
                 console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             }
         });
+
+        //location.href='http://localhost:3000/';
+
+
     });
 });

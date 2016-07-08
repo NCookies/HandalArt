@@ -11,11 +11,15 @@ var pool = mysql.createPool({
 });
 
 var async = require('async');
+var flash = require('connect-flash');
 
 
 exports.regeist = function(req, res) {
     console.log("id : " + req.body.id);
-    console.log('url : ' + req.url + req.method);
+    console.log('url : ' + req.url);
+    console.log('method : ' + req.method);
+
+    console.log(req.body);
 
 
     pool.getConnection(function(err, connection) {
@@ -23,7 +27,7 @@ exports.regeist = function(req, res) {
         ["local:" + req.body.id], function(err, rows) {
             userExists = Number(JSON.stringify(rows[0]).split(':')[2].match(/\d+/)[0]);
             console.log(userExists);
-
+ 
             /* 중복되는 아이디가 없을 때 */
             if (userExists == 0) {
                 async.series([
@@ -62,7 +66,7 @@ exports.regeist = function(req, res) {
                                 insertMandalCallback(null, rows);
                             }
                         });
-                    }/*,
+                    },
                     function login(loginCallback) {
                         var user = {
                             'id' : req.body.id,
@@ -75,14 +79,19 @@ exports.regeist = function(req, res) {
                                 loginCallback(null, 'success regist and login!!');
                             });
                         });
-                    }*/
+                    }
                     ],
-                    function(err) {
+                    function(err, result) {
                         if (err) {
                             console.log(err);
                             connection.release();
                             res.render('index', { user : false, message : '에러가 발생했습니다' });
                         }
+                        console.log("result : " + result);
+                        req.flash('message', '회원가입이 성공적으로 되었습니다.');
+                        res.redirect('/');
+
+                        //res.render('index', { user : false, message : '' });
                     }
                 );
 
@@ -91,7 +100,9 @@ exports.regeist = function(req, res) {
             else {
                 console.log("query : exists");
                 connection.release();
-                res.render('index', { message : '이미 존재하는 아이디입니다. 다시 한 번 입력해주세요.' });
+
+                req.flash('message', '이미 존재하는 아이디입니다. 다시 한 번 입력해주세요.');
+                res.redirect('/');
             }
         });
 

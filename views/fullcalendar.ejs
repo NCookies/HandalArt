@@ -9,22 +9,28 @@
 	<link href="/css/style.css" rel="stylesheet" type="text/css">
 
 	<!--jQuery-->
-	<script src='/vendor/jquery-1.10.2.min.js'></script>
-	<script src='/vendor/jquery-ui-1.10.2.custom.min.js'></script>
-	<script src = '/js/calendar.js'></script>
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
+    <script src='/js/calendar.js'></script>
 
 
 	<!-- Bootstrap-->
 	<link href = "/css/bootstrap.min.css" rel="stylesheet" media="screen">
-  <script src="//d3js.org/d3.v3.min.js"></script>
+    <script src="//d3js.org/d3.v3.min.js"></script>
 	<script src = '/vendor/bootstrap.min.js'></script>
 	<script src = '/vendor/modal.js'></script>
 	<link href='/css/modals.less' rel = 'stylesheet' type = 'text/less'>
 
+	<!--bootstrap timepicker-->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment-with-locales.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/js/bootstrap-datetimepicker.min.js"></script>
+		
 	<!--FullCalendar-->
 
 	<link href='/css/fullcalendar.css' rel='stylesheet' type="text/css">
 	<link href='/css/fullcalendar.print.css' rel='stylesheet' media='print' type="text/css">
+	<link rel="stylesheet" href="/css/modal.css">
 
 	<script src='/vendor/moment.min.js'></script>
 	<script src='/vendor/jquery-ui.js'></script>
@@ -36,29 +42,27 @@
   	<script type="text/javascript" src="js/nav.js"></script>
 
 	<script type='text/javascript'>
-	$(document).ready(function() {
-		var events = JSON.parse(<%- JSON.stringify(events) %>);
+		$(document).ready(function() {
+			var events = JSON.parse(<%- JSON.stringify(events) %>);
 
-		console.log(<%- JSON.stringify(events) %>);
+			console.log(events[0]);
+			console.log(events.length);
 
-		console.log(events[0]);
-		console.log(events.length);
+			if (events) {
+				for (var renderCalendarIndex = 0; renderCalendarIndex < events.length; renderCalendarIndex++) {
+					var renderEvent = {
+						title : events[renderCalendarIndex].calendar_Title,
+						start : events[renderCalendarIndex].calendar_Start,
+						end : events[renderCalendarIndex].calendar_End,
+						allDay : events[renderCalendarIndex].calendar_AllDay,
+						_id : events[renderCalendarIndex].calendar_Id
+					}
 
-		if (events) {
-			for (var renderCalendarIndex = 0; renderCalendarIndex < events.length; renderCalendarIndex++) {
-				var renderEvent = {
-					title : events[renderCalendarIndex].calendar_Title,
-					start : events[renderCalendarIndex].calendar_Start,
-					end : events[renderCalendarIndex].calendar_End,
-					allDay : events[renderCalendarIndex].calendar_AllDay,
-					_id : events[renderCalendarIndex].calendar_Id
+					$('#calendar').fullCalendar('renderEvent', renderEvent, 'stick');
 				}
-
-				$('#calendar').fullCalendar('renderEvent', renderEvent, 'stick');
 			}
-		}
-	});
-</script>
+		});
+	</script>
 </head>
 <body>
 
@@ -104,51 +108,131 @@
 		<div id='calendar'>
 			<div id='hide-scrollbar'>
 				<div id='calendar-inner'>
- 					<div class="modal fade" id="addModal">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-										<h4 class="modal-title">일정</h4>
-								</div>
-								<div class="modal-body">
-									<p>
-										<label>일정 이름</label><br/>
-										<input type = "text" id = "addTitle" class = "span10" maxlength="30">
-									</p>
-								</div>
-								<div class="modal-footer">
-									<div id="status-area"></div>
-									<button type = "button" class="btn btn-primary" data-option="add" id="add">추가</button>
-									<!-- <button type = "button" class="btn btn-default" data-dismiss="modal">Close</button> -->
-								</div>
-							</div>
-						</div>
-					</div>
+ 	<div class="modal fade layerpop" id="addModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div id="siba"></div>
+				<div class="modal-header">
+					<p >일정 설정</p>
+				</div>
 
-					<div class="modal fade" id="editModal">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">&times;</button>
-									<h4 class="modal-title" id="event_title">일정</h4>
-								</div>
-								<div class="modal-body">
-									<p>
-										<label>일정 이름</label><br/>
-										<input type = "text" id = "editTitle" class = "span10" maxlength="8">
-									</p>
-								</div>
-								<div class="modal-footer">
-									<div id="status-area"></div>
-									<button type = "button" class = "btn btn-danger" data-dismiss = "modal" id = "remove">삭제</button>
-									<!--button type = "button" class = "btn btn-primary" data-option = "detail" id = "detail">detail</button
-									detailModal 모달구현해야함-->
-									<button type = "button" class = "btn btn-primary" data-dismiss="modal" id = "edit">수정</button>
-								</div>
-							</div>
-						</div>
-					</div>
+				<!-- header <-->
+				<!-- <div class="modal-header"> -->
+				<!-- 닫기(x) 버튼 -->
+				<!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
+				<!-- header title -->
+				<!-- <h3 class="modal-title">계정 생성</h3> -->
+				<!-- </div> -->
+				<!-- body -->
+				<div class="modal-body">
+					<div class="signup-inner">
+						<label for="addTitle"></label>
+						<input type="text" id="addTitle" class="form-control transparent modal-input span10" placeholder="내용을 입력하세요" maxlength="80">
+          </div>
+				</div>
+				<div class="modal-footer">
+          <div id="status-area">
+            <button type = "button" class="btn btn-primary" data-dismiss="modal" id="add">추가</button>
+          </div>
+        </div>
+			</div>
+		</div>
+	</div>
+
+    <div class="modal fade layerpop" id="editModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div id="siba"></div>
+				<div class="modal-header">
+					<p >일정 설정</p>
+				</div>
+
+				<!-- header <-->
+				<!-- <div class="modal-header"> -->
+				<!-- 닫기(x) 버튼 -->
+				<!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
+				<!-- header title -->
+				<!-- <h3 class="modal-title">계정 생성</h3> -->
+				<!-- </div> -->
+				<!-- body -->
+				<div class="modal-body">
+					<div class="signup-inner">
+						<label for="editTitle"></label>
+            <input type = "text" id = "editTitle" class = "form-control transparent modal-input span10" maxlength="80">
+          </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal" id="remove">삭제</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal" id="edit">수정</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!--daycalendar-->
+ 	<div class="modal fade layerpop" id="addModal_day">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div id="siba"></div>
+				<div class="modal-header">
+					<p >일정 설정</p>
+				</div>
+
+				<!-- header <-->
+				<!-- <div class="modal-header"> -->
+				<!-- 닫기(x) 버튼 -->
+				<!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
+				<!-- header title -->
+				<!-- <h3 class="modal-title">계정 생성</h3> -->
+				<!-- </div> -->
+				<!-- body -->
+				<div class="modal-body">
+					<div class="signup-inner">
+						<label for="addTitle"></label>
+						<input type="text" id="addTitle" class="form-control transparent modal-input span10" placeholder="내용을 입력하세요" maxlength="80">
+          </div>
+				</div>
+				<div class="modal-footer">
+          <div id="status-area">
+            <button type = "button" class="btn btn-primary" data-dismiss="modal" id="add">추가</button>
+          </div>
+        </div>
+			</div>
+		</div>
+	</div>
+
+    <div class="modal fade layerpop" id="editModal_day">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div id="siba"></div>
+				<div class="modal-header">
+					<p >일정 설정</p>
+				</div>
+
+				<!-- header <-->
+				<!-- <div class="modal-header"> -->
+				<!-- 닫기(x) 버튼 -->
+				<!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
+				<!-- header title -->
+				<!-- <h3 class="modal-title">계정 생성</h3> -->
+				<!-- </div> -->
+				<!-- body -->
+				<div class="modal-body">
+					<div class="signup-inner">
+						<label for="editTitle"></label>
+            <input type = "text" id = "editTitle_day" class = "form-control transparent modal-input span10" maxlength="80">
+          </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal" id="remove_day">삭제</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal" id="edit_day">수정</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+					
 				</div>
 		</div>
   </div>
