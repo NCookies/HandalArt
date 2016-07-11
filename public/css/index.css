@@ -4,6 +4,7 @@
   border-bottom-color: rgba(238,238,238, 0.07);
   color: #000000;
   margin-bottom: 3px;
+  vertical-align: middle;
 }
 
 body{
@@ -208,6 +209,7 @@ body{
   width: 80%;
   max-width:880px !important;
   align-content: center;
+  display:inline-block;
 }
 
 .btn{

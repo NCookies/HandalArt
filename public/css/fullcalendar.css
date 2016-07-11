@@ -1,3 +1,11 @@
+#add{
+	float:right;
+}
+
+.modal-footer{
+	text-align: left;
+}
+
 /* day_calendar */
 #sequence {
 	width: 600px;

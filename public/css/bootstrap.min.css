@@ -3697,8 +3697,8 @@ select[multiple].input-group-sm>.form-control, select[multiple].input-group-sm>.
     margin: 7.5px -15px
 }*/
 .navbar-nav>li>a {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
     line-height: 20px
 }
 @media (max-width:767px) {

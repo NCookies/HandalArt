@@ -48,25 +48,11 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 
-/*app.all('/express-flash', function( req, res ) {
-    req.flash('success', 'This is a flash message using the express-flash module.');
-    res.redirect(301, '/');
-});
-
-// Route that creates a flash message using custom middleware
-app.all('/session-flash', function( req, res ) {
-    req.session.sessionFlash = {
-        type: 'success',
-        message: 'This is a flash message using custom middleware and express-session.'
-    }
-    res.redirect(301, '/');
-})*/
-
 
 require('./app/routes.js')(app, passport);
 
 
-http.createServer(app, function (req, res) {
+http.createServer(app, '10.156.145.65',function (req, res) {
 	console.log(req.ip + 'was connected!');
 }).listen(port, function(req, res) {
 	console.log('Port ' + port + ' is listening'); });
