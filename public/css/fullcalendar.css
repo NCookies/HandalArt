@@ -6,12 +6,72 @@
 	text-align: left;
 }
 
+/*radio*/
+  .switch {
+    position: absolute;
+    top: 50px;
+    left: 600px;
+    width: 150px;
+    height: 50px;
+    text-align: center;
+    margin: -30px 0 0 -75px;
+    background: #33cc33;
+    transition: all 0.2s ease;
+    border-radius: 25px;
+  }
+  .switch span {
+    position: absolute;
+    width: 20px;
+    height: 4px;
+    top: 50%;
+    left: 50%;
+    margin: -2px 0px 0px -4px;
+    background: #fff;
+    display: block;
+    transform: rotate(-45deg);
+    transition: all 0.2s ease;
+  }
+  .switch span:after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 4px;
+    height: 12px;
+    margin-top: -8px;
+    background: #fff;
+    transition: all 0.2s ease;
+  }
+  input[type=radio] {
+    display: none;
+  }
+  .switch label {
+    cursor: pointer;
+    color: rgba(0,0,0,0.2);
+    width: 60px;
+    line-height: 50px;
+    transition: all 0.2s ease;
+  }
+  label[for=yes] {
+    position: absolute;
+    left: 0px;
+    height: 20px;
+  }
+  label[for=no] {
+    position: absolute;
+    right: 0px;
+  }
+  #yes:checked ~ .switch label[for=yes] {
+    color: #fff;
+  }
+
+  #no:checked ~ .switch label[for=no] {
+    color: #fff;
+  }
+
 /* day_calendar */
 #sequence {
-	width: 600px;
-  	height: 70px;
-  	text-align: center;
-  	margin: auto;
+	width: 900px;
+  	height: 100px;
 }
 
 svg {
@@ -67,55 +127,6 @@ svg {
 .fc-view{
 	text-align: center;
 	margin-top: 40px;
-}
-
-/* radiobox */
-
-.textbox {
-    border: 1px dashed #000000; 
-    outline:0; 
-    height:50px; 
-    width: 200px; 
-	opacity: 0.8;
-	text-align: center;
-	font-size: 3em;
-  } 
-
-/* HTML5 Boilerplate radio-one hidden styles */
-[type="radio"] {
-  border: 0;
-  height: 1px; margin: -1px;
-  padding: 0;
-  position: absolute;
-  width: 1px;
-}
-
-/* 한 줄에 버튼 */
-label {
-  display: block;
-  cursor: pointer;  /*hover일때*/
-  line-height: 2.5;
-  font-size: 1.5em;
-}
-
-/* 체크 되지않은 기본 스타일 */
-[type="radio"] + span:before {
-  content: '';
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.25em;
-  border-radius: 1em;           /*hard border*/
-  border: 0.125em solid #fff;
-  box-shadow: 0 0 0 0.15em #000;   /*light shadow*/
-  margin-right: 0.75em;
-  transition: 0.5s ease all;    /*animation here*/
-}
-
-/* the checked style using the :checked pseudo class */
-[type="radio"]:checked + span:before {
-  background: #cc0099;
-  box-shadow: 0 0 0 0.25em #000;
 }
 
 /* fullcalendar */
