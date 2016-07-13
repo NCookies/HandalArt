@@ -9,7 +9,7 @@ var mysql = require('mysql');
 var flash = require('connect-flash');
 
 var pool = mysql.createPool({
-    host :'localhost',
+    host : '127.0.0.1',
     port : 3306,
     user : 'root',
     password : 'mysqlhandalart3576!',
@@ -58,6 +58,7 @@ module.exports = function (app, passport) {
             console.log("id : " + "local:" + id);
 
             pool.getConnection(function(err, connection) {
+
                 connection.query("SELECT * FROM member WHERE member_AuthId = ?",
                 ['local:'+id], function(err, rows) {
                     if (err) {
@@ -137,7 +138,7 @@ module.exports = function (app, passport) {
 
                         console.log("[mysql] : already exist");
 
-                        return done(null, profile);
+                        return done(null, user);
                     }
                     else { // 계정이 등록되지 않았던 경우
                         connection.query('INSERT INTO member VALUES (?, ?, ?, ?)',
@@ -233,7 +234,7 @@ module.exports = function (app, passport) {
 
                         console.log("mysql : already exist");
 
-                        return done(null, profile);
+                        return done(null, user);
                     }
                     else { // 계정이 등록되지 않았던 경우
                         connection.query('INSERT INTO member VALUES (?, ?, ?, ?)',
@@ -301,6 +302,7 @@ module.exports = function (app, passport) {
     passport.serializeUser(function(user, done) {
         // user : LocalStrategy 객체의 인증함수에서 done(null,user)에 의해 리턴된 값이 넘어옴
         console.log('serialize');
+
         done(null, user); // session에 저장할 정보
     });
     // 로그인에 성공하면 사용자 정보를 세션에 저장
@@ -314,6 +316,7 @@ module.exports = function (app, passport) {
 
             connection.release();
         })*/
+        console.log("[user] : " + JSON.stringify(user));        
 
         done(null, user);
     });

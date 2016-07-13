@@ -1,14 +1,15 @@
 var mysql = require('mysql');
 
 var pool = mysql.createPool({
-    host    :'localhost',
+    host : '127.0.0.1',
     port : 3306,
     user : 'root',
     password : 'mysqlhandalart3576!',
-    database:'handalart',
-    connectionLimit:20,
-    waitForConnections:false
+    database :'handalart',
+    connectionLimit : 20,
+    waitForConnections : false
 });
+
 
 var async = require('async');
 var flash = require('connect-flash');
@@ -88,7 +89,7 @@ exports.regeist = function(req, res) {
                             res.render('index', { user : false, message : '에러가 발생했습니다' });
                         }
                         console.log("result : " + result);
-                        req.flash('message', '회원가입이 성공적으로 되었습니다.');
+                        //req.flash('message', '회원가입이 성공적으로 되었습니다.');
                         res.redirect('/');
 
                         //res.render('index', { user : false, message : '' });

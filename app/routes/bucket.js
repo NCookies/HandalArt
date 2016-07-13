@@ -15,7 +15,7 @@ var async = require('async');
 var getProvider = function(req) {
     var provider;
 
-	console.log("[session] : " + JSON.stringify(req.session.passport));
+	console.log("[session] : " + JSON.stringify(req.session));
     console.log('[provider] : ' + req.session.passport.user.provider);
 
     if (req.session.passport.user.provider == undefined) {
@@ -122,7 +122,7 @@ exports.editBucket = function(req, res) {
 	console.log('[auth] : ' + authId);
 
 
-	poo.getConnection(function(err, connection) {
+	pool.getConnection(function(err, connection) {
 
 		async.waterfall([
 

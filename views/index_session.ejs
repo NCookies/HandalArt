@@ -18,11 +18,86 @@
       $(document).ready(function() {
         var userId = $.parseJSON('<%- JSON.stringify(user) %>');
 
+        console.log('index_session');
+
         if (userId) {
           $("#welcome").text(userId + "님 환영합니다");
         }
       });
-	</script>
+    </script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            var message = '안녕하세요 ' + '<%= user %>' + '님 좋은 하루 되세요';
+            console.log("message : " + message);
+
+            var flash = {
+                exists: function() {
+                    return ($('#flash').length > 0);
+                },
+
+                show: function(msg) {
+                    var message;
+
+                    // Create the flash div if it does not exist
+                    if (!flash.exists()) {
+                        message = $('<div id="flash"></div>').prependTo('#content-wrapper');
+                    } else {
+                        message = $('#flash');
+                    }
+
+                    // Hide message when it's clicked on
+                    $('body').delegate('#flash', 'click', function() {
+                        flash.hide();
+                    });
+
+                    // Set the message if one was specified
+                    if (msg) {
+                        message.html(msg);
+                    }
+
+                    // Display the flash
+
+                    $('#flash').css('z-index', '1')
+                    .slideDown(500);
+
+                    // Clear the timeout if one is set
+                    clearTimeout(flash.timeout);
+
+                    // Hide the message after 5 seconds
+                    flash.timeout = setTimeout(function() {
+                        flash.hide();
+                    }, 2000);
+                },
+
+                hide: function() {
+                    // Hide the flash
+                    $('#flash').slideUp();
+
+                    // Clear the timeout if it exists
+                    if (flash.timeout) {
+                        clearTimeout(flash.timeout);
+                    }
+                },
+
+                // Flash message timeout
+                timeout: null
+            };
+
+            if ( message.length ) {
+                if (message == 'Missing credentials') {
+                    console.log('what is missing');
+                    message = '아이디 또는 비밀번호를 입력해주세요';
+                }
+
+                flash.show(message);
+            }
+			
+            console.log(message);
+        });
+    </script>
   </head>
   <body>
     <div id="else-container">

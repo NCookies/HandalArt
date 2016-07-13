@@ -1,0 +1,11 @@
+수정한 부분
+
+routes : mysql pool host 부분 수정
+
+index_session.ejs, routes/index.js : 플래시 메세지 수정
+
+calendar.js : ajax 통신 부분 수정(fullcalendar add, edit 부분만)
+
+fullcalendar.ejs : 일정 렌더링할 때 시차 적용
+
+mandal.js : 주석 달기

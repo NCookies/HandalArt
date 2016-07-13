@@ -7,6 +7,8 @@ drop database handalart;
 insert into member values ("local:jung", "qkqh", "jungjung@gmail.com", "태균");
 insert into member values ("local:swstar21c", "good", "swstar21c@gmail.com", "승우");
 
+insert into member values ("local:aa", "aa", "jungjung@gmail.com", "바보");
+
 
 SELECT EXISTS ( SELECT * FROM member WHERE member_DisplayName = "승우");
 
