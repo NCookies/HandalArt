@@ -12,8 +12,8 @@ var pool = mysql.createPool({
 
 var async = require('async');
 
-var moment = require('moment-timezone');
-moment().tz("America/Los_Angeles").format();
+// var moment = require('moment-timezone');
+// moment().tz("America/Los_Angeles").format();
 
 
 /* 어떤 사이트로 로그인 되어 있는지 확인(local, google 등) */

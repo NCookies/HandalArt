@@ -50,9 +50,8 @@
 			console.log(events);
 			console.log(events.length);
 
-			console.log(moment.tz(events[0].calendar_Start, "Asia/Seoul").format());
-
 			if (events) {
+				console.log(moment.tz(events[0].calendar_Start, "Asia/Seoul").format());
 				for (var renderCalendarIndex = 0; renderCalendarIndex < events.length; renderCalendarIndex++) {
 					var renderEvent = {
 						title : events[renderCalendarIndex].calendar_Title,

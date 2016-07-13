@@ -225,7 +225,7 @@ $(document).ready(function()
                     allday: editEvent.allDay
                 }]
 
-                console.log(editEvent.start);
+                console.log(editEvent.title);
                 console.log(eArray);
 
 				$('#calendar').fullCalendar('updateEvent', event);
@@ -279,7 +279,7 @@ $(document).ready(function()
  			title = $('#editTitle').val(event.title); // title란에 기존에 입력했던 event의 이름이 나옴
 		},
 		editable: true, // 드래그로 일정 위치 및 크기 수정
-		eventLimit: true,
+		eventLimit: true
  	});
 
 function enterKey(evt, buttonId) {

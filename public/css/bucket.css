@@ -1,22 +1,42 @@
+/*list*/
 #list>li{
-  background-color: #feec23;
+  background-color:rgba(0,0,0,0);
   list-style: none;
-  border: 1px solid #feec23;
+  border: 1px solid #fff;
+  border-radius: 20px;
   width: 75%;
-  padding: 20px;
+  /*padding: 20px;*/
   border-radius: 5px;
+  margin-top: 10px;
 }
+.info{
+  font-size: 25px;
+  color: #fff;
+}
+.button{
+  background-color: rgba(0,0,0,0);
+}
+.btn-info,.btn-info:hover, .btn-info:active,.btn-info:focus{
+  background-color: rgba(0,0,0,0);
+}
+/* button in list*/
 .show,.edit,.complete{
   float: right;
 }
+/*group of button*/
 .button{
   height: 20px;
 }
-.button>button{
-  border-radius: 5px;
-}
 .delete{
-  float: right;
+  margin: 6px;
+  font-size: 5px;
+}
+.button>button, .delete{
+  border-radius: 5px;
+    float: right;
+}
+.content{
+  margin: 20px;
 }
 .desc>pre{
   text-align: left;
@@ -36,22 +56,35 @@ hr{
   height: 10px;
   margin-top: 0px;
 }
-button[type=button]:hover{
-  background-color: #fa8a15;
-  border-color: #fa8a15;
+.bbtn:hover{
+  background-color: rgba(0,0,0,0);
+  border-color: #fff;
 }
-button[type=button]:active{
-  background-color: #fa8a15;
-  border-color: #fa8a15;
+.bbtn:active{
+  background-color: rgba(0,0,0,0);
+  border-color: #fff;
 }
-
-button[type=button]{
-  margin-right: 3px;
+textarea{
+  margin-top: 10px;
+}
+.bbtn{
+  margin-right: 6px;
+  border-color: #fff;
   color: #fff;
-  background-color: #fa8a15;
-  border-style: none;
+  background-color: rgba(0,0,0,0);
+  
 }
 #switch{
   margin-top: 30px;
   margin-left: 10px;
+}
+pre{
+  font-size: 20px;
+}
+.btn{
+  color: #000;
+  border-color: #000; 
+}
+hr{
+  margin-top: 100px;
 }

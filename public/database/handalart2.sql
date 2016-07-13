@@ -33,6 +33,8 @@ CREATE TABLE bucketlist(
     
     bucketlist_Is_achieved ENUM('YET', 'ACHIEVED') NOT NULL,
     
+    bucketlist_Description VARCHAR(1000) NULL,
+    
     PRIMARY KEY(member_AuthId, bucketlist_Id),
     INDEX(bucketlist_Is_achieved)
     

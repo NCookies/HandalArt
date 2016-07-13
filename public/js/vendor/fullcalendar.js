@@ -13,7 +13,7 @@
 (function($, undefined) {
 
 
-;;
+
 
 var defaults = {
 

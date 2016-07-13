@@ -97,9 +97,11 @@ module.exports = function(app, passport) {
 
 
     // bucketlist
-    app.route('/bucket')
-    .get(isLoggedIn, bucket.bucketInit)
-    //.post(bucket);
+    app.get('/bucket', isLoggedIn, bucket.bucketInit)
+
+    app.post('/bucket/add', bucket.addBucket);
+    app.post('/bucket/edit', bucket.editBucket);
+    app.post('/bucket/delete', bucket.deleteBucket);
 
     // mandal_art
     app.get('/mandal', isLoggedIn, mandal.makeMandal);

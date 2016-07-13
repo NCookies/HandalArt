@@ -44,8 +44,8 @@ exports.regeist = function(req, res) {
                         });
                     },
                     function insertBucket(insertBucketCallback) {
-                        connection.query('INSERT INTO bucketlist VALUES (?, ?, ?, ?, ?)',
-                        ['local:' + req.body.id, 0, "START", "0000-00-00", "ACHIEVED"],
+                        connection.query('INSERT INTO bucketlist VALUES (?, ?, ?, ?, ?, ?)',
+                        ['local:' + req.body.id, 0, "START", "0000-00-00", "ACHIEVED", "DESCRIPTION"],
                         function(err, rows) {
                             if (err) {
                                 insertBucketCallback(err);

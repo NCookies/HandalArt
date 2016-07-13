@@ -10,10 +10,17 @@
     <script src="/js/nav.js"></script>
     <script src="/js/vendor/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/css/bucket.css" media="screen" title="no title" charset="utf-8">
-    <link rel="stylesheet" href="/css/modal.css" media="screen" title="no title" charset="utf-8">
     <link rel="stylesheet" href="/css/style.css">
+
+    <script>
+		$(document).ready(function() {
+			var buckets = JSON.parse(<%- JSON.stringify(buckets) %>);
+
+			console.log(<%- JSON.stringify(buckets) %>);
+			console.log(buckets[0].bucketlist_Limit);
+		});
+    </script>
 
 </head>
 
@@ -54,51 +61,48 @@
         </header>
 
         <div id="content-wrapper">
-            <div id="main">
-                <div id="switch">
-                    <button type="button" name="active" id="active">진행중</button>
-                    <button type="button" name="completed" id="complete">완료</button>
-                </div>
-                <hr>
-                <button type="button" name="append" id="append" class="btn btn-info btn-lg" data-toggle="modal" data-target="#inputModal">목록 추가</button>
-                <div id="contentList">
-                    <ul id="list">
-                        <li>
-                            <div class="content">
-                                <button type="button" name="delete" class="delete">삭제</button>
-                                <div class="info"><span id="snum">순번</span> <span id="sgoal">목표</span>
-                                    <br> <span id="sdate">목표일시</span></div>
-                                <div class="button">
-                                    <button type="button" name="show" class="show">▼내용보기</button>
-                                    <button type="button" name="edit" class="edit">수정</button>
-                                    <button type="button" name="complete" class="complete">완료</button>
-                                </div>
-                                <div class="desc" hidden>
-                                    <pre>
+           <div id="main">
+      <div id="switch">
+        <!--<button type="button" class="bbtn" name="active" id="active">진행중</button>
+        <button type="button" class="bbtn" name="completed" id="complete">완료</button>-->
+      </div>
+      <hr>
+      <button type="button" name="append" id="append" class=" bbtn  btn-info btn-lg" data-toggle="modal" data-target="#inputModal">목록 추가</button>
+      <div id="contentList">
+        <ul id="list">
+          <!--<li>
+            <button type="button" name="delete" class="delete">X</button>
+            <div class="content">
+              <div class="info"><span hidden class="listNum">1</span><span id="scomp" hidden>yet</span><span class="snum">1</span> <span id="sgoal">목표</span> <br> <span id="sdate">목표일시</span></div>
+              <div class="button">
+                <button type="button" name="show" class="show">▼내용보기</button>
+                <button type="button" name="edit" class="edit">수정</button>
+                <button type="button" name="complete" class="complete">완료</button>
+              </div>
+              <div class="desc" hidden>
+                <pre>
 description
                 </pre>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+              </div>
             </div>
-        </div>
-
-        <!-- append Modal -->
+          </li>-->
+        </ul>
+      </div>
+    </div>
+    <!-- append Modal -->
     <div class="modal fade" id="inputModal" role="dialog">
       <div class="modal-dialog">
 
         <!-- Modal content-->
-        <form name="appendform" action="/append" method="post">
+        <form name="appendform" action="/bucket/add" method="post">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" data-keyboard="true">&times;</button>
-              <h4 class="modal-title">목록 추가</h4>
+              <h4 class="modal-title ">목록 추가</h4>
             </div>
             <div class="modal-body">
-              <input type="text" hidden name="bucketNum" value="yet">
-              <input type="text" id="goal" name="goal" placeholder="Goal" maxlength="20">
+              <input type="text" hidden name="isComp" value="yet">
+              <input type="text" id="goal" name="goal" placeholder="Goal" maxlength="12">
               <input type="date" id="date" name="date">
               <textarea name="description" id="description" rows="8" cols="40"></textarea>
             </div>
@@ -128,7 +132,7 @@ description
                   <textarea name="description" id="edescription" rows="8" cols="40"></textarea>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" id="editok" class="btn btn-default"  name="button">확인</button>
+                  <button type="button" id="editok" class="btn btn-default" id="no"  name="button">확인</button>
                   <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
                 </div>
               </div>
@@ -140,7 +144,7 @@ description
           <div class="modal-dialog">
 
             <!-- Modal content-->
-            <form name="compForm" action="/edit" method="post">
+            <form name="compForm" action="/bucket/edit" method="post">
               <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" data-keyboard="true">&times;</button>
@@ -150,7 +154,7 @@ description
                   <h3>목표에 달성하셨습니까?</h3>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" id="compOk" class="btn btn-default"  name="button">확인</button>
+                  <button type="button" id="compOk" class="btn btn-default" id="no"  name="button">확인</button>
                   <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
                 </div>
               </div>
@@ -162,7 +166,7 @@ description
           <div class="modal-dialog">
 
             <!-- Modal content-->
-            <form name="deleForm" action="/delete" method="post">
+            <form name="deleForm" action="/bukcet/delete" method="post">
               <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" data-keyboard="true">&times;</button>
@@ -179,7 +183,8 @@ description
             </form>
           </div>
         </div>
-    </div>
+        </div>
+        </div>
     <div id="black-cover"></div>
     <div id="bg"></div>
 </body>

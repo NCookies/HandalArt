@@ -135,7 +135,7 @@ module.exports = function (app, passport) {
                             'provider' : profile.provider
                         };
 
-                        console.log("mysql : already exist");
+                        console.log("[mysql] : already exist");
 
                         return done(null, profile);
                     }
@@ -152,8 +152,8 @@ module.exports = function (app, passport) {
                             }
                         });
 
-                        connection.query('INSERT INTO bucketlist VALUES (?, ?, ?, ?, ?)',
-                        ['facebook:' + profile.id, 0, "START", "0000-00-00", "ACHIEVED"],
+                        connection.query('INSERT INTO bucketlist VALUES (?, ?, ?, ?, ?, ?)',
+                        ['facebook:' + profile.id, 0, "START", "0000-00-00", "ACHIEVED", "DESCRIPTION"],
                         function(err, rows) {
                             if (err) {
                                 console.error(err);
@@ -248,8 +248,8 @@ module.exports = function (app, passport) {
                             }
                         });
 
-                        connection.query('INSERT INTO bucketlist VALUES (?, ?, ?, ?, ?)',
-                        ['google:' + profile.id, 0, "START", "0000-00-00", "ACHIEVED"],
+                        connection.query('INSERT INTO bucketlist VALUES (?, ?, ?, ?, ?, ?)',
+                        ['google:' + profile.id, 0, "START", "0000-00-00", "ACHIEVED", "DESCRIPTION"],
                         function(err, rows) {
                             if (err) {
                                 console.error(err);

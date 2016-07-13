@@ -1,8 +1,10 @@
 $(function() {
   var nowEvent;
+  var linum = 2;
+  var listColor = ["#ED0000"];
 /****************Append List*******************/
   $(document).on("click","#ok",function () {
-    num = $("li").length+1;
+    num = $("li").length-3;
     if($("#goal").val() == ""){
       alert("내용을 입력해주세요.");
     }else if($("#date").val()==""){
@@ -13,19 +15,16 @@ $(function() {
         var goal = $("#goal").val();
         var date = $("#date").val();
         var desc = $("#description").val();
-        $("#goal").val("");
-        $("#date").val("");
-        $("#description").val("");
         /*************ul 내부에 li가 하나도 존재하지 않을경우********/
-            if($("li").length == 0){
+            if($("li").length-4 == 0){
               $("#list").html("<li>"
                 +"<div class=\"content\">"
-                +  "<button type=\"button\" name=\"delete\" class=\"delete\">삭제</button>"
-                  +"<div class=\"info\"><span id=\"scomp\" hidden>yet</span><span id=\"snum\">1</span> <span id=\"sgoal\">목표</span> <br> <span id=\"sdate\">목표일시</span></div>"
+                +  "<button type=\"button\" name=\"delete\" class=\"delete bbtn\">X</button>"
+                  +"<div class=\"info\"><span hidden class=\"listNum\">"+linum+"</span><span id=\"scomp\" hidden>yet</span><span id=\"snum\">"+num+"</span> <span id=\"sgoal\">"+goal+"</span> <br> <span id=\"sdate\">"+date+"</span></div>"
                   +"<div class=\"button\">"
-                  +  "<button type=\"button\" name=\"show\" class=\"show\">▼내용보기</button>"
-                    +  "<button type=\"button\" name=\"edit\" class=\"edit\">수정</button>"
-                    +  "<button type=\"button\" name=\"complete\" class=\"complete\">완료</button>"
+                  +  "<button type=\"button\" name=\"show\" class=\"show bbtn\">▼내용보기</button>"
+                    +  "<button type=\"button\" name=\"edit\" class=\"edit bbtn\">수정</button>"
+                    +  "<button type=\"button\" name=\"complete\" class=\"complete bbtn\">완료</button>"
                     +"</div>"
                     +"<div class=\"desc\" hidden>"
                     +"<pre>"+desc+"</pre>"
@@ -37,13 +36,13 @@ $(function() {
               /*************Modal에서 값을 받아 List 생성**************/
         else{
             $("#list").children().last().after("<li>"
+            +  "<button type=\"button\" name=\"delete\" class=\"delete bbtn\">X</button>"
               +"<div class=\"content\">"
-              +  "<button type=\"button\" name=\"delete\" class=\"delete\">삭제</button>"
-                +"<div class=\"info\"><span id=\"scomp\" hidden>yet</span><span id=\"snum\">1</span> <span id=\"sgoal\">목표</span> <br> <span id=\"sdate\">목표일시</span></div>"
+                +"<div class=\"info\"><span hidden class=\"listNum\">"+linum+"</span><span id=\"scomp\" hidden>yet</span><span class=\"snum\">"+num+"</span> <span id=\"sgoal\">"+goal+"</span> <br> <span id=\"sdate\">"+date+"</span></div>"
                 +"<div class=\"button\">"
-                +  "<button type=\"button\" name=\"show\" class=\"show\">▼내용보기</button>"
-                  +  "<button type=\"button\" name=\"edit\" class=\"edit\">수정</button>"
-                  +  "<button type=\"button\" name=\"complete\" class=\"complete\">완료</button>"
+                +  "<button type=\"button\" name=\"show\" class=\"show bbtn\">▼내용보기</button>"
+                  +  "<button type=\"button\" name=\"edit\" class=\"edit bbtn\">수정</button>"
+                  +  "<button type=\"button\" name=\"complete\" class=\"complete bbtn\">완료</button>"
                   +"</div>"
                   +"<div class=\"desc\" hidden>"
                   +"<pre>"+desc+"</pre>"
@@ -52,6 +51,22 @@ $(function() {
             +"</li>");
             $("#inputModal").modal("hide");
             }
+            console.log($("form[name=appendform]").serialize());
+            $.ajax({
+              url: '/bucket/add',
+              dataType:'json.stringify()',
+              type: 'POST',
+              data: $("form[name=appendform]").serialize(),
+              success: function (result) {
+                console.log('success');
+              },
+              error: function (err) {
+                console.log(err);
+              }
+            });
+            $("#goal").val("");
+            $("#date").val("");
+            $("#description").val("");
       }
       /*************End Modal에서 값을 받아 List 생성**************/
   });
@@ -84,7 +99,7 @@ $(function() {
       alert("내용을 입력해주세요.");
     }else{
     $.ajax({
-      url: '/bucketEdit',
+      url: '/bucket/edit',
       dataType:'json.stringify()',
       type: 'POST',
       data: $("form[name=editForm]").serialize(),
@@ -114,9 +129,23 @@ $(function() {
   });
 
   $(document).on("click","#deleOk",function (event) {
+    listNum = $(nowEvent).siblings(".content").children(".info").children(".listNum").text();
+    console.log(listNum);
     $(nowEvent).parents("li").remove();
-    console.log($("#list").children("li").children());
-    console.log($("#list").children("li").eq(0).children("#snum").text());
+    for(var i = 0; i<$("li").length;i++){
+      $(".snum").eq(i).text(i+1);
+    }
+    $.ajax({
+      url: '/bucket/delete',
+      type: 'POST',
+      data: listNum,
+      success: function (result) {
+        console.log('success');
+      },
+      error: function (err) {
+        console.log(err);
+      }
+    });
     $("#deleModal").modal("hide");
   });
 
@@ -128,8 +157,10 @@ $(function() {
   $(document).on("click","#compOk",function () {
     $(nowEvent).parents().prev(".info").children("#scomp").text("complete");
     $("#compModal").modal("hide");
+    $(nowEvent).parents("li").hide();
     console.log($(nowEvent).parents().prev(".info").children("#scomp").text());
   });
-
-
+  $("#completed").on("click",function(){
+    $(nowEvent).parents("li").show();
+  });  
 });
