@@ -212,30 +212,30 @@ function buildDayPie() {
 	var Gw = 600;
     var Gh = 600;
     var Gr = Gh/2;
-    var data = [{"label":"00:00", "value":30}, 
-                {"label":"00:30", "value":30}, 
-                {"label":"01:00", "value":30},
-                {"label":"01:30", "value":30},     
-                {"label":"02:00", "value":30}, 
-                {"label":"02:30", "value":30},      
-                {"label":"03:00", "value":30}, 
-                {"label":"03:30", "value":30}, 
-                {"label":"04:00", "value":30}, 
-                {"label":"04:30", "value":30}, 
-                {"label":"05:00", "value":30},
-                {"label":"05:30", "value":30},
-                {"label":"06:00", "value":30},
-                {"label":"06:30", "value":30},
-                {"label":"07:00", "value":30},
-                {"label":"07:30", "value":30},
-                {"label":"08:00", "value":30},
-                {"label":"08:30", "value":30},
-                {"label":"09:00", "value":30},
-                {"label":"09:30", "value":30},
-                {"label":"10:00", "value":30}, 
-                {"label":"10:30", "value":30},
+    var data = [{"label":"10:00", "value":30}, 
+                {"label":"10:30", "value":30}, 
                 {"label":"11:00", "value":30},
-                {"label":"11:30", "value":30},       
+                {"label":"11:30", "value":30},     
+                {"label":"12:00", "value":30}, 
+                {"label":"12:30", "value":30},      
+                {"label":"13:00", "value":30}, 
+                {"label":"13:30", "value":30}, 
+                {"label":"14:00", "value":30}, 
+                {"label":"14:30", "value":30}, 
+                {"label":"15:00", "value":30},
+                {"label":"15:30", "value":30},
+                {"label":"16:00", "value":30},
+                {"label":"16:30", "value":30},
+                {"label":"17:00", "value":30},
+                {"label":"17:30", "value":30},
+                {"label":"18:00", "value":30},
+                {"label":"18:30", "value":30},
+                {"label":"19:00", "value":30},
+                {"label":"19:30", "value":30},
+                {"label":"20:00", "value":30}, 
+                {"label":"20:30", "value":30},
+                {"label":"21:00", "value":30},
+                {"label":"21:30", "value":30},       
             ];
     var data = $.parseJSON(JSON.stringify(data));           
     var color = ["AliceBlue","AntiqueWhite","Aqua","Aquamarine","Azure","Beige","Bisque","Black","BlanchedAlmond","Blue","BlueViolet","Brown","BurlyWood","CadetBlue","Chartreuse","Chocolate","Coral","CornflowerBlue","Cornsilk","Crimson","Cyan","DarkBlue","DarkCyan","DarkGoldenRod","DarkGray","DarkGrey","DarkGreen","DarkKhaki","DarkMagenta","DarkOliveGreen","Darkorange","DarkOrchid","DarkRed","DarkSalmon","DarkSeaGreen","DarkSlateBlue","DarkSlateGray","DarkSlateGrey","DarkTurquoise","DarkViolet","DeepPink","DeepSkyBlue","DimGray","DimGrey","DodgerBlue","FireBrick","FloralWhite","ForestGreen","Fuchsia","Gainsboro","GhostWhite","Gold","GoldenRod","Gray","Grey","Green","GreenYellow","HoneyDew","HotPink","IndianRed","Indigo","Ivory","Khaki","Lavender","LavenderBlush","LawnGreen","LemonChiffon","LightBlue","LightCoral","LightCyan","LightGoldenRodYellow","LightGray","LightGrey","LightGreen","LightPink","LightSalmon","LightSeaGreen","LightSkyBlue","LightSlateGray","LightSlateGrey","LightSteelBlue","LightYellow","Lime","LimeGreen","Linen","Magenta","Maroon","MediumAquaMarine","MediumBlue","MediumOrchid","MediumPurple","MediumSeaGreen","MediumSlateBlue","MediumSpringGreen","MediumTurquoise","MediumVioletRed","MidnightBlue","MintCream","MistyRose","Moccasin","NavajoWhite","Navy","OldLace","Olive","OliveDrab","Orange","OrangeRed","Orchid","PaleGoldenRod","PaleGreen","PaleTurquoise","PaleVioletRed","PapayaWhip","PeachPuff","Peru","Pink","Plum","PowderBlue","Purple","Red","RosyBrown","RoyalBlue","SaddleBrown","Salmon","SandyBrown","SeaGreen","SeaShell","Sienna","Silver","SkyBlue","SlateBlue","SlateGray","SlateGrey","Snow","SpringGreen","SteelBlue","Tan","Teal","Thistle","Tomato","Turquoise","Violet","WhiteSmoke","Yellow","YellowGreen"
@@ -264,9 +264,7 @@ function buildDayPie() {
                 })
                 .on("mousedown", mousedown)
                 .on("mouseover", mouseover)
-                .on("mouseup", mouseup)
-                .on("mousemove", mousemove)
-                .on("mouseout", mouseout);
+                .on("mouseup", mouseup);
 
     var tooltip = d3.selectAll(".slice")         
     .append('div')                          
@@ -323,6 +321,7 @@ function buildDayPie() {
     drawClock();
     var sumIndex=" ";
     var startIndex = 0;
+    var time;
 
     // 데이터로 path 그리기
     eventsArray = JSON.stringify((calendar.fullCalendar('clientEvents').map(function(e) {
@@ -337,31 +336,68 @@ function buildDayPie() {
 
     //2016-07-11T01:30:00.000Z
     eventsArray = JSON.parse(eventsArray); // 배열로 만듬
-
+    
     // 다음 날짜 버튼 누를 때마다 다시 그리기
     var date = $('#date').text().match(/\d+/g);
     for(var i=1; i<=2; i++) { //7을 07로 만듬
         if(date[i].length == '1')
-        date[i] = "0"+date[i];
+        date[i] = '0'+date[i];
     }    
-    date = date.join('-'); // 화면에 보여지는 날짜 보여줌
+    date = date.join('-'); // 화면에 보여지는 날짜
 
+    console.log("htlll"+moment.tz(events[0].calendar_Start, "Asia/Seoul").format());
     // 화면에 보여지는 날짜와 배열의 이름 비교
     for(var i=0; i<eventsArray.length; i++) {
         var whole = eventsArray[i].start;        
-        var startD = whole.substr(0,10);   
-        if(startD == date) {
-            // 날짜가 같으면 시간을 체크하고 path 재생성
-            console.log("start"+startD);
-            var startT = whole.substr(11,15);
-            console.log(startT);
+        var startD = whole.substr(0,10); // 일정의 시작 날짜
+        var startT = whole.substr(11,5); // 일정의 시작 시간
+        var tmpArr = new Array();
 
-            var target = $('path').filter(function() {
-                return $(this).data.label == startT;
-            }).attr("index");
-            change(target);
+ /*       // fullcalendar의 날짜를 맞춰줌
+        var tmp = whole.substr(8,2); // 08일
+        tmp = Number(tmp)+1; // 문자열을 숫자로, 1더함 -> 09
+        tmp = String(tmp); //숫자를 문자열로
+        if(tmp.length == '1')
+                tmp = '0' + tmp;
+        tmpArr[0] = tmp.substr(0,1); // 한 개씩 나눔
+        tmpArr[1] = tmp.substr(1,1); 
+        startD[8] = tmpArr[0];                                                                      
+        startD[9] = tmpArr[1]; 
+*/ 
+        console.log(moment.tz(events[0].calendar_Start, "Asia/Seoul").format());
+        console.log(whole+'+++++'+date);
+        if(startD == date) {
+            if( endT == null ) { // Allday인 경우 끝 시간이 널임.
+                alert('null');
+                // 다중일정 만들면 수정
+                // d.data.value를 100으로 채움
+                // inner outer 도 얇게해서 못만드나..
+            }  
+            else { 
+                // Allday 아니면 날짜가 같으면 시간을 확인해서 만들 path 알아냄.
+                var endT = eventsArray[i].end.substr(11,5); // 일정의 끝 시간
+                console.log("후"+endT);
+                var target; // 만들어지는 인덱스
+
+                for( var i=0; i<24; i++ ) {
+                    console.log('in');            
+                    if( data[i].label == startT ) {
+                        // 시작 path를 타겟으로 지정하기 때문에 biggerFilling 정의
+                        // d.data.value = 끝 시간-시작 시간
+                        console.log(i);
+                        console.log('Wjs'+data[i].value);
+                        data[i].value = endT - startT;
+                        console.log('gn'+data[i].value);
+                        var ta = $('path').filter(function() {
+                            return $(this).attr('index') == i;
+                        }).addClass('biggerFilling');
+                        console.log(ta);    
+                    }   
+                }
+                change(ta);
+            }
         }
-    } 
+    }
 
     function sumData(data) { // 퍼센트 구할 때 필요
         var arr = 0;
@@ -386,16 +422,18 @@ function buildDayPie() {
         startIndex = $(this).attr("index");
         sumValue += d.value;
         d.data.value = 0;
+        time = d.data.label;
     }
 
     function mouseover(d) {
+/* 텍스트로 path 만들 때, 편집 모드
         $("#clock-face").on("mouseenter", function() {
             d3.select("#percentage")
             .text("EDIT")
             .on("dblclick", dblclick);
         });
 
-        if( dragging ) {
+*/        if( dragging ) {
             if( d.value == 30 ) {
                 sumIndex += ($(this).attr("index")+",");
             }
@@ -631,7 +669,7 @@ function buildDayPie() {
             $('path').filter(function() {
                  return $(this).attr('index') == i;
             }).removeAttr('style').attr("class","")
-              .attr("sumIndex", " "); 
+              .attr("sumIndex", " ");
         }         
 
         // 데이터 json 추가
@@ -775,28 +813,6 @@ function buildDayPie() {
 
       d3.select(self.frameElement).style("height", Ch + "px");
 	}
-
-      // EDIT 모드시, 텍스트로 path생성
-      function dblclick(){
-            var fo = d3.select("#percentage");
-            var ta = document.createElementNS("http://www.w3.org/1999/xhtml", "textbox");
-            ta.rows = 3;
-            ta.cols = 30;
-            fo.appendChild(ta);
-            document.getElementById("svg").appendChild(fo);
-
-            d3.selectAll(".slice").off("mouseover");
-      }
-
-      // 라디오 버튼 value 값 조건 비교
-      // 오전,오후 구별
-      function div_OnOff(v,id){
-          if(v == "1")  
-              buildDayPie();
-          else 
-              buildDayPie();
-      }
-
       function buildDayHtml() {
             $(".agendaDay").remove(); // 기존의 테이블 제거
             $('#fc-content').append("<div id='sequence'></div>");
@@ -807,12 +823,18 @@ function buildDayPie() {
                 "</foreignobject></svg></div>"); 
 
             $("#sequence").append( // 오전, 오후 라디오 버튼
-                    "<label for='radio-am' class='radio-inline'>"+
-                    "<input type='radio' value='1' name='quality' id='radio-am' onclick='div_OnOff(this.value,'graph');'> <span> 오전 </span>"+
+                    "<label for='radio-am' class='radio-inline' id='all'>"+
+                    "<input type='radio' value='1' name='quality' id='radio-am' onclick='Mychange()'> <span> 오전 </span>"+
                     "</label>"   +
-                    "<label for='radio-pm' class='radio-inline'>"+
-                    "<input type='radio' value='2' name='quality' id='radio-pm' checked='true' onclick='div_OnOff(this.value,'graph');'> <span> 오후 </span>"+
+                    "<label for='radio-pm' class='radio-inline' id='all'>"+
+                    "<input type='radio' value='2' name='quality' id='radio-pm' checked='true'> <span> 오후 </span>"+
                     "</label>"               
             );
+        }
+
+        function Mychange() { //함수실행안됨시ㅓㅂㄻㄴ
+            alery("dha");        
+            $('path').removeAttr('style').attr("class","").attr("sumIndex", " ");
+            //전체삭제 근데 모든 일정이사라지는건아닌듯
         }
 });
