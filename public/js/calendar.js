@@ -27,8 +27,8 @@
 
 var eventsArray;
 
-var insertOrUpdateCalendar = function(calendar) {
-	eventsArray = JSON.stringify((calendar.fullCalendar('clientEvents').map(function(e) {
+var insertOrUpdateCalendar = function(events) {
+	/*eventsArray = JSON.stringify(($("#calendar").fullCalendar('clientEvents').map(function(e) {
 		return {
 			id: e._id,
 			start: e.start,
@@ -36,12 +36,30 @@ var insertOrUpdateCalendar = function(calendar) {
 			title: e.title,
 			allday: e.allDay
 		};
-	})));
+	})));*/
+
+    /*console.log(eventsArray);
+
+    console.log(events._id);
+    console.log(events.start);
+    console.log(events.end);
+    console.log(events.title);
+    console.log(events.allDay);*/
+
+    var array = [{
+        id: events._id,
+        start: events.start,
+        end: events.end,
+        title: events.title,
+        allday: events.allDay
+    }]
+
+    console.log("[array] : " + JSON.stringify(array));
 
 	$.ajax({
 		url: '/calendar',
 		type: 'POST',
-		data: { events: JSON.stringify(eventsArray) },
+		data: { events: JSON.stringify(array) },
 		complete: function(response, textStatus) {
 			console.log("complete");
 		},	
@@ -67,6 +85,10 @@ $(document).ready(function()
 	var d = date.getDate();
 	var m = date.getMonth();
 	var y = date.getFullYear();
+
+    //var Seoul = moment().tz("Asia/Seoul").format();
+    //Seoul.format();
+
 	var calendar = $('#calendar').fullCalendar(
 	{
 		lang : 'ko',
@@ -75,7 +97,6 @@ $(document).ready(function()
 			left: 'prev,next today',
 			center: 'title',
 			right: 'month,agendaWeek,agendaDay',
-			
 		},
 		titleFormat: {
 			month: "yyyy년 MMMM",
@@ -83,6 +104,10 @@ $(document).ready(function()
 			day: "yyyy년 MMM d일 dddd"
 			},
 			allDayDefault: true, // false일 때 하루종일 수행하는 일정을 추가했을 경우 주에서 all-day에 표시되지 않고 시간대를 처음부터 끝까지 차지함
+
+            timezone:'local',
+            ignoreTimezone: false,
+
 			weekends: true, // false일 때 주말 안나옴
 			monthNames: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
 			monthNamesShort: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
@@ -128,9 +153,40 @@ $(document).ready(function()
 		   	        allDay: allDay,
                     _id: Math.floor(Math.random() * 100000) + 1
 	    	    };
-                
+
+                var eArray = [{
+                    id: newEvent._id,
+                    start: newEvent.start,
+                    end: newEvent.end,
+                    title: newEvent.title,
+                    allday: newEvent.allDay
+                }]
+
+                console.log(newEvent.start);
+                console.log(JSON.stringify(eArray));
+
 				$('#calendar').fullCalendar('renderEvent', newEvent, 'stick');
-				insertOrUpdateCalendar($('#calendar')); // DB 저장
+				//insertOrUpdateCalendar(newEvent); // DB 저장
+
+                $.ajax({
+                    url: '/calendar',
+                    type: 'POST',
+                    data: { events: JSON.stringify(eArray) },
+                    complete: function(response, textStatus) {
+                        console.log("complete");
+                    },	
+                    success: function(data) {
+                        if (data.success) {
+                            console.log('데이터 전송 성공!!');
+                        } else {
+                            console.log('오류 발생!!');
+                        }
+                    },
+                    error: function() {
+                        console.log('오류 발생2!!');
+                    },
+                });
+
 				$('#addModal').modal('hide');
 			});
 			title = $('#addTitle').val('');		// 앞에 썼던 title 내용 초기화, 나중에 썼던 title 내용이 지금까지 클릭했던 모든 날에 들어감
@@ -152,8 +208,47 @@ $(document).ready(function()
   			{
   				var title = $('#editTitle').val();
   				event.title = title;
+
+                var editEvent = {
+                    title: event.title,
+	   	    	    start: event.start,
+		   	        end: event.end,
+		   	        allDay: event.allDay,
+                    _id: event._id
+                };
+
+                var eArray = [{
+                    id: editEvent._id,
+                    start: editEvent.start,
+                    end: editEvent.end,
+                    title: editEvent.title,
+                    allday: editEvent.allDay
+                }]
+
+                console.log(editEvent.start);
+                console.log(eArray);
+
 				$('#calendar').fullCalendar('updateEvent', event);
-                insertOrUpdateCalendar($('#calendar'));
+                //insertOrUpdateCalendar(editEvent);
+
+                $.ajax({
+                    url: '/calendar',
+                    type: 'POST',
+                    data: { events: JSON.stringify(eArray) },
+                    complete: function(response, textStatus) {
+                        console.log("complete");
+                    },	
+                    success: function(data) {
+                        if (data.success) {
+                            console.log('데이터 전송 성공!!');
+                        } else {
+                            console.log('오류 발생!!');
+                        }
+                    },
+                    error: function() {
+                        console.log('오류 발생2!!');
+                    },
+                });
 				$('#editModal').modal('hide');
    			});
 
@@ -184,7 +279,7 @@ $(document).ready(function()
  			title = $('#editTitle').val(event.title); // title란에 기존에 입력했던 event의 이름이 나옴
 		},
 		editable: true, // 드래그로 일정 위치 및 크기 수정
-		eventLimit: true
+		eventLimit: true,
  	});
 
 function enterKey(evt, buttonId) {

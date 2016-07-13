@@ -12,6 +12,9 @@ var pool = mysql.createPool({
 
 var async = require('async');
 
+var moment = require('moment-timezone');
+moment().tz("America/Los_Angeles").format();
+
 
 /* 어떤 사이트로 로그인 되어 있는지 확인(local, google 등) */
 var getProvider = function(req) {
@@ -142,17 +145,12 @@ exports.CalendarGetData = function(req, res) {
 
         console.log('[provider] : ' + authId);
 
-        console.log(JSON.stringify(req.body));
-
-        var arr = 
-        JSON.parse(JSON.stringify(req.body)
-        .replace(/\\/g, "")
-        .replace(/""/g, ''));
+        var arr = JSON.parse(req.body.events);
         
         console.log(arr);
         
         var events;
-        var length = arr.events.length;
+        var length = arr.length;
         var query = "INSERT INTO calendar VALUES (?, ?, ?, ?, ?, ?) "
             + "ON DUPLICATE KEY UPDATE member_AuthId = ?, calendar_Id = ?, calendar_Start = ?, "
             + "calendar_End = ?, calendar_Title = ?, calendar_AllDay = ?"
@@ -160,7 +158,7 @@ exports.CalendarGetData = function(req, res) {
         for (var calendarIndex = 0; calendarIndex < length; calendarIndex++) {
             (function () {
                 var calendar = calendarIndex;
-                events = arr.events[calendar];
+                events = arr[calendar];
 
                 connection.query(query,
                 [authId, events.id, events.start, events.end, events.title, events.allday,
