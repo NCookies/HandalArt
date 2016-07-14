@@ -4,7 +4,7 @@ var pool = mysql.createPool({
     host : '127.0.0.1',
     port : 3306,
     user : 'root',
-    password : 'mysqlhandalart3576!',
+    password : 'ehehgks!!123',
     database :'handalart',
     connectionLimit : 20,
     waitForConnections : false
@@ -24,11 +24,11 @@ exports.regeist = function(req, res) {
 
 
     pool.getConnection(function(err, connection) {
-        connection.query('SELECT EXISTS (SELECT * FROM member where member_AuthId = ?)', 
+        connection.query('SELECT EXISTS (SELECT * FROM member where member_AuthId = ?)',
         ["local:" + req.body.id], function(err, rows) {
             userExists = Number(JSON.stringify(rows[0]).split(':')[2].match(/\d+/)[0]);
             console.log(userExists);
- 
+
             /* 중복되는 아이디가 없을 때 */
             if (userExists == 0) {
                 async.series([

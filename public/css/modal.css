@@ -12,6 +12,9 @@
 .modal-header p{
   font-size: 30px;
 }
+.layerpop input:focus{
+  box-shadow:none;
+}
 .layerpop input::-webkit-input-placeholder {
     /* WebKit, Blink, Edge */
     /*color:     #E3392B;*/
@@ -33,6 +36,9 @@
     /* Internet Explorer 10-11 */
     /*color:     #E3392B;*/
     color: white;
+}
+.layerpop input:-webkit-autofill{
+  -webkit-text-fill-color: white;
 }
 .layerpop .modal-dialog {
     width: 450px;

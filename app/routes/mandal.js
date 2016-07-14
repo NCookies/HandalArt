@@ -4,7 +4,8 @@ var pool = mysql.createPool({
     host    :'127.0.0.1',
     port : 3306,
     user : 'root',
-    password : 'mysqlhandalart3576!',
+    // password : 'mysqlhandalart3576!',
+    password : 'ehehgks!!123',
     database:'handalart',
     connectionLimit:20,
     waitForConnections:false
@@ -18,8 +19,8 @@ var async = require('async');
 var getProvider = function(req) {
     var provider;
 
-    console.log('[provider] : ' + req.session.passport.user.provider); 
-    /* 어떤 계정과 연동되어 있는지 확인 */ 
+    console.log('[provider] : ' + req.session.passport.user.provider);
+    /* 어떤 계정과 연동되어 있는지 확인 */
 
     if (req.session.passport.user.provider == undefined) {
         /* 정의되어 있지 않다면 로컬로 */
@@ -57,12 +58,12 @@ exports.makeMandal = function(req, res) {
 
     pool.getConnection(function(err, connection) {
 
-        async.waterfall([ 
+        async.waterfall([
             /* 비동기 방식을 순차적으로 진행하기 위해서 async 모듈 사용 */
-            
+
             /* waterfall나 series는 첫 번째 요소로 배열 안에 실행할 함수들을 작성하고 */
             /* 두번째 인자로 오류가 발생하거나 모든 함수가 실행되었을 때 실행되는 함수를 작성 */
-            
+
             /* 사용자가 등록한 모든 만다라트 ID를 가져옴 */
             function getMandalId(getMandalIdCallback) {
                 connection.query('SELECT DISTINCT mandal_Id FROM mandal where member_AuthId = ? order by mandal_Id ASC',
@@ -71,11 +72,11 @@ exports.makeMandal = function(req, res) {
                     var mandalIndex = JSON.stringify(rows);
 
                     if (err) {
-                        getMandalIdCallback(err); 
+                        getMandalIdCallback(err);
                         // 에러가 발생하면 콜백 함수에 에러 전달
                     } else {
                         console.log("Successfully get Mandal Id");
-                        getMandalIdCallback(null, mandalIndex); 
+                        getMandalIdCallback(null, mandalIndex);
                         // 에러가 없다면 다음 함수에 인자를 전달하며 실행
                     }
                 });
@@ -83,8 +84,8 @@ exports.makeMandal = function(req, res) {
 
             /* getMandalId 함수에서 mandalIndex를 받아오지만 사용하지는 않음 */
             /* 만다라트 최종목표의 내용들을 가져옴 */
-            function getMandalUltimate(mandalIndex, getMandalUltimateCallback) { 
-                
+            function getMandalUltimate(mandalIndex, getMandalUltimateCallback) {
+
                 connection.query('SELECT DISTINCT mandal_content FROM mandal where member_AuthId = ? order by mandal_Id ASC',
                 [authId], function(err, rows) {
                     mandalUltimateData = JSON.stringify(rows);
@@ -103,9 +104,9 @@ exports.makeMandal = function(req, res) {
                 connection.query('SELECT DISTINCT mandalSub_Content FROM mandalSub where member_AuthId = ? order by mandal_Id ASC',
                 [authId], function(err, rows) {
                     mandalSubData = JSON.stringify(rows);
-                    
-                    res.render('mandal_make', 
-                    { 
+
+                    res.render('mandal_make',
+                    {
                         mandalIndex : mandalIndex,
                         ultimate : mandalUltimateData,
                         sub : mandalSubData
@@ -127,8 +128,8 @@ exports.makeMandal = function(req, res) {
                 if (err) {
                     console.log(err);
                     connection.release();
-                    res.render('mandal_make', 
-                    { 
+                    res.render('mandal_make',
+                    {
                         mandalIndex : false,
                         ultimate : false,
                         sub : false
@@ -149,10 +150,10 @@ exports.makeMandal = function(req, res) {
 // =====================================
 exports.makeNewMandal = function(req, res) {
     /* 새로운 만다라트를 만듦 */
-   res.render('mandal_main', 
-   { 
-        ultimate : false, 
-        sub : false, 
+   res.render('mandal_main',
+   {
+        ultimate : false,
+        sub : false,
         detail : false
     });
 }
@@ -169,7 +170,7 @@ exports.getData = function(req, res) {
         var mandalId;
 
         var provider = getProvider(req); // 제공사를 얻어옴
-        var authId = provider + req.session.passport.user.id; 
+        var authId = provider + req.session.passport.user.id;
         // DB에서 실제로 사용하는 id값을 가짐
 
         console.log("authId : " + authId);
@@ -201,9 +202,9 @@ exports.getData = function(req, res) {
 
                 /* 만다라트 최종목표 추가 */
                 function insertMandal(mandalId, insertMandalCallback) {
-                    
+
                     connection.query("INSERT INTO mandal VALUES (?, ?, ?, ?)",
-                    [authId, mandalId, req.body.ultimateArticle, null], 
+                    [authId, mandalId, req.body.ultimateArticle, null],
                     function(err, rows) {
                         if (err) {
                             insertMandalCallback(err);
@@ -216,7 +217,7 @@ exports.getData = function(req, res) {
 
                 /* 만다라트 보조목표 추가 */
                 function insertMandalSub(mandalId, insertMandalSubCallback) {
-                    
+
                     for (var subIndex = 0; subIndex < 8; subIndex++) {
                         var query = "INSERT INTO mandalSub VALUES (?, ?, ?, ?)";
                         console.log('subindex : ' + subIndex);
@@ -224,7 +225,7 @@ exports.getData = function(req, res) {
                         (function () {
                             var sub = subIndex;
                             connection.query(query,
-                            [authId, mandalId, sub + 1, req.body.subArticle[sub]], 
+                            [authId, mandalId, sub + 1, req.body.subArticle[sub]],
                             function(err, rows) {
                                 if (err) {
                                     insertMandalSubCallback(err);
@@ -241,7 +242,7 @@ exports.getData = function(req, res) {
 
                 /* 만다라트 세부 사항 추가 */
                 function insertMandalDetail(mandalId, insertMandalDetailCallback) {
-                    
+
                     var detailArticle = req.body.detailArticle;
 
                     for (var detailIndex = 0; detailIndex < 64; detailIndex += 8) {
@@ -251,11 +252,11 @@ exports.getData = function(req, res) {
                         (function () {
                             var detail = detailIndex;
                             connection.query(query,
-                            [authId, mandalId, parseInt(detail/8 + 1), detailArticle[detail], 
-                            detailArticle[detail + 1], detailArticle[detail + 2], 
+                            [authId, mandalId, parseInt(detail/8 + 1), detailArticle[detail],
+                            detailArticle[detail + 1], detailArticle[detail + 2],
                             detailArticle[detail + 3], detailArticle[detail + 4],
                             detailArticle[detail + 5], detailArticle[detail + 6],
-                            detailArticle[detail + 7]], 
+                            detailArticle[detail + 7]],
                             function(err, rows) {
                                 if (err) {
                                     insertMandalDetailCallback(err);
@@ -275,8 +276,8 @@ exports.getData = function(req, res) {
                     if (err) {
                         console.log(err);
                         connection.release();
-                        res.render('mandal_make', 
-                        { 
+                        res.render('mandal_make',
+                        {
                             mandalIndex : false,
                             ultimate : false,
                             sub : false
@@ -300,7 +301,7 @@ exports.getData = function(req, res) {
                 /* 만다라트 최종목표 수정 */
                 function updateMandal(updateMandalCallback) {
                     connection.query("UPDATE mandal SET mandal_content = ? WHERE member_AuthId = ? AND mandal_Id = ?",
-                    [req.body.ultimateArticle, authId, req.params.id, null], 
+                    [req.body.ultimateArticle, authId, req.params.id, null],
                     function(err, rows) {
                         if (err) {
                             updateMandalCallback(err);
@@ -320,7 +321,7 @@ exports.getData = function(req, res) {
                         (function () {
                             var sub = subIndex;
                             connection.query(query,
-                            [req.body.subArticle[subIndex], authId, req.params.id, subIndex + 1], 
+                            [req.body.subArticle[subIndex], authId, req.params.id, subIndex + 1],
                             function(err, rows) {
                                 if (err) {
                                     updateMandalSubCallback(err);
@@ -340,19 +341,19 @@ exports.getData = function(req, res) {
                     for (var detailIndex = 0; detailIndex < 64; detailIndex += 8) {
                         var detailArticle = req.body.detailArticle;
                         var query = "UPDATE mandalDetail SET mandalDetail_Content1 = ?, mandalDetail_Content2 = ?, " +
-                        "mandalDetail_Content3 = ?, mandalDetail_Content4 = ?, mandalDetail_Content5 = ?, " + 
-                        "mandalDetail_Content6 = ?, mandalDetail_Content7 = ?, mandalDetail_Content8 = ? " + 
+                        "mandalDetail_Content3 = ?, mandalDetail_Content4 = ?, mandalDetail_Content5 = ?, " +
+                        "mandalDetail_Content6 = ?, mandalDetail_Content7 = ?, mandalDetail_Content8 = ? " +
                         " WHERE member_AuthId = ? AND mandal_Id = ? AND mandalSub_Id = ?";
                         console.log('detailIndex : ' + detailIndex);
 
                         (function () {
                             var detail = detailIndex;
                             connection.query(query,
-                            [detailArticle[detailIndex], detailArticle[detailIndex + 1], 
-                            detailArticle[detailIndex + 2], detailArticle[detailIndex + 3], 
-                            detailArticle[detailIndex + 4], detailArticle[detailIndex + 5], 
+                            [detailArticle[detailIndex], detailArticle[detailIndex + 1],
+                            detailArticle[detailIndex + 2], detailArticle[detailIndex + 3],
+                            detailArticle[detailIndex + 4], detailArticle[detailIndex + 5],
                             detailArticle[detailIndex + 6], detailArticle[detailIndex + 7],
-                            authId, req.params.id, parseInt(detailIndex / 8 + 1)], 
+                            authId, req.params.id, parseInt(detailIndex / 8 + 1)],
                             function(err, rows) {
                                 if (err) {
                                     updateMandalDetailCallback(err);
@@ -360,7 +361,7 @@ exports.getData = function(req, res) {
                             });
                         }());
                     }
-                    
+
                     console.log("Successfully insert mandal detail");
                     updateMandalDetailCallback(null, 'done');
                 }
@@ -371,8 +372,8 @@ exports.getData = function(req, res) {
                     if (err) {
                         console.log(err);
                         connection.release();
-                        res.render('mandal_make', 
-                        { 
+                        res.render('mandal_make',
+                        {
                             mandalIndex : false,
                             ultimate : false,
                             sub : false
@@ -441,10 +442,10 @@ exports.mainMandal = function(req, res) {
                 [authId, req.params.id], function(err, rows) {
                     mandalDetailData = JSON.stringify(rows);
 
-                    res.render('mandal_main', 
-                    { 
-                        ultimate : mandalUltimateData, 
-                        sub : mandalSubData, 
+                    res.render('mandal_main',
+                    {
+                        ultimate : mandalUltimateData,
+                        sub : mandalSubData,
                         detail : mandalDetailData
                     });
 
@@ -456,14 +457,14 @@ exports.mainMandal = function(req, res) {
                 });
             }
 
-            ], 
+            ],
             /* 에러가 발생하거나 위의 모든 함수가 실행되었을 때 */
             function(err, result) {
                 if (err) {
                     console.log(err);
                     connection.release();
-                    res.render('mandal_make', 
-                    { 
+                    res.render('mandal_make',
+                    {
                         mandalIndex : false,
                         ultimate : false,
                         sub : false

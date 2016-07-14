@@ -4,7 +4,7 @@ var pool = mysql.createPool({
     host    :'localhost',
     port : 3306,
     user : 'root',
-    password : 'mysqlhandalart3576!',
+    password : 'ehehgks!!123',
     database:'handalart',
     connectionLimit:20,
     waitForConnections:false
@@ -90,7 +90,7 @@ exports.addBucket = function(req, res) {
 				console.log("[Insert Bucketlist] : " + JSON.stringify(req.body));
 
 				connection.query('INSERT INTO bucketlist VALUES (?, ?, ?, ?, ?, ?)',
-				[authId, bucketId, req.body.goal, req.body.date, 
+				[authId, bucketId, req.body.goal, req.body.date,
 				req.body.isComp, req.body.description],
 				function(err, rows) {
 					if (err) {
@@ -145,12 +145,12 @@ exports.editBucket = function(req, res) {
 			function updateBucket(bucketId, updateBucketCallBack) {
 
 				console.log("[Update Bucketlist] : " + JSON.stringify(req.body));
-				
+
 				var query = 'UPDATE bucketlist SET bucketlist_Goal = ?, ' +
 				'bucketlist_Limit = ?, bucketlist_Is_achieved = ?, ' +
 				'bucketlist_Description = ? WHERE member_AuthId = ? AND bucketlist_Id = ?'
 
-				connection.query(query, 
+				connection.query(query,
 				[req.body.goal, req.body.date, req.body.isComp, req.body.description,
 				authId, bucketId], function(err, rows) {
 					if (err) {

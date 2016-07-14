@@ -12,7 +12,7 @@ var pool = mysql.createPool({
     host : '127.0.0.1',
     port : 3306,
     user : 'root',
-    password : 'mysqlhandalart3576!',
+    password : 'ehehgks!!123',
     database : 'handalart',
     connectionLimit : 20,
     waitForConnections : false
@@ -81,8 +81,8 @@ module.exports = function (app, passport) {
                     if (userid != account[0].member_AuthId.split(':')[1]) {
                         return done(null, false,
                         { message : '잘못된 아이디입니다.'});
-                    } 
-                    
+                    }
+
                     if (password != account[0].member_Password) {
                         return done(null, false, { message : '잘못된 비밀번호입니다.'});
                     } else {
@@ -316,7 +316,7 @@ module.exports = function (app, passport) {
 
             connection.release();
         })*/
-        console.log("[user] : " + JSON.stringify(user));        
+        console.log("[user] : " + JSON.stringify(user));
 
         done(null, user);
     });

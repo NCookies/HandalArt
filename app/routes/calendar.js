@@ -4,7 +4,7 @@ var pool = mysql.createPool({
     host : '127.0.0.1',
     port : 3306,
     user : 'root',
-    password : 'mysqlhandalart3576!',
+    password : 'ehehgks!!123',
     database : 'handalart',
     connectionLimit : 20,
     waitForConnections : false
@@ -56,7 +56,7 @@ exports.dayCalendarGetData = function(req, res) {
     /*var tmp = JSON.stringify(req.body).replace("/'/g, ''");
     var arr = JSON.parse(tmp);*/
 
-    
+
 
     /*console.log(arr.events);
     console.log("[0] : " + JSON.parse(arr.events)[0].id);
@@ -74,9 +74,9 @@ exports.dayCalendarGetData = function(req, res) {
 
         var tmp = JSON.parse(JSON.stringify(req.body));
         var arr = JSON.parse(tmp.events);
-        
+
         console.log(arr);
-        
+
         var events;
         var length = arr.length;
         var query = "INSERT INTO calendar VALUES (?, ?, ?, ?, ?, ?) "
@@ -122,7 +122,7 @@ exports.fullCalendar = function(req, res) {
                 connection.release();
                 res.render('fullcalendar', {events : false});
             }
-            res.render('fullcalendar', {events : JSON.stringify(rows)});            
+            res.render('fullcalendar', {events : JSON.stringify(rows)});
         });
 
         connection.release();
@@ -146,9 +146,9 @@ exports.CalendarGetData = function(req, res) {
         console.log('[provider] : ' + authId);
 
         var arr = JSON.parse(req.body.events);
-        
+
         console.log(arr);
-        
+
         var events;
         var length = arr.length;
         var query = "INSERT INTO calendar VALUES (?, ?, ?, ?, ?, ?) "
